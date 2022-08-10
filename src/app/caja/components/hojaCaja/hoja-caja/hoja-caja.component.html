@@ -1,0 +1,171 @@
+<div *ngIf="!error && hojaCaja != null" class="row">
+    <div class="h3 col-md-3">
+        Hoja de Caja
+    </div>
+    <div class="h3 col-md-4">
+        Fondo Fijo: {{ hojaCaja?.fondoFijo | currency}}
+    </div>
+    <div *ngIf="hojaCaja?.alta" class="h3 col-md-2 float-right">
+        <span class="float-right">{{hojaCaja?.alta | date}}</span>
+    </div>
+</div>
+<div *ngIf="!error && hojaCaja != null" class="row mt-4">
+    <div class="card col-md-12 mx-auto shadow p-2 mb-2 bg-white rounded">
+        <form class="form form-inline">
+            <div class="form-group">
+                <label class="control-label m-2">Ventas Online</label>
+                <input type="number" name="ventasOnline" [(ngModel)]="hojaCaja.ventasOnline" placeholder="0.00" class="form-control m-2">
+            </div>
+            <div class="form-group">
+                <label class="control-label m-2">Pagos Online</label>
+                <input type="number" name="pagosOnline" [(ngModel)]="hojaCaja.pagosOnline" placeholder="0.00" class="form-control m-2 text-danger">
+                <button type="submit" title="Guardar montos online" class="btn btn-primary float-right m-1" (click)="guardarValoresOnline(hojaCaja.id)">Guardar Montos Online</button>
+            </div>
+            <span *ngIf="resultadoUpdate != ''" class="row text-success m-1"> {{resultadoUpdate}} </span>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="card col-md-12 mx-auto shadow p-2 mb-2 bg-white rounded">
+        <div class="row">
+            <app-error-message *ngIf="error" [mensaje]="error"></app-error-message>
+            <div *ngIf="!error && hojaCaja != null" class="col-md-6 p-4 table-responsive my-4">
+                <h4>Fiados / Pagos <button title="Agregar Fiado" class="btn btn-sm btn-info ml-1" (click)="addFiado()"><i class="far fa-plus"></i></button></h4>
+                <div *ngIf="hojaCaja?.fiados.length == 0" class="alert alert-info">
+                    <h5>No se encontraron Fiados para esta Hoja de Caja.</h5> 
+                </div>
+                <table *ngIf="hojaCaja?.fiados.length > 0" class="table table-hover table-sm" #tablaFiados>
+                    <thead>
+                        <tr class="info">                   
+                            <th scope="col" style="width:10%;">Alta</th>
+                            <th hidden scope="col" style="width:10%;">Tipo Movimiento</th>
+                            <th scope="col" style="width:30%;">Monto</th>
+                            <th scope="col" style="width:30%;">Cliente</th>
+                            <th scope="col" style="width:10%;">Usuario</th>
+                            <th scope="col" style="width:10%;">Eliminación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let fiado of hojaCaja.fiados; trackBy: trackByFn" [ngClass]="{'text-danger': fiado.baja != null}">                   
+                            <td scope="row">{{fiado.alta | date:'shortDate'}}</td>
+                            <td hidden>{{fiado.tipoMovimiento}}</td>
+                            <td>
+                                <span *ngIf="fiado.tipoMovimiento == 'P'" class="mr-1"><i class="fas fa-arrow-circle-right text-success"></i></span>
+                                <span *ngIf="fiado.tipoMovimiento == 'F'" class="mr-1"><i class="fas fa-arrow-circle-left text-danger"></i></span>
+                                {{fiado.monto | currency}}
+                            </td>
+                            <td>{{fiado.cliApellido}}, {{fiado.cliNombre}} </td>
+                            <td>{{fiado.usuApellido}}, {{fiado.usuNombre}}</td>                           
+                            <td>
+                                <button title="Eliminar Fiado" *ngIf="fiado.id && !fiado.baja" class="btn btn-danger btn-sm ml-1" (click)="eliminarFiado(hojaCaja.id, fiado.id)"><i class="far fa-trash-alt"></i></button>
+                                <span *ngIf="fiado.id && fiado.baja">{{fiado.baja | date:'shortDate'}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="!error && hojaCaja != null" class="col-md-6 p-4 table-responsive my-4">
+                <h4>Venta de Cartones <button title="Agregar Venta" btnVenta class="btn btn-sm btn-success ml-1" (click)="addVenta()"><i class="far fa-plus"></i></button></h4>
+                <div *ngIf="hojaCaja?.ventas.length == 0" class="alert alert-info">
+                    <h5>No se encontraron Ventas para esta Hoja de Caja.</h5> 
+                </div>
+                <table *ngIf="hojaCaja?.ventas.length > 0" class="table table-hover table-sm"  #tablaVentas>
+                    <thead>
+                        <tr class="success">
+                            <th scope="col" style="width:10%;">Alta</th>
+                            <th scope="col" style="width:10%;">Cantidad</th>
+                            <th scope="col" style="width:30%;">Tipo Cartón</th>
+                            <th scope="col" style="width:30%;">Cliente</th>
+                            <th scope="col" style="width:10%;">Usuario</th>
+                            <th scope="col" style="width:10%;">Eliminación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let venta of hojaCaja.ventas; trackBy: trackByFn" [ngClass]="{'text-danger': venta.baja != null}">
+                            <td scope="row">{{venta.alta | date:'shortDate'}}</td>
+                            <td>{{venta.cantidad}}</td>
+                            <td>{{venta.tipoCarton}}</td>
+                            <td><span *ngIf="venta.cliApellido || venta.nombre">{{venta.cliApellido}}, {{venta.cliNombre}}</span></td>
+                            <td>{{venta.usuApellido}}, {{venta.usuNombre}}</td>                  
+                            <td>
+                                <button title="Eliminar Venta" *ngIf="venta.id && !venta.baja" class="btn btn-danger ml-1" (click)="eliminarVenta(hojaCaja.id, venta.id)"><i class="far fa-trash-alt"></i></button>
+                                <span *ngIf="venta.id && venta.baja">{{venta.baja | date:'shortDate'}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>   
+        </div>
+        <div class="row">  
+            <div *ngIf="!error && hojaCaja != null" class="col-md-6 p-4 table-responsive my-4">
+                <h4>Pago de Premios <button title="Agregar Pago de Premio" class="btn btn-sm btn-warning ml-1" (click)="addPagoPremio()"><i class="far fa-plus"></i></button></h4>
+                <div *ngIf="hojaCaja?.pagosPremio.length == 0" class="alert alert-info">
+                    <h5>No se encontraron Pagos de Premios para esta Hoja de Caja.</h5> 
+                </div>
+                <table *ngIf="hojaCaja?.pagosPremio.length > 0" class="table table-hover table-sm" #tablaPremios>
+                    <thead>
+                        <tr class="warning">
+                            <th scope="col" style="width:10%;">Alta</th>
+                            <th scope="col" style="width:20%;">Monto</th>
+                            <th scope="col" style="width:10%;">Cantidad</th>
+                            <th scope="col" style="width:20%;">Tipo Cartón</th>
+                            <th scope="col" style="width:20%;">Cliente</th>
+                            <th scope="col" style="width:10%;">Usuario</th>                   
+                            <th scope="col" style="width:10%;">Eliminación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pago of hojaCaja.pagosPremio; trackBy: trackByFn" [ngClass]="{'text-danger': pago.baja != null}">
+                            <td scope="row">{{pago.alta | date:'shortDate'}}</td>
+                            <td><span *ngIf="pago.monto > 0" class="text-danger">-{{pago.monto | currency}}</span></td>
+                            <td><span *ngIf="pago.cantidadCartones > 0">{{pago.cantidadCartones}}</span></td>
+                            <td>{{pago.tipoCarton}}</td>
+                            <td><ng-container *ngIf="pago.cliApellido != null || pago.cliNombre != null">{{pago.clipellido}}, {{pago.cliNombre}}</ng-container></td>
+                            <td>{{pago.usuApellido}}, {{pago.usuNombre}}</td>                          
+                            <td>
+                                <button *ngIf="pago.id && !pago.baja" title="Eliminar Pago de Premio" class="btn btn-danger ml-1" (click)="eliminarPagoPremio(hojaCaja.id, pago.id)"><i class="far fa-trash-alt"></i></button>
+                                <span *ngIf="pago.id && pago.baja">{{pago.baja | date:'shortDate'}}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="!error && hojaCaja != null" class="col-md-6 p-4 table-responsive my-4">
+                <h4>Gastos <button title="Agregar Gasto" class="btn btn-sm btn-secondary ml-1" (click)="addGasto()"><i class="far fa-plus"></i></button></h4>
+                <div *ngIf="hojaCaja?.gastos.length == 0" class="alert alert-info">
+                    <h5>No se encontraron Gastos para esta Hoja de Caja.</h5> 
+                </div>
+                <table *ngIf="hojaCaja?.gastos.length > 0" class="table table-hover table-sm" #tablaGastos>
+                    <thead>
+                        <tr class="bg-light">
+                            <th scope="col" style="width:10%;">Alta</th>
+                            <th scope="col" style="width:20%;">Monto</th>
+                            <th scope="col" style="width:20%;">Tipo Gasto</th>
+                            <th scope="col" style="width:30%;">Observaciones</th>
+                            <th scope="col" style="width:10%;">Usuario</th>
+                            <th scope="col" style="width:10%;">Eliminación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let gasto of hojaCaja.gastos; trackBy: trackByFn" [ngClass]="{'text-danger': gasto.baja != null}">
+                            <td scope="row">{{gasto.alta | date:'shortDate'}}</td>
+                            <td><span *ngIf="gasto.monto > 0" class="text-danger">-{{gasto.monto | currency}}</span></td>
+                            <td>{{ gasto.tipoGasto}}</td>
+                            <td>{{ gasto.observaciones}}</td>                  
+                            <td>{{gasto.usuApellido}}, {{gasto.usuNombre}}</td>
+                            <td>
+                                <button *ngIf="gasto.id && !gasto.baja" title="Eliminar Gasto" class="btn btn-danger ml-1" (click)="eliminarGasto(hojaCaja.id, gasto.id)"><i class="far fa-trash-alt"></i></button>
+                                <span *ngIf="gasto.id && gasto.baja">{{gasto.baja | date:'shortDate'}}</span>
+                            </td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-end">   
+    <button type="button" class="btn btn-success" (click)="exportToExcel()">Exportar tablas a Excel</button>
+</div>
+
+<app-arqueo-caja  *ngIf="!error && hojaCaja != null" [hojaCaja]="hojaCaja"></app-arqueo-caja>

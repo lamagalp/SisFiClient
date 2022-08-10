@@ -1,0 +1,38 @@
+<app-error-message *ngIf="error" [mensaje]="error"></app-error-message>
+<div *ngIf="!error" class="col-12 table-responsive">
+    <h4>Clientes</h4>
+    <div *ngIf="clientes.length == 0" class="alert alert-info">
+       <h5>No se encontraron Clientes cargados en la Base de Datos</h5> 
+    </div>
+    <table *ngIf="clientes.length > 0" class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col" style="width:20%;">Apellido y Nombre</th>
+                <th scope="col" style="width:10%;">Teléfono</th>
+                <th scope="col" style="width:20%;">Dirección</th>
+                <th scope="col" style="width:10%;">Saldo</th>
+                <th scope="col" style="width:10%;">Límite</th>
+                <th scope="col" style="width:10%;">Alta</th>
+                <th scope="col" style="width:10%;">Foto</th>
+                <th scope="col" style="width:10%;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cliente of clientes; trackBy: trackByFn">
+                <th scope="row">{{cliente.apellido}}, {{cliente.nombre}} </th>
+                <td>{{cliente.telefono}}</td>
+                <td>{{cliente.direccion}}</td>
+                <td><span [ngClass]="{'text-danger': cliente.saldo < 0}"><strong>$ {{cliente.saldo}}</strong></span></td>
+                <td>$ {{cliente.limite}}</td>
+                <td>{{cliente.modificado | date}}</td>
+                <td><img [src]="cliente.imagen == ''? '/assets/noImage.png' : cliente.imagen" class="img-fluid" alt="imagen cliente"></td>
+                <td>
+                    <a *ngIf="cliente.id" [routerLink]="['/clientes/update', cliente.id]" class="btn btn-info mr-1"><i class="fas fa-user-edit"></i></a>
+                    <button title="Eliminar Cliente" *ngIf="cliente.id" class="btn btn-danger ml-1" (click)="eliminarCliente(cliente.id)"><i class="fas fa-user-minus"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+

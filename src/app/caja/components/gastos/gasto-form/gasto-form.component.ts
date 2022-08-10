@@ -1,0 +1,83 @@
+import { AutenticacionService } from './../../../../login/services/autenticacion.service';
+import { UsuariosService } from './../../../../usuarios/services/usuarios.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { Gasto } from 'src/app/caja/models/gasto';
+import { GastosService } from 'src/app/caja/services/gastos-service.service';
+
+@Component({
+  selector: 'app-gasto-form',
+  templateUrl: './gasto-form.component.html',
+  styleUrls: ['./gasto-form.component.css']
+})
+export class GastoFormComponent implements OnInit {
+
+  @Input() private idHojaCaja: number = 0;
+	@Input() private refModal!: NgbModalRef; // guardo una referencia al modal abierto para poder cerrarlo desde el código
+
+  error:any;
+  usuarioLogueado:any ;
+  tiposGastos: any;
+
+  public gasto: Gasto = {
+    id:0,
+    idHojaCaja: 0,
+    idUsuario: 0,
+    alta: new Date(),
+    observaciones: ''
+  };
+
+  id?: number;
+
+  constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _gastosService: GastosService, private _route:Router) {
+
+     if(this._autenticacionService.loggedIn()){
+      let idUser = this._autenticacionService.getIdUser();
+      if(idUser != null){
+        this._usuariosService.getUsuario(idUser).subscribe(
+          res =>{
+            console.log(res);
+            this.usuarioLogueado = res.id;
+          }, err =>{
+            console.error(err);
+            this.error = err;
+          }
+        )
+      }
+    }
+
+  }
+
+  ngOnInit(): void {
+    this.tiposGastos = this.getTiposGastos();
+  }
+   
+  getTiposGastos() {
+    return [{id:1, abreviatura: 'G1', nombre:'Gasto 1'},{id:2, abreviatura: 'G2', nombre:'Gasto 2'}];
+  }
+
+  agregarGasto(){
+
+    // borro estos campos porque los carga automáticamente mySQL
+    delete this.gasto.alta;
+    delete this.gasto.id;
+    this.gasto.idHojaCaja = this.idHojaCaja;
+    this.gasto.idUsuario = this.usuarioLogueado;
+    console.log(this.gasto);
+
+    this._gastosService.addGasto(this.gasto)
+    .subscribe(
+      resp => {
+        console.log(resp);
+        this.cerrarModal();
+      }, err => {
+        console.error(err);
+        this.error = err;
+      }
+    )
+  }
+	cerrarModal() {
+		this.refModal.close();
+	}
+}

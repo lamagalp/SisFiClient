@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <h2 class="modal-title">
+        Alta de venta
+    </h2>
+    <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <form class="form">
+                <div class="form-group" [ngClass]="{'has-error': idTipoCarton.invalid}">
+                    <label class="control-label">Cartón</label>
+                    <ng-select name="idTipoCarton" [searchable]="true" class="form-control m-1" [(ngModel)]="venta.idTipoCarton" required #idTipoCarton="ngModel">
+                        <ng-option [value]="t.id" *ngFor="let t of tiposCarton"> {{t.nombre}}</ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group" [ngClass]="{'has-error': cantidad.invalid}">
+                    <label class="control-label">Cantidad</label>
+                    <input type="number" name="cantidad" [(ngModel)]="venta.cantidad" required #cantidad="ngModel" placeholder="Ingrese la cantidad de cartones vendidos" class="form-control m-1" value="1">
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Cliente</label>
+                    <ng-select name="idCliente" [searchable]="true" class="form-control m-1" [(ngModel)]="venta.idCliente">
+                        <ng-option [value]="c.id" *ngFor="let c of clientes"> {{c.apellido}}, {{c.nombre}}</ng-option>
+                    </ng-select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button [disabled]="idTipoCarton.invalid && cantidad.invalid" class="btn btn-primary float-right m-1" (click)="agregarVenta()">Agregar</button>
+</div>

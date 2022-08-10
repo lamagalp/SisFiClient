@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h2 class="modal-title">
+        Alta de gasto
+    </h2>
+    <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <form class="form-horizontal">                
+                <div class="form-group" [ngClass]="{'has-error': monto.invalid}">
+                    <label class="control-label">Monto</label>
+                    <input type="number" name="monto" [(ngModel)]="gasto.monto" required #monto="ngModel" placeholder="Ingrese el monto" class="form-control m-1" value="0">
+                </div>
+                <div class="form-group" [ngClass]="{'has-error': tipogasto.invalid}">
+                    <label class="control-label">Tipo Gasto</label>
+                    <ng-select name="idTipoGasto" [searchable]="true" class="form-control m-1" [(ngModel)]="gasto.idTipoGasto" required #tipogasto="ngModel" autofocus>
+                        <ng-option [value]="t.id" *ngFor="let t of tiposGastos"> {{t.abreviatura}}, {{t.nombre}} </ng-option>
+                    </ng-select>
+                </div>               
+                <div class="form-group">
+                    <label class="control-label">Observaciones</label>
+                    <textarea title="Observaciones" type="text" name="observaciones" [(ngModel)]="gasto.observaciones" class="form-control m-1"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button [disabled]="monto.invalid" class="btn btn-primary float-right m-1" (click)="agregarGasto()">Agregar</button>
+</div>

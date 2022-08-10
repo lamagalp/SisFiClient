@@ -1,0 +1,41 @@
+<app-error-message *ngIf="error" [mensaje]="error"></app-error-message>
+<ng-container *ngIf="!error">
+
+    <div class="col-md-6 mt-2">
+        <div class="card">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <span *ngIf="editar == false">NUEVO USUARIO</span>
+                <span *ngIf="editar == true">MODIFICAR USUARIO</span>
+            </div>
+            <div class="card-body">
+                <form class="form">
+                    <div class="form-group" [ngClass]="{'has-error': apellido.invalid || nombre.invalid}">
+                        <input type="text" name="apellido" [(ngModel)]="usuario.apellido" required #apellido="ngModel" placeholder="Apellido" class="form-control m-1" autofocus>
+                        <input type="text" name="nombre" [(ngModel)]="usuario.nombre" required #nombre="ngModel" placeholder="Nombre" class="form-control m-1">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="telefono" placeholder="Teléfono" [(ngModel)]="usuario.telefono" class="form-control m-1">
+                        <input type="text" name="legajo" placeholder="Legajo" [(ngModel)]="usuario.legajo" class="form-control m-1">
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error': user.invalid || pass.invalid}">
+                        <input type="text" name="usuario" placeholder="Usuario" [(ngModel)]="usuario.usuario" required #user="ngModel" class="form-control m-1">
+                        <input type="password" name="clave" placeholder="Clave" [(ngModel)]="usuario.clave" required #pass="ngModel" class="form-control m-1">
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button [disabled]="apellido.invalid || nombre.invalid || user.invalid || pass.invalid" *ngIf="editar == false" class="btn btn-primary float-right  m-1" (click)="agregarUsuario()">Agregar</button>
+                <button [disabled]="apellido.invalid || nombre.invalid || user.invalid || pass.invalid" *ngIf="editar == true && usuario.id" class="btn btn-primary float-right  m-1" (click)="guardarUsuario(usuario.id)">Guardar</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mt-2">
+        <div *ngIf="usuario.apellido != ''" class="card card-body text-center">
+            <h4 *ngIf="usuario.apellido != ''">{{usuario.apellido}}, {{usuario.nombre}}</h4>
+            <h4 *ngIf="usuario.telefono">{{usuario.telefono}}</h4>
+            <h4 *ngIf="usuario.legajo"> {{usuario.legajo}}</h4>
+            <h4>{{usuario.usuario}}</h4>
+        </div>
+    </div>
+
+</ng-container>

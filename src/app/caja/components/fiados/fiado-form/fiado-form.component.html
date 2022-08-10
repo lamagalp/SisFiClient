@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <h2 class="modal-title">
+        Alta de fiado
+    </h2>
+    <button type="button" class="close" aria-label="Close" (click)="cerrarModal()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <div class="row justify-content-center">
+        <div class="col-10">
+            <form class="form-horizontal">
+                <div class="form-group" [ngClass]="{'has-error': cliente.invalid}">
+                    <label class="control-label">Cliente</label>
+                    <ng-select name="idCliente" [searchable]="true" class="form-control m-1" [(ngModel)]="fiado.idCliente" required #cliente="ngModel" autofocus>
+                        <ng-option [value]="c.id" *ngFor="let c of clientes"> {{c.apellido}}, {{c.nombre}} (saldo: $ {{c.saldo}})</ng-option>
+                    </ng-select>
+                </div>
+                <div class="form-group" [ngClass]="{'has-error': monto.invalid}">
+                    <label class="control-label">Monto</label>
+                    <input type="number" name="monto" [(ngModel)]="fiado.monto" required #monto="ngModel" placeholder="Ingrese el monto" class="form-control m-1" value="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-check-inline">
+                        <input class="form-check-input m-1" type="radio" name="tipoMovimiento" [value]="'F'" [(ngModel)]="fiado.tipoMovimiento"> Saca fiado
+                    </label>
+                    <label class="form-check-inline">
+                        <input class="form-check-input m-1" type="radio" name="tipoMovimiento" [value]="'P'" [(ngModel)]="fiado.tipoMovimiento"> Paga deuda
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Observaciones</label>
+                    <textarea title="Observaciones" type="text" name="observaciones" [(ngModel)]="fiado.observaciones" class="form-control m-1"></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button [disabled]="monto.invalid" class="btn btn-primary float-right m-1" (click)="agregarFiado()">Agregar</button>
+</div>

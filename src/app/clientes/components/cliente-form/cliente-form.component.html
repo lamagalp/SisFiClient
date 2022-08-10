@@ -1,0 +1,43 @@
+<app-error-message *ngIf="error" [mensaje]="error"></app-error-message>
+<ng-container *ngIf="!error">
+
+    <div class="col-md-6 mt-2">
+        <div class="card">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <span *ngIf="editar == false">NUEVO CLIENTE</span>
+                <span *ngIf="editar == true">MODIFICAR CLIENTE</span>
+            </div>
+            <div class="card-body">
+                <form class="form">
+                    <div class="form-group" [ngClass]="{'has-error': apellido.invalid || nombre.invalid}">
+                        <input type="text" name="apellido" [(ngModel)]="cliente.apellido" required #apellido="ngModel" placeholder="Apellido" class="form-control m-1" autofocus>
+                        <input type="text" name="nombre" [(ngModel)]="cliente.nombre" required #nombre="ngModel" placeholder="Nombre" class="form-control m-1">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="telefono" placeholder="Teléfono" [(ngModel)]="cliente.telefono" class="form-control m-1">
+                        <textarea name="direccion" placeholder="Dirección" [(ngModel)]="cliente.direccion" class="form-control m-1"></textarea>
+                    </div>
+                    <div class="form-group" [ngClass]="{'has-error': limite.invalid}">
+                        <input type="number" name="limite" placeholder="Límite ($)" [(ngModel)]="cliente.limite" required #limite="ngModel" class="form-control m-1">
+                        <input type="url" name="imagen" placeholder="Foto" [(ngModel)]="cliente.imagen" class="form-control m-1">
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button [disabled]="apellido.invalid || nombre.invalid || limite.invalid" *ngIf="editar == false" class="btn btn-primary float-right m-1" (click)="agregarCliente()">Agregar</button>
+                <button [disabled]="apellido.invalid || nombre.invalid || limite.invalid" *ngIf="editar == true && cliente.id" class="btn btn-primary float-right m-1" (click)="guardarCliente(cliente.id)">Guardar</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mt-2">
+        <div class="card card-body text-center">
+            <img title="imagen" [src]="cliente.imagen == ''? '/assets/noImage.png' : cliente.imagen" class="card-img-top">
+            <h3 *ngIf="cliente.apellido != ''">{{cliente.apellido}}, {{cliente.nombre}}</h3>
+            <h4 *ngIf="cliente.telefono">{{cliente.telefono}}</h4>
+            <h4 *ngIf="cliente.direccion"><i class="fas fa-map-marker-alt"></i> {{cliente.direccion}}</h4>
+            <h4 *ngIf="cliente.limite != 0 ">$ {{cliente.limite}}</h4>
+            <p>{{cliente.modificado | date}}</p>
+        </div>
+    </div>
+
+</ng-container>
