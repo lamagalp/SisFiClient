@@ -23,23 +23,23 @@ export class UsuarioListComponent implements OnInit {
     this._usuarioService.deleteUsuario(id)
     .subscribe(
       resp => {
-        console.log(resp);
+        //console.log(resp);
         this.obtenerUsuarios();
       }, err => {
-        console.error(err);
+       // console.error(err);
         this.error = err;
       });
   }
 
   obtenerUsuarios(){
-    console.log(this.usuarios);
+  //  console.log(this.usuarios);
     this._usuarioService.getUsuarios().subscribe(
       res => {
         this.usuarios = res;
-        console.log(this.usuarios);
+      //  console.log(this.usuarios);
       },
       err => {
-        console.log(err);
+       // console.log(err);
         this.error = err
       });
   }

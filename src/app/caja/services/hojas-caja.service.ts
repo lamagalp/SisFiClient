@@ -34,7 +34,7 @@ export class HojasCajaService {
   }
 
   updateHojaCaja(id: string|number, hoja: HojaCaja): Observable<any>{
-    console.log(hoja);
+    //console.log(hoja);
     return this.http.put(`${this.API_URI}/hojas/${id}`, hoja);
   }
 }

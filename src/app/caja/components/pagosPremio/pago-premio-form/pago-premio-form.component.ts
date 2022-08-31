@@ -43,10 +43,10 @@ export class PagoPremioFormComponent implements OnInit {
      if(idUser != null){
        this._usuariosService.getUsuario(idUser).subscribe(
          res =>{
-           console.log(res);
+           //console.log(res);
            this.usuarioLogueado = res.id;
          }, err =>{
-           console.error(err);
+           //console.error(err);
            this.error = err;
          }
        )
@@ -64,10 +64,10 @@ export class PagoPremioFormComponent implements OnInit {
   this._clienteService.getClientes().subscribe(
     res => {
       this.clientes = res;
-      console.log(this.clientes);
+      //console.log(this.clientes);
     },
     err => {
-      console.log(err);
+      //console.log(err);
       this.error = err
     });
 }
@@ -76,10 +76,10 @@ obtenerTiposCarton(){
   this._tiposCartonService.getTiposCarton().subscribe(
     resultado => {
       this.tiposCarton = resultado.filter((c : TipoCarton) => c.baja == null);
-      console.log(this.tiposCarton);
+      //console.log(this.tiposCarton);
     },
     error => {
-      console.log(error);
+      //console.log(error);
       this.error = error
     });
 }
@@ -94,15 +94,15 @@ obtenerTiposCarton(){
   if(this.pagoPremio.cantidadCartones != null && this.pagoPremio.cantidadCartones > 0 && this.pagoPremio.idTipoCarton != null && this.tiposCarton)
     this.pagoPremio.montoCarton = this.tiposCarton.filter(c => c.id == this.pagoPremio.idTipoCarton)[0].monto;
 
-  console.log(this.pagoPremio);
+  //console.log(this.pagoPremio);
 
   this._pagosPremioService.addPagoPremio(this.pagoPremio)
   .subscribe(
     resp => {
-      console.log(resp);
+      //console.log(resp);
       this.cerrarModal();
     }, err => {
-      console.error(err);
+      //console.error(err);
       this.error = err;
     }
   )}
@@ -115,7 +115,7 @@ obtenerTiposCarton(){
 
   formInvalido(monto?: number, cantidadCartones?: number, idTipoCarton?: number): boolean{
 
-    console.log(monto);
+    //console.log(monto);
     return (monto == 0 && (idTipoCarton == null || cantidadCartones == 0));
   }
 }

@@ -20,10 +20,10 @@ export class UsuarioLogueadoComponent implements OnInit {
       if(idUser != null){
         this._usuariosService.getUsuario(idUser).subscribe(
           res =>{
-            console.log(res);
+            //console.log(res);
             this.usuario = res;
           }, err =>{
-            console.error(err);
+            //console.error(err);
             this.error = err;
           }
         )

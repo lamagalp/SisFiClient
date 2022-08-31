@@ -36,7 +36,7 @@ export class HojaCajaFormComponent implements OnInit {
       if(idUser != null){
         this._usuariosService.getUsuario(idUser).subscribe(
           res =>{
-            console.log(res);
+            //console.log(res);
             this.usuarioLogueado = res;
           }, err =>{
             console.error(err);
@@ -56,7 +56,7 @@ export class HojaCajaFormComponent implements OnInit {
           this.editar = true;
           this.hojaCaja = resp;
         }, err => {
-          console.error(err);
+          //console.error(err);
           this.error = err;
         }
       )
@@ -76,15 +76,15 @@ export class HojaCajaFormComponent implements OnInit {
     if (this.usuarioLogueado){
 
       this.hojaCaja.usuario.id = this.usuarioLogueado.id;
-      console.log(this.hojaCaja);
+      //console.log(this.hojaCaja);
       this._hojasCajaService.addHojaCaja(this.hojaCaja)
       .subscribe({
         next : (resp : any)=> {
-          console.log(resp);
+          //console.log(resp);
           this._route.navigate(['/hojasCaja']);
         },
         error: (err) => {
-          console.error(err);
+          //console.error(err);
           this.error = err;
         }
       });
@@ -93,7 +93,7 @@ export class HojaCajaFormComponent implements OnInit {
 
   guardarHojaCaja(idHojaCaja: number){
 
-    console.log(this.hojaCaja);
+    //console.log(this.hojaCaja);
 
     this.hojaCaja.usuario = {
       id: this.usuarioLogueado.id,
@@ -105,10 +105,10 @@ export class HojaCajaFormComponent implements OnInit {
     this._hojasCajaService.updateHojaCaja(idHojaCaja , this.hojaCaja)
     .subscribe(
       resp => {
-        console.log(resp);
+        //console.log(resp);
         this._route.navigate(['/hojasCaja']);
       }, err => {
-        console.error(err);
+        //console.error(err);
         this.error = err;
       }
     )
@@ -117,7 +117,7 @@ export class HojaCajaFormComponent implements OnInit {
   getUsuario(idUsuario:number): any{
     this._usuariosService.getUsuario(idUsuario).subscribe(
       res =>{
-        console.log(res);
+        //console.log(res);
         return res.apellido + ', ' + res.nombre;
       }, err =>{
         this.error = err;

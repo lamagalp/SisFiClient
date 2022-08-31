@@ -23,7 +23,7 @@ export class ClienteListComponent implements OnInit {
     this._clienteService.deleteCliente(id)
     .subscribe(
       resp => {
-        console.log(resp);
+       // console.log(resp);
         this.obtenerClientes();
       }, err => {
         console.error(err);
@@ -32,14 +32,14 @@ export class ClienteListComponent implements OnInit {
   }
 
   obtenerClientes(){
-    console.log(this.clientes);
+    //console.log(this.clientes);
     this._clienteService.getClientes().subscribe(
       res => {
         this.clientes = res;
-        console.log(this.clientes);
+        //console.log(this.clientes);
       },
       err => {
-        console.log(err);
+       // console.log(err);
         this.error = err
       });
   }

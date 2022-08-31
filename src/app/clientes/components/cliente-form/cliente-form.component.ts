@@ -51,15 +51,15 @@ export class ClienteFormComponent implements OnInit {
     delete this.cliente.modificado;
     delete this.cliente.id;
 
-    console.log(this.cliente);
+    //console.log(this.cliente);
     this._clientesService.addCliente(this.cliente)
     .subscribe(
       resp => {
-        console.log(resp);
+        //console.log(resp);
         this._route.navigate(['/clientes']);
 
       }, err => {
-        console.error(err);
+       // console.error(err);
         this.error = err;
       }
     )
@@ -68,14 +68,14 @@ export class ClienteFormComponent implements OnInit {
 
   guardarCliente(idCliente: number){
 
-    console.log(this.cliente);
+    //console.log(this.cliente);
     this._clientesService.updateCliente(idCliente , this.cliente)
     .subscribe(
       resp => {
-        console.log(resp);
+      //  console.log(resp);
         this._route.navigate(['/clientes']);
       }, err => {
-        console.error(err);
+       // console.error(err);
         this.error = err;
       }
     )

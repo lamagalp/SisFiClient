@@ -31,11 +31,11 @@ export class UsuarioFormComponent implements OnInit {
      if(params?.id){
       this._usuarioService.getUsuario(params.id).subscribe(
         resp => {
-          console.log(resp);
+          //console.log(resp);
           this.editar = true;
           this.usuario = resp;
         }, err => {
-          console.error(err);
+         // console.error(err);
           this.error = err;
         }
       )
@@ -44,30 +44,30 @@ export class UsuarioFormComponent implements OnInit {
 
 
   agregarUsuario(){
-    console.log(this.usuario);
+  //  console.log(this.usuario);
     this._usuarioService.addUsuario(this.usuario)
     .subscribe(
       res =>{
-        console.log(res);
+     //   console.log(res);
         this._router.navigate(['/usuarios']);
 
       }, err =>{
-        console.error(err);
+     //   console.error(err);
         this.error = err;
       }
     )
   }
 
   guardarUsuario(idUsuario: number){
-    console.log(this.usuario);
+   // console.log(this.usuario);
     this._usuarioService.updateUsuario(idUsuario, this.usuario)
     .subscribe(
       res =>{
-        console.log(res);
+     //   console.log(res);
         this._router.navigate(['/usuarios']);
 
       }, err =>{
-        console.error(err);
+     //   console.error(err);
         this.error = err;
       }
     )

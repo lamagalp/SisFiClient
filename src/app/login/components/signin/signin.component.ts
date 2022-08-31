@@ -25,11 +25,11 @@ export class SignInComponent implements OnInit {
   }
 
   ingresar(){
-    console.log(this.user);
+    //console.log(this.user);
     this._autenticacionService.signIn(this.user)
     .subscribe(
       res =>{
-        console.log(res);
+        //console.log(res);
         sessionStorage.setItem('token', res.token);  //guardo el token en el almacenamiento local
         sessionStorage.setItem('idUser', res.idUser);
         this._router.navigate(['/hojasCaja/get/hoy']);

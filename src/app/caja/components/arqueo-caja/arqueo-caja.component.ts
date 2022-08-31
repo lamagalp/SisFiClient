@@ -66,11 +66,11 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
       if(idUser != null){
         this._usuariosService.getUsuario(idUser).subscribe({
           next: (res : any) => {
-            console.log(res);
+            //console.log(res);
             this.usuarioLogueado = res.id;
           },
           error: (err) => {
-            console.error(err);
+            //console.error(err);
             this.error = err;
           }
         });
@@ -83,11 +83,11 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
 
     this._arqueosService.getArqueoCaja(this.hojaCaja.id).subscribe({
       next: (resp : any) => {
-        console.log(resp);
+        //console.log(resp);
         this.caja = resp;
       },
       error : (err) => {
-        console.log(err);
+        //console.log(err);
       }
     });
 
@@ -197,7 +197,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           sumaV += ( venta.cantidad * venta.montoCarton);
       });
     }                 
-    console.log('+ TotalVentasCartones ' + sumaV);        
+    //console.log('+ TotalVentasCartones ' + sumaV);        
     return sumaV;
   }
 

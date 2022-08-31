@@ -67,12 +67,12 @@ export class HojaCajaComponent implements OnInit {
     this._hojasCajaService.getHojaCaja(id).subscribe({
       next : (resp: any) => {
         this.hojaCaja = resp;
-        console.log(this.hojaCaja);
-        console.log(this.hojaCaja.ventasOnline);
-        console.log(this.hojaCaja.pagosOnline);
+        //console.log(this.hojaCaja);
+        //console.log(this.hojaCaja.ventasOnline);
+        //console.log(this.hojaCaja.pagosOnline);
       },
       error : (err) => {
-        console.error(err);
+        //console.error(err);
         this.error = err.error.text;
       }
     });
@@ -83,7 +83,7 @@ export class HojaCajaComponent implements OnInit {
         this.hojaCaja = resp;  
       },
       error : (err) => {
-        console.error(err);
+        //console.error(err);
         this.error = err.error.text;
       }
     });
@@ -140,7 +140,7 @@ export class HojaCajaComponent implements OnInit {
 		m.componentInstance.idHojaCaja = this.hojaCaja.id;
 		m.componentInstance.refModal = m;
     m.result.then((result) => {
-      console.log(result);
+      //console.log(result);
       this.getHojaCaja(this.hojaCaja.id);
     }, (reason) => {
       this.error = reason;
@@ -151,24 +151,24 @@ export class HojaCajaComponent implements OnInit {
     this._ventasService.getVenta(idVenta).subscribe({
 
       next: (resp :any) => {
-        console.log(resp);
+        //console.log(resp);
         resp.baja = new Date();
         resp.idUsuario = this.usuarioLogueado.id;
 
         this._ventasService.updateVenta(idVenta, resp)
         .subscribe({
           next:(respuesta : any) => {
-            console.log(respuesta);
+            //console.log(respuesta);
             this.getHojaCaja(idHoja);
           },
           error: (e) => {
-            console.error(e);
+            //console.error(e);
             this.error = e;
           }          
         });          
       },
       error: (err) => {
-        console.error(err);
+        //console.error(err);
         this.error = err;
       }
 
@@ -185,7 +185,7 @@ export class HojaCajaComponent implements OnInit {
 		m.componentInstance.idHojaCaja = this.hojaCaja.id;
 		m.componentInstance.refModal = m;
     m.result.then((result) => {
-      console.log(result);
+      //console.log(result);
       this.getHojaCaja(this.hojaCaja.id);
     }, (reason) => {
       this.error = reason;
@@ -195,24 +195,24 @@ export class HojaCajaComponent implements OnInit {
   eliminarPagoPremio(idHoja: number, idPago: number){
     this._pagosPremioService.getPagoPremio(idPago).subscribe({
       next : (resp : any) => {
-        console.log(resp);
+        //console.log(resp);
         resp.baja = new Date();
         resp.idUsuario = this.usuarioLogueado.id;
 
         this._pagosPremioService.updatePagoPremio(idPago, resp)
         .subscribe({
           next:(respuesta : any) => {
-            console.log(respuesta);
+            //console.log(respuesta);
             this.getHojaCaja(idHoja);
           },
           error: (e) => {
-            console.error(e);
+            //console.error(e);
             this.error = e;
           }          
         });   
       },
       error : (err) => {
-        console.error(err);
+        //console.error(err);
         this.error = err;
       }
     });
@@ -228,7 +228,7 @@ export class HojaCajaComponent implements OnInit {
 		m.componentInstance.idHojaCaja = this.hojaCaja.id;
 		m.componentInstance.refModal = m;
     m.result.then((result) => {
-      console.log(result);
+      //console.log(result);
       this.getHojaCaja(this.hojaCaja.id);
     }, (reason) => {
       this.error = reason;
@@ -259,17 +259,17 @@ export class HojaCajaComponent implements OnInit {
         this._gastosService.updateGasto(idGasto, resp)
         .subscribe({
           next:(respuesta : any) => {
-            console.log(respuesta);
+            //console.log(respuesta);
             this.getHojaCaja(idHoja);
           },
           error: (e) => {
-            console.error(e);
+            //console.error(e);
             this.error = e;
           }          
         });   
       }, 
       error: (err) => {
-        console.error(err);
+        //console.error(err);
         this.error = err;
       }
     });
@@ -287,7 +287,7 @@ export class HojaCajaComponent implements OnInit {
 		m.componentInstance.idHojaCaja = this.hojaCaja.id;
 		m.componentInstance.refModal = m;
     m.result.then((result) => {
-      console.log(result);
+      //console.log(result);
       this.getHojaCaja(this.hojaCaja.id);
     }, (reason) => {
       this.error = reason;
@@ -331,7 +331,7 @@ export class HojaCajaComponent implements OnInit {
     if (this.tablaGastos)
       tGastos = this.tablaGastos.nativeElement.innerHTML.replace(/\$/g, '');
     let strFecha = new Date(this.hojaCaja.alta).toDateString().replace(/ /g, '_');
-    console.log(strFecha);
+    //console.log(strFecha);
     let ctx = {worksheet: 'Hoja de Caja ' + this.hojaCaja.id , tablaFiados: tFiados, tablaVentas: tVentas, tablaPremios: tPremios ,tablaGastos: tGastos , fecha: fecha.toLocaleString()};
     
     var link = document.createElement("a");

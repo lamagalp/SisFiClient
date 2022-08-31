@@ -20,7 +20,7 @@ export class HojaCajaListComponent implements OnInit {
       if(idUser != null){
         this._usuariosService.getUsuario(idUser).subscribe(
           res =>{
-            console.log(res);
+            //console.log(res);
             this.usuarioLogueado = res;
           }, err =>{
             console.error(err);
@@ -39,7 +39,7 @@ export class HojaCajaListComponent implements OnInit {
 
     this._hojasService.getHojaCaja(id).subscribe(
       resp => {
-        console.log(resp);
+        //console.log(resp);
         resp.baja = new Date();
         resp.idUsuario = this.usuarioLogueado.id;
 
@@ -62,13 +62,13 @@ export class HojaCajaListComponent implements OnInit {
 
 
   obtenerHojas(){
-    console.log(this.hojas);
+    //console.log(this.hojas);
     this._hojasService.getHojasCaja().subscribe(
       res => {
         this.hojas = res;
       },
       err => {
-        console.log(err);
+        //console.log(err);
         this.error = err
       });
   }

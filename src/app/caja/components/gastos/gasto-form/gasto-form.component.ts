@@ -36,7 +36,7 @@ export class GastoFormComponent implements OnInit {
       if(idUser != null){
         this._usuariosService.getUsuario(idUser).subscribe({
           next : (res : any) => {
-            console.log(res);
+            //console.log(res);
             this.usuarioLogueado = res.id;
           },
           error: (err) => {
@@ -63,12 +63,12 @@ export class GastoFormComponent implements OnInit {
     delete this.gasto.id;
     this.gasto.idHojaCaja = this.idHojaCaja;
     this.gasto.idUsuario = this.usuarioLogueado;
-    console.log(this.gasto);
+    //console.log(this.gasto);
 
     this._gastosService.addGasto(this.gasto)
     .subscribe({
       next : (resp : any) => {
-        console.log(resp);
+        //console.log(resp);
         this.cerrarModal();
       },
       error : (err) => {

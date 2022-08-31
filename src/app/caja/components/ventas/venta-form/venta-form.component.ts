@@ -42,10 +42,10 @@ export class VentaFormComponent implements OnInit {
      if(idUser != null){
        this._usuariosService.getUsuario(idUser).subscribe(
          res =>{
-           console.log(res);
+           //console.log(res);
            this.usuarioLogueado = res.id;
          }, err =>{
-           console.error(err);
+           //console.error(err);
            this.error = err;
          }
        )
@@ -63,10 +63,10 @@ export class VentaFormComponent implements OnInit {
   this._clienteService.getClientes().subscribe(
     res => {
       this.clientes = res;
-      console.log(this.clientes);
+      //console.log(this.clientes);
     },
     err => {
-      console.log(err);
+      //console.log(err);
       this.error = err
     });
   }
@@ -76,10 +76,10 @@ obtenerTiposCarton(){
   this._tiposCartonService.getTiposCarton().subscribe(
     resultado => {
       this.tiposCarton = resultado.filter((c : TipoCarton) => c.baja == null);
-      console.log(this.tiposCarton);
+      //console.log(this.tiposCarton);
     },
     error => {
-      console.log(error);
+      //console.log(error);
       this.error = error
     });
 }
@@ -93,15 +93,15 @@ obtenerTiposCarton(){
     this.venta.idHojaCaja = this.idHojaCaja;
     this.venta.idUsuario = this.usuarioLogueado;
     this.venta.montoCarton = this.tiposCarton.filter(c => c.id == this.venta.idTipoCarton)[0].monto;
-    console.log(this.venta);
+    //console.log(this.venta);
 
     this._ventasService.addVenta(this.venta)
     .subscribe(
       resp => {
-        console.log(resp);
+        //console.log(resp);
         this.cerrarModal();
       }, err => {
-        console.error(err);
+       // console.error(err);
         this.error = err;
       }
     )

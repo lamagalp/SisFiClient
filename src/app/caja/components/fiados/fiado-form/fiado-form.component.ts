@@ -48,11 +48,11 @@ export class FiadoFormComponent implements OnInit {
       if(idUser != null){
         this._usuariosService.getUsuario(idUser).subscribe({
           next: (res : any) => {
-            console.log(res);
+            //console.log(res);
             this.usuarioLogueado = res.id;
           },
           error: (err) => {
-            console.error(err);
+            //console.error(err);
             this.error = err;
           }
         });
@@ -69,10 +69,10 @@ export class FiadoFormComponent implements OnInit {
     this._clienteService.getClientes().subscribe({
       next: (res : any) => {
         this.clientes = res;      
-        console.log(this.clientes);
+        //console.log(this.clientes);
       }, 
       error: (err) => {
-        console.log(err);
+        //console.log(err);
         this.error = err
       },
       complete: () => {}
@@ -90,7 +90,7 @@ export class FiadoFormComponent implements OnInit {
     if(this.fiado.tipoMovimiento == 'F' && this.fiado.monto != null){
       this.fiado.monto = - (this.fiado.monto);
     }
-    console.log(this.fiado);
+    //console.log(this.fiado);
 
      /* this._service.metodo().subscribe({ 
       next: (rta : any) => {}, 
@@ -101,11 +101,11 @@ export class FiadoFormComponent implements OnInit {
     this._fiadoService.addFiado(this.fiado)
     .subscribe({
       next: (resp : any) => {
-        console.log(resp);
+        //console.log(resp);
         this.cerrarModal();
       },
       error: (err) => {
-        console.error(err);
+        //console.error(err);
         this.error = err;
       }
     })

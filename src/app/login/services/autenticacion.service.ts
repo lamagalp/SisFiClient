@@ -27,7 +27,7 @@ export class AutenticacionService {
   }
 
   getToken(){
-    console.log(sessionStorage.getItem('token'));
+    //console.log(sessionStorage.getItem('token'));
     return sessionStorage.getItem('token');
   }
 
