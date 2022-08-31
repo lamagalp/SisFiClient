@@ -38,15 +38,16 @@ export class HojaCajaComponent implements OnInit {
     if(this._autenticacionService.loggedIn()){
       let idUser = this._autenticacionService.getIdUser();
       if(idUser != null){
-        this._usuariosService.getUsuario(idUser).subscribe(
-          res =>{
+        this._usuariosService.getUsuario(idUser).subscribe({
+          next: (res: any) => {
             //console.log(res);
             this.usuarioLogueado = res;
-          }, err =>{
+          },
+          error: (err) => {
             //console.error(err);
             this.error = err;
           }
-        )
+        });         
       }
     }
   }
@@ -63,63 +64,68 @@ export class HojaCajaComponent implements OnInit {
   }
 
   getHojaCaja(id: number){
-    this._hojasCajaService.getHojaCaja(id).subscribe(
-      resp => {
+    this._hojasCajaService.getHojaCaja(id).subscribe({
+      next : (resp: any) => {
         this.hojaCaja = resp;
-          console.log(this.hojaCaja);
-          console.log(this.hojaCaja.ventasOnline);
-          console.log(this.hojaCaja.pagosOnline);
-      }, err => {
+        console.log(this.hojaCaja);
+        console.log(this.hojaCaja.ventasOnline);
+        console.log(this.hojaCaja.pagosOnline);
+      },
+      error : (err) => {
         console.error(err);
         this.error = err.error.text;
       }
-    )
+    });
   }
   getHojaCajaHoy(){ 
-    this._hojasCajaService.getHojaCajaHoy().subscribe(
-      resp => {
-        this.hojaCaja = resp;         
-      }, err => {
+    this._hojasCajaService.getHojaCajaHoy().subscribe({
+      next: (resp : any) => {
+        this.hojaCaja = resp;  
+      },
+      error : (err) => {
         console.error(err);
         this.error = err.error.text;
       }
-    )
+    });
   }
 
   getUsuario(idUsuario:number): any{
-    this._usuariosService.getUsuario(idUsuario).subscribe(
-      res =>{
-        //console.log(res);
-        return res.apellido + ', ' + res.nombre;
-      }, err =>{
-        this.error = err;
-        return null;
-      }
-    )
+    this._usuariosService.getUsuario(idUsuario).subscribe({
+        next: (res : any) => {
+          //console.log(res);
+          return res.apellido + ', ' + res.nombre;
+        },
+        error : (err) => {
+          this.error = err;
+          return null;
+        }
+      });
   }
 
   eliminarFiado(idHoja: number, idFiado: number){
 
-    this._fiadoService.getFiado(idFiado).subscribe(
-      resp => {
+    this._fiadoService.getFiado(idFiado).subscribe({
+      next : (resp : any) => {
         //console.log(resp);
         resp.baja = new Date();
         resp.idUsuario = this.usuarioLogueado.id;
         this._fiadoService.updateFiado(idFiado, resp)
-        .subscribe(
-          respuesta => {
+        .subscribe({
+          next: (r : any) =>{
             //console.log(respuesta);
             this.getHojaCaja(idHoja);
-          }, er => {
+          },
+          error : (e) => {
             //console.error(er);
-            this.error = er;
-          });
+            this.error = e;
+          }
+        });
       },
-      err => {
+      error: (err) => {
         console.error(err);
         this.error = err;
       }
-    );
+    });
   }
 
 
@@ -142,27 +148,31 @@ export class HojaCajaComponent implements OnInit {
   }
 
   eliminarVenta(idHoja: number, idVenta: number){
-    this._ventasService.getVenta(idVenta).subscribe(
-      resp => {
+    this._ventasService.getVenta(idVenta).subscribe({
+
+      next: (resp :any) => {
         console.log(resp);
         resp.baja = new Date();
         resp.idUsuario = this.usuarioLogueado.id;
 
         this._ventasService.updateVenta(idVenta, resp)
-        .subscribe(
-          respuesta => {
+        .subscribe({
+          next:(respuesta : any) => {
             console.log(respuesta);
             this.getHojaCaja(idHoja);
-          }, er => {
-            console.error(er);
-            this.error = er;
-          });
+          },
+          error: (e) => {
+            console.error(e);
+            this.error = e;
+          }          
+        });          
       },
-      err => {
+      error: (err) => {
         console.error(err);
         this.error = err;
       }
-    );
+
+    });      
   }
 
   addVenta(){
@@ -183,27 +193,29 @@ export class HojaCajaComponent implements OnInit {
   }
 
   eliminarPagoPremio(idHoja: number, idPago: number){
-    this._pagosPremioService.getPagoPremio(idPago).subscribe(
-      resp => {
+    this._pagosPremioService.getPagoPremio(idPago).subscribe({
+      next : (resp : any) => {
         console.log(resp);
         resp.baja = new Date();
         resp.idUsuario = this.usuarioLogueado.id;
 
         this._pagosPremioService.updatePagoPremio(idPago, resp)
-        .subscribe(
-          respuesta => {
+        .subscribe({
+          next:(respuesta : any) => {
             console.log(respuesta);
             this.getHojaCaja(idHoja);
-          }, er => {
-            console.error(er);
-            this.error = er;
-          });
+          },
+          error: (e) => {
+            console.error(e);
+            this.error = e;
+          }          
+        });   
       },
-      err => {
+      error : (err) => {
         console.error(err);
         this.error = err;
       }
-    );
+    });
   }
 
   addPagoPremio(){
@@ -226,38 +238,41 @@ export class HojaCajaComponent implements OnInit {
   guardarValoresOnline(id: number){
     this.resultadoUpdate = '';
     this.hojaCaja.pagosOnline = - (this.hojaCaja.pagosOnline);
-    this._hojasCajaService.updateHojaCaja(id, this.hojaCaja).subscribe(
-      resp => {
+    this._hojasCajaService.updateHojaCaja(id, this.hojaCaja).subscribe({
+      next : (resp : any) => {
         this.resultadoUpdate = resp.text;
         this.getHojaCaja(id);
-      }, err => {
+      },
+      error : (err) => {
         this.error = err;
       }
-    )
+    });
   }
 
   eliminarGasto(idHoja: number, idGasto: number){
 
-    this._gastosService.getGasto(idGasto).subscribe(
-      resp => {
+    this._gastosService.getGasto(idGasto).subscribe({
+      next : (resp : any) => {
         //console.log(resp);
         resp.baja = new Date();
         resp.idUsuario = this.usuarioLogueado.id;
         this._gastosService.updateGasto(idGasto, resp)
-        .subscribe(
-          respuesta => {
-            //console.log(respuesta);
+        .subscribe({
+          next:(respuesta : any) => {
+            console.log(respuesta);
             this.getHojaCaja(idHoja);
-          }, er => {
-            //console.error(er);
-            this.error = er;
-          });
-      },
-      err => {
+          },
+          error: (e) => {
+            console.error(e);
+            this.error = e;
+          }          
+        });   
+      }, 
+      error: (err) => {
         console.error(err);
         this.error = err;
       }
-    );
+    });
   }
 
 
@@ -300,11 +315,23 @@ export class HojaCajaComponent implements OnInit {
     template += '<h3>Premios</h3><table>{tablaPremios}</table><h3>Gastos</h3><table>{tablaGastos}</table></body></html>';
     
     let fecha = new Date();    
-    let tFiados =this.tablaFiados.nativeElement.innerHTML.replace(/\$/g, '');
-    let tVentas = this.tablaVentas.nativeElement.innerHTML.replace(/\$/g, '');
-    let tPremios = this.tablaPremios.nativeElement.innerHTML.replace(/\$/g, '');
-    let tGastos = this.tablaGastos.nativeElement.innerHTML.replace(/\$/g, '');
+    let tFiados = '';
+    if(this.tablaFiados) 
+      tFiados = this.tablaFiados.nativeElement.innerHTML.replace(/\$/g, '');
+    
+    let tVentas = '';
+    if (this.tablaVentas)
+      tVentas = this.tablaVentas.nativeElement.innerHTML.replace(/\$/g, '');
+    
+    let tPremios = '';
+    if (this.tablaPremios)
+      tPremios = this.tablaPremios.nativeElement.innerHTML.replace(/\$/g, '');
+
+    let tGastos = '';
+    if (this.tablaGastos)
+      tGastos = this.tablaGastos.nativeElement.innerHTML.replace(/\$/g, '');
     let strFecha = new Date(this.hojaCaja.alta).toDateString().replace(/ /g, '_');
+    console.log(strFecha);
     let ctx = {worksheet: 'Hoja de Caja ' + this.hojaCaja.id , tablaFiados: tFiados, tablaVentas: tVentas, tablaPremios: tPremios ,tablaGastos: tGastos , fecha: fecha.toLocaleString()};
     
     var link = document.createElement("a");

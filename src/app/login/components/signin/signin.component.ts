@@ -19,6 +19,9 @@ export class SignInComponent implements OnInit {
   constructor(private _autenticacionService: AutenticacionService, private _router: Router) { }
 
   ngOnInit(): void {
+    // si el usuario está logueado, redirijo al home
+    if (this._autenticacionService.loggedIn())
+      this._router.navigate(['/hojasCaja/get/hoy']);
   }
 
   ingresar(){
@@ -29,7 +32,7 @@ export class SignInComponent implements OnInit {
         console.log(res);
         sessionStorage.setItem('token', res.token);  //guardo el token en el almacenamiento local
         sessionStorage.setItem('idUser', res.idUser);
-        this._router.navigate(['/']);
+        this._router.navigate(['/hojasCaja/get/hoy']);
 
       }, err =>{
         //console.error(err);

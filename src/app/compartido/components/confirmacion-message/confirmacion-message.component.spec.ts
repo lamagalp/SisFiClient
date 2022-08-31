@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { ConfirmacionMessageComponent } from './confirmacion-message.component';
 
@@ -9,7 +10,7 @@ describe('ConfirmacionMessageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, NgSelectModule],
       declarations: [ ConfirmacionMessageComponent ]
     })
     .compileComponents();

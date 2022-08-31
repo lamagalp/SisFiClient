@@ -6,7 +6,7 @@ import { HojaCajaListComponent } from './components/hojaCaja/hoja-caja-list/hoja
 import { HojaCajaFormComponent } from './components/hojaCaja/hoja-caja-form/hoja-caja-form.component';
 import { HojaCajaComponent } from './components/hojaCaja/hoja-caja/hoja-caja.component';
 
-import { AuthGuard } from '../auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 // Se concatenan a la ruta evaluada en el AppRotingModule: "hojasCaja"
 const routes: Routes = [

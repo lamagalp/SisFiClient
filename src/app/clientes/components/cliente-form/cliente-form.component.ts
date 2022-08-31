@@ -2,11 +2,13 @@ import { Cliente } from '../../models/cliente';
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ClientesService } from '../../services/clientes.service'
 import { Router, ActivatedRoute } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cliente-form',
   templateUrl: './cliente-form.component.html',
-  styleUrls: ['./cliente-form.component.css']
+  styleUrls: ['./cliente-form.component.css'],
+  providers:[CurrencyPipe]
 })
 export class ClienteFormComponent implements OnInit {
 
@@ -78,4 +80,6 @@ export class ClienteFormComponent implements OnInit {
       }
     )
   }
+
+
 }

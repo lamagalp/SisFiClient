@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Venta } from '../models/venta';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VentasService {
 
-  API_URI = 'http://localhost:3000/SisFi/api';
+  API_URI = environment.API_URL;
 
   constructor(private http:HttpClient) { }
 

@@ -8,8 +8,6 @@ import { AutenticacionService } from './../../../../login/services/autenticacion
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, Input } from '@angular/core';
 import { PagosPremioService } from 'src/app/caja/services/pagos-premio.service';
-import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-pago-premio-form',
@@ -38,7 +36,7 @@ export class PagoPremioFormComponent implements OnInit {
 
   id?: number;
 
-  constructor(private _clienteService: ClientesService, private _tiposCartonService: TiposCartonService, private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _pagosPremioService: PagosPremioService, private _route:Router) {
+  constructor(private _clienteService: ClientesService, private _tiposCartonService: TiposCartonService, private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _pagosPremioService: PagosPremioService) {
 
     if(this._autenticacionService.loggedIn()){
      let idUser = this._autenticacionService.getIdUser();

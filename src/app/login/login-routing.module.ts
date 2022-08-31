@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SignInComponent } from './components/signin/signin.component';
 import { SignOutComponent } from './components/signout/signout.component';
 
-import { AuthGuard } from '../auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 // Se concatenan a la ruta evaluada en el AppRotingModule: "login"
 const routes: Routes = [

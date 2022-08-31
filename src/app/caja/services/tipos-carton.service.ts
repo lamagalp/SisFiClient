@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TipoCarton} from '../models/tipoCarton';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TiposCartonService {
 
-  API_URI = 'http://localhost:3000/SisFi/api';
+  API_URI = environment.API_URL;
 
   constructor(private http:HttpClient) { }
 

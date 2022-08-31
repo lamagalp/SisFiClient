@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class UsuariosService {
 
-  API_URI = 'http://localhost:3000/SisFi/api';
+  API_URI = 'http://192.168.0.6:3000/SisFi/api';
 
   constructor(private http:HttpClient) { }
 

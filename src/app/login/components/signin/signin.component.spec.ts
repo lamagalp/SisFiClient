@@ -1,6 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { SignInComponent } from './signin.component';
 
@@ -10,7 +12,7 @@ describe('SignInComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule, RouterTestingModule],
+      imports: [HttpClientModule, RouterTestingModule, FormsModule, NgSelectModule],
       declarations: [ SignInComponent ]
     })
     .compileComponents();

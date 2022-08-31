@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { UsuarioLogueadoComponent } from './usuario-logueado.component';
 
@@ -9,7 +10,7 @@ describe('UsuarioLogueadoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, FormsModule],
       declarations: [ UsuarioLogueadoComponent ]
     })
     .compileComponents();

@@ -36,7 +36,7 @@ import { ArqueoCajaComponent } from './components/arqueo-caja/arqueo-caja.compon
     CompartidoModule,
     CajaRoutingModule,
     NgbModalModule,
-    NgSelectModule
+    NgSelectModule 
   ],
   providers: [
     HojasCajaService,

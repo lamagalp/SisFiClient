@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UsuarioFormComponent } from './components/usuario-form/usuario-form.component';
 import { UsuarioListComponent } from './components/usuario-list/usuario-list.component';
 
-import { AuthGuard } from '../auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 // Se concatenan a la ruta evaluada en el AppRotingModule: "usuarios"
 const routes: Routes = [

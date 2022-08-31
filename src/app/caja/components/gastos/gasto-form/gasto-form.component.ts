@@ -2,7 +2,6 @@ import { AutenticacionService } from './../../../../login/services/autenticacion
 import { UsuariosService } from './../../../../usuarios/services/usuarios.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
 import { Gasto } from 'src/app/caja/models/gasto';
 import { GastosService } from 'src/app/caja/services/gastos-service.service';
 
@@ -30,23 +29,23 @@ export class GastoFormComponent implements OnInit {
 
   id?: number;
 
-  constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _gastosService: GastosService, private _route:Router) {
+  constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _gastosService: GastosService) {
 
      if(this._autenticacionService.loggedIn()){
       let idUser = this._autenticacionService.getIdUser();
       if(idUser != null){
-        this._usuariosService.getUsuario(idUser).subscribe(
-          res =>{
+        this._usuariosService.getUsuario(idUser).subscribe({
+          next : (res : any) => {
             console.log(res);
             this.usuarioLogueado = res.id;
-          }, err =>{
+          },
+          error: (err) => {
             console.error(err);
             this.error = err;
           }
-        )
+        });
       }
-    }
-
+     }
   }
 
   ngOnInit(): void {
@@ -67,15 +66,16 @@ export class GastoFormComponent implements OnInit {
     console.log(this.gasto);
 
     this._gastosService.addGasto(this.gasto)
-    .subscribe(
-      resp => {
+    .subscribe({
+      next : (resp : any) => {
         console.log(resp);
         this.cerrarModal();
-      }, err => {
+      },
+      error : (err) => {
         console.error(err);
         this.error = err;
       }
-    )
+    });    
   }
 	cerrarModal() {
 		this.refModal.close();

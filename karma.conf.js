@@ -10,7 +10,8 @@ module.exports = function (config) {
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma')
+      require('@angular-devkit/build-angular/plugins/karma'),
+      require('karma-mocha-reporter')
     ],
     client: {
       jasmine: {
@@ -30,9 +31,18 @@ module.exports = function (config) {
       reporters: [
         { type: 'html' },
         { type: 'text-summary' }
-      ]
+      ],
+      check:{
+        global:{
+          statements: 70,
+          branches: 70,
+          functions: 70,
+          lines: 70
+        }
+      }
     },
-    reporters: ['progress', 'kjhtml'],
+    //reporters: ['progress', 'kjhtml'],
+    reporters: ['mocha'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { HojaCaja } from '../models/hojaCaja';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { HojaCaja } from '../models/hojaCaja';
 })
 export class HojasCajaService {
 
-  API_URI = 'http://localhost:3000/SisFi/api';
+  API_URI = environment.API_URL;
 
   constructor(private http:HttpClient) { }
 

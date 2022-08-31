@@ -7,7 +7,7 @@ import { Cliente } from './../../../../clientes/models/cliente';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Fiado } from 'src/app/caja/models/fiado';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-fiado-form',
@@ -34,20 +34,28 @@ export class FiadoFormComponent implements OnInit {
 
   id?: number;
 
-  constructor(private _clienteService: ClientesService,private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _fiadoService: FiadosService, private _route:Router) {
+  constructor(private _clienteService: ClientesService,private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _fiadoService: FiadosService) {
+
+     /* this._service.metodo().subscribe({ 
+      next: (rta : any) => {}, 
+      error: (error) => {}, 
+      complete: () => {}
+    }); */
+
 
      if(this._autenticacionService.loggedIn()){
       let idUser = this._autenticacionService.getIdUser();
       if(idUser != null){
-        this._usuariosService.getUsuario(idUser).subscribe(
-          res =>{
+        this._usuariosService.getUsuario(idUser).subscribe({
+          next: (res : any) => {
             console.log(res);
             this.usuarioLogueado = res.id;
-          }, err =>{
+          },
+          error: (err) => {
             console.error(err);
             this.error = err;
           }
-        )
+        });
       }
     }
 
@@ -57,17 +65,18 @@ export class FiadoFormComponent implements OnInit {
     this.obtenerClientes();
   }
 
-   obtenerClientes(){
-    this._clienteService.getClientes().subscribe(
-      res => {
-        this.clientes = res;
-        console.log('ccccccccccccccccc');
+   obtenerClientes(){   
+    this._clienteService.getClientes().subscribe({
+      next: (res : any) => {
+        this.clientes = res;      
         console.log(this.clientes);
-      },
-      err => {
+      }, 
+      error: (err) => {
         console.log(err);
         this.error = err
-      });
+      },
+      complete: () => {}
+    });
   }
 
   agregarFiado(){
@@ -83,16 +92,23 @@ export class FiadoFormComponent implements OnInit {
     }
     console.log(this.fiado);
 
+     /* this._service.metodo().subscribe({ 
+      next: (rta : any) => {}, 
+      error: (error) => {}, 
+      complete: () => {}
+    }); */
+
     this._fiadoService.addFiado(this.fiado)
-    .subscribe(
-      resp => {
+    .subscribe({
+      next: (resp : any) => {
         console.log(resp);
         this.cerrarModal();
-      }, err => {
+      },
+      error: (err) => {
         console.error(err);
         this.error = err;
       }
-    )
+    })
   }
 	cerrarModal() {
 		this.refModal.close();

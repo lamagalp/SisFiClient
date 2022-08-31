@@ -78,16 +78,16 @@ export class HojaCajaFormComponent implements OnInit {
       this.hojaCaja.usuario.id = this.usuarioLogueado.id;
       console.log(this.hojaCaja);
       this._hojasCajaService.addHojaCaja(this.hojaCaja)
-      .subscribe(
-        resp => {
+      .subscribe({
+        next : (resp : any)=> {
           console.log(resp);
           this._route.navigate(['/hojasCaja']);
-
-        }, err => {
+        },
+        error: (err) => {
           console.error(err);
           this.error = err;
         }
-      )
+      });
     }
   }
 

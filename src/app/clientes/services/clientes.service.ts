@@ -2,12 +2,13 @@ import { Cliente } from '../models/cliente';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ClientesService {
 
-  API_URI = 'http://localhost:3000/SisFi/api';
+  API_URI = environment.API_URL;
 
   constructor(private http:HttpClient) { }
 

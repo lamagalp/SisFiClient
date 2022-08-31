@@ -1,5 +1,4 @@
 import { ClientesService } from './../../../../clientes/services/clientes.service';
-import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Component, OnInit, Input } from '@angular/core';
 import { Venta } from 'src/app/caja/models/venta';
@@ -36,7 +35,7 @@ export class VentaFormComponent implements OnInit {
 
   id?: number;
 
-  constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _ventasService: VentasService, private _clienteService: ClientesService, private _tiposCartonService: TiposCartonService, private _route:Router) {
+  constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _ventasService: VentasService, private _clienteService: ClientesService, private _tiposCartonService: TiposCartonService) {
 
     if(this._autenticacionService.loggedIn()){
      let idUser = this._autenticacionService.getIdUser();

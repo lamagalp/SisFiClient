@@ -1,9 +1,9 @@
 <div *ngIf="hojaCaja != null" class="row mt-4">    
     <h3>Arqueo de Caja</h3>  
     <form>    
-    <div class="card shadow p-2 mb-2 bg-white rounded">                             
-            <div class="row">
-                <div class="card p-2 my-2 mx-3 col-md-3 table-responsive">
+    <div class="card shadow p-2 m-2 bg-white rounded">                             
+            <div class="row p-2">
+                <div class="card py-2 col-md-4 table-responsive">
                     <table class="table-sm text-success">             
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Ventas Online:</strong></td>
@@ -11,15 +11,15 @@
                         </tr>
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Total Pago de Fiados:</strong></td>
-                            <td><strong>{{totalPagosFiados| currency}} </strong></td>
+                            <td><strong>{{caja.totalPagosFiados| currency}} </strong></td>
                         </tr>
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Total Venta de Cartones:</strong></td>
-                            <td><strong>{{totalVentasCartones| currency}} </strong></td>
+                            <td><strong>{{caja.totalVentasCartones| currency}} </strong></td>
                         </tr>
                     </table>                 
-                </div>
-                <div class="card p-2 my-2 mx-3 col-md-3 table-responsive">
+                </div>               
+                <div class="card py-2 col-md-4 table-responsive">
                     <table class="table-sm text-danger">             
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Pagos Online:</strong></td>
@@ -27,29 +27,29 @@
                         </tr>
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Total Fiados:</strong></td>
-                            <td><strong>{{totalFiados| currency}}</strong></td>
+                            <td><strong>{{caja.totalFiados| currency}}</strong></td>
                         </tr>
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Total Pago de Premios/Cartones:</strong></td>
-                            <td><strong>{{totalPagosPremioCartones| currency}}</strong></td>
+                            <td><strong>{{caja.totalPagosPremioCartones| currency}}</strong></td>
                         </tr>
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Total Pago de Premios/Efectivo:</strong></td>
-                            <td><strong>{{totalPagosPremioEfectivo| currency}}</strong></td>
+                            <td><strong>{{caja.totalPagosPremioEfectivo| currency}}</strong></td>
                         </tr>
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Total Gastos:</strong></td>
-                            <td><strong>{{totalGastos| currency}}</strong></td>
+                            <td><strong>{{caja.totalGastos| currency}}</strong></td>
                         </tr>
                     </table>     
                 </div>        
-                <div class="card p-2 my-2 mx-3 col-md-5 text-secondary">
+                <div class="card py-2 col-md-4 text-secondary">
                     <div class="row">
                         <div class="col-md-6 text-secondary table-responsive">
                             <table class="table-sm">                               
                                 <tr *ngFor="let billete of billetes">
                                     <td class="float-right"><strong>{{billete.nombre}}</strong></td>
-                                    <td><input type="text" name="billete.cantidad" [(ngModel)]="billete.cantidad" required #{{billete.cantidad}}="ngModel"class="form-control form-control-sm my-1" value="0"></td>
+                                    <td><input type="text" name="billete.cantidad" [(ngModel)]="billete.cantidad" required #{{billete.cantidad}}="ngModel" class="form-control form-control-sm my-1" (change)="updateTotalBilletes()" value="0"></td>
                                 </tr>
                             </table>                            
                         </div>    
@@ -57,45 +57,73 @@
                             <table class="table-sm">                               
                                 <tr *ngFor="let moneda of monedas">
                                     <td class="float-right"><strong>{{moneda.nombre}}</strong></td>
-                                    <td><input type="text" name="moneda.cantidad" [(ngModel)]="moneda.cantidad" required #{{moneda.cantidad}}="ngModel"class="form-control form-control-sm my-1" value="0"></td>
+                                    <td><input type="text" name="moneda.cantidad" [(ngModel)]="moneda.cantidad" required #{{moneda.cantidad}}="ngModel" class="form-control form-control-sm my-1" (change)="updateTotalMonedas()" value="0"></td>
                                 </tr>
-                            </table>                            
-                        </div>
-                    </div>
+                            </table>    
+                        </div>                        
+                    </div>                                                                             
                 </div>                
-            </div> 
-            <div class="row ">
-                <div class="p-2  my-2 mx-3 col-md-3 text-success">
+            </div>             
+            <div class="row p2">
+                <div class="py-2 col-md-4 text-success">
                     <h4 class="h6 d-flex justify-content-between">
                         <span><strong>Total Ingresos: </strong></span>
                         <span><strong>{{getTotalIngresos() | currency}} </strong></span>
                     </h4>
                 </div>
-                <div class="p-2 my-2 mx-3 col-md-3 text-danger">            
+                <div class="py-2 col-md-4 text-danger">            
                     <h4 class="h6 d-flex justify-content-between">
                         <span><strong>Total Egresos: </strong></span>
                         <span><strong>{{getTotalEgresos() | currency}} </strong></span>
                     </h4>
                 </div>
-                <div class="p-2 my-2  col-md-5 text-secondary">                    
+                <div class="py-2 col-md-4 text-secondary">                    
                     <div class="col-md-6">
                         <h4 class="h6">
-                            <span><strong>Total Billetes: </strong></span>
-                            <span><strong>0  | currency</strong></span>
+                            <span><strong>Billetes: {{caja.totalBilletes | currency}}</strong></span>
                         </h4>
                     </div>
                     <div class="col-md-6">
                         <h4 class="h6 mx-2">
-                            <span><strong>Total Monedas: </strong></span>
-                            <span><strong>0  | currency</strong></span>
+                            <span><strong>Monedas: {{caja.totalMonedas  | currency}}</strong></span>
                         </h4>
-                    </div>
+                    </div>                                         
                 </div>                              
-            </div>                   
+            </div>  
+            <div class="card mb-2 bg-white rounded">     
+                <div class="form inline p-2">
+                    <div class="row">  
+                        <div class="form-group col-md-2">                      
+                            <label for="billetera"><strong>Billetera</strong></label>         
+                            <input  class="form-control form-control-sm py-2" type="number" name="billetera" [(ngModel)]="caja.billetera" required  value="0">
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="fondoReserva"><strong>A Fondo de Reserva</strong></label>            
+                            <input  class="form-control form-control-sm py-2" type="number" name="fondoReserva" [(ngModel)]="caja.fondoReserva" required  value="0">
+                        </div>    
+                        <div class="form-group col-md-2">                           
+                            <label for="balance"><strong>Balance</strong></label>   
+                            <label class="form-control form-control-sm  bg-opacity-50 fw-bolder py-2" [ngClass]="caja.balance < 0 ? 'bg-danger': 'bg-info'" >{{this.caja.balance | currency}}</label>                              
+                          </div>
+                        <div class="form-group col-md-2">
+                            <label><strong>Próximo Fondo Fijo</strong></label>        
+                            <label class="form-control form-control-sm bg-info  bg-opacity-50 fw-bolder py-2">{{this.caja.proximoFF | currency}}</label>
+                        </div>                                        
+                    </div>  
+                    <div class="row"> 
+                    <div class="form-group col-md-2">         
+                        <button type="button" title="Calcular Caja" class="btn btn-primary form-control form-control-sm py-2" (click)="calcularCaja()"><span class="badge badge-dark">2</span> Calcular Caja</button>                          
+                    </div>
+                    <div class="form-group col-md-2">                                 
+                        <button type="submit" title="Guardar Arqueo de Caja" class="btn btn-primary form-control form-control-sm py-2" [disabled]="!hizoCalculo" (click)="guardarArqueo()"><span class="badge badge-dark">3</span> Guardar Arqueo</button>                             
+                    </div>
+                    <div class="form-group col-md-6">         
+                        <span *ngIf="resultadoUpdate != ''" class="row text-success m-1"> {{resultadoUpdate}} </span>
+                    </div>
+                    </div>                   
+                </div>            
+            </div>
+                
     </div>
-    <div class="form-group d-flex justify-content-end">                    
-        <button type="submit" title="Guardar Arqueo de Caja" class="btn btn-primary m-2" (click)="guardarArqueo(hojaCaja.id)">Guardar Arqueo</button>                    
-    </div>  
 </form>
-<span *ngIf="resultadoUpdate != ''" class="row text-success m-1"> {{resultadoUpdate}} </span>
 </div>

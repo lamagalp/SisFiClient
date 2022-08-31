@@ -8,6 +8,9 @@ export interface HojaCaja {
   baja?:Date;
   ventasOnline?: number;
   pagosOnline?: number;
+  billetera?:number;
+  billetes?:number;
+  monedas?:number
   pagosPremio?: any;
   ventas?: any;
   fiados?: any;
