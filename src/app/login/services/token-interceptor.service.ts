@@ -12,7 +12,12 @@ export class TokenInterceptorService implements HttpInterceptor{
   intercept(request: any, next: any){
     const tokenizeRequest = request.clone({
       setHeaders:{
-        Authorization: `Bearer ${this._authService.getToken()}`
+        Authorization: `Bearer ${this._authService.getToken()}`,
+        ContentType: 'application/json',
+        Accept: 'application/json',      
+        AccessControlAllowOrigin: '*',
+        AccessControlAllowCredentials: 'true',
+        Allow: 'GET, POST, OPTIONS, PUT, DELETE'
       }
     })
     return next.handle(tokenizeRequest);
