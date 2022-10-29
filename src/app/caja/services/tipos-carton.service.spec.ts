@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule }from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -9,7 +9,7 @@ describe('TiposCartonService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports:[HttpClientModule,NgSelectModule]
+      imports:[HttpClientTestingModule,NgSelectModule]
     });    
     service = TestBed.inject(TiposCartonService);
   });

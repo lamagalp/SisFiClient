@@ -18,7 +18,7 @@ export class HojaCajaFormComponent implements OnInit {
 
   hojaCaja: HojaCaja ={
     id:0,
-    fondoFijo:0,
+    fondoFijo:0 ,
     alta: new Date(),
     usuario: {
       id: 0,

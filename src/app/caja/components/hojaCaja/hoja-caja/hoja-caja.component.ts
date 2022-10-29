@@ -67,7 +67,7 @@ export class HojaCajaComponent implements OnInit {
     this._hojasCajaService.getHojaCaja(id).subscribe({
       next : (resp: any) => {
         this.hojaCaja = resp;
-        //console.log(this.hojaCaja);
+        console.log(resp);
         //console.log(this.hojaCaja.ventasOnline);
         //console.log(this.hojaCaja.pagosOnline);
       },

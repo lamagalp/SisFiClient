@@ -1,7 +1,7 @@
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule }from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TiposCartonService } from 'src/app/caja/services/tipos-carton.service';
@@ -19,7 +19,7 @@ describe('VentaFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ VentaFormComponent ],   
-      imports:[RouterTestingModule, FormsModule, NgSelectModule, HttpClientModule],
+      imports:[RouterTestingModule, FormsModule, NgSelectModule, HttpClientTestingModule],
       providers:[AutenticacionService, UsuariosService, VentasService, ClientesService, TiposCartonService, HttpClient, HttpHandler]
     })
     .compileComponents();

@@ -1,10 +1,10 @@
 <div *ngIf="!error && hojaCaja != null" class="row">
-  <div class="h3 col-md-3">Hoja de Caja</div>
-  <div class="h3 col-md-4">
+  <div class="h3 col-md-3">Hoja de Caja  | {{ hojaCaja?.alta | date }} </div>
+  <div class="h3 col-md-offset-2 col-md-4 float-right">
     Fondo Fijo: {{ hojaCaja?.fondoFijo | currency }}
-  </div>
-  <div *ngIf="hojaCaja?.alta" class="h3 col-md-2 float-right">
-    <span class="float-right">{{ hojaCaja?.alta | date }}</span>
+  </div>  
+  <div *ngIf="hojaCaja?.baja" class="h3 col-md-3 float-right">
+    <span class="float-right text-danger">Eliminada el {{ hojaCaja?.baja | date }}</span>
   </div>
 </div>
 <div *ngIf="!error && hojaCaja != null" class="row mt-4">
@@ -12,7 +12,7 @@
     <form class="form form-inline">
       <div class="form-group">
         <label class="control-label m-2">Ventas Online</label>
-        <input
+        <input [disabled]="hojaCaja.baja"
           type="number"
           name="ventasOnline"
           [(ngModel)]="hojaCaja.ventasOnline"
@@ -22,29 +22,32 @@
       </div>
       <div class="form-group">
         <label class="control-label m-2">Pagos Online</label>
-        <input
+        <input [disabled]="hojaCaja.baja"
           type="number"
           name="pagosOnline"
           [(ngModel)]="hojaCaja.pagosOnline"
           placeholder="0.00"
           class="form-control m-2 text-danger"
-        />
-        <button
-          type="submit"
-          title="Guardar montos online"
-          class="btn btn-primary float-right m-1"
-          (click)="guardarValoresOnline(hojaCaja.id)"
-        >
-        <span class="badge badge-dark">1</span> Guardar Montos Online
-        </button>
+        />        
       </div>
       <span *ngIf="resultadoUpdate != ''" class="row text-success m-1">
         {{ resultadoUpdate }}
       </span>
     </form>
   </div>
+  <div class="col-md-12 d-flex justify-content-end">
+    <button
+      [disabled]="hojaCaja.baja"
+        type="submit"
+        title="Guardar montos online"
+        class="btn btn-primary float-right m-1"
+        (click)="guardarValoresOnline(hojaCaja.id)"
+      >
+      Guardar Montos Online
+      </button>
+    </div>
 </div>
-<div class="row">
+<div class="row mt-4">
   <app-error-message
     *ngIf="error; else datos"
     [mensaje]="error"
@@ -56,7 +59,7 @@
         <div class="col-md-6 p-2 table-responsive my-4" [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.fiados.length > 20)? 'scroll': 'hidden'}">
           <h4>
             Fiados / Pagos
-            <button
+            <button [disabled]="hojaCaja.baja"
               title="Agregar Fiado"
               class="btn btn-sm btn-info ml-1"
               (click)="addFiado()"
@@ -101,7 +104,7 @@
                 <td>{{ fiado.cliApellido }}, {{ fiado.cliNombre }}</td>
                 <td><i class="fas fa-user" title="{{ fiado.usuApellido }}, {{ fiado.usuNombre }}"></i></td>
                 <td>
-                  <button
+                  <button [disabled]="hojaCaja.baja"
                     title="Eliminar Fiado"
                     *ngIf="fiado.id && !fiado.baja"
                     class="btn btn-danger btn-sm ml-1"
@@ -120,7 +123,7 @@
         <div class="col-md-6 p-2 table-responsive my-4"  [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.ventas.length > 20)? 'scroll': 'hidden'}">
           <h4>
             Venta de Cartones
-            <button
+            <button [disabled]="hojaCaja.baja"
               title="Agregar Venta"
               btnVenta
               class="btn btn-sm btn-success ml-1"
@@ -162,7 +165,7 @@
                 </td>
                 <td><i class="fas fa-user" title="{{ venta.usuApellido }}, {{ venta.usuNombre }}"></i></td>
                 <td>
-                  <button
+                  <button [disabled]="hojaCaja.baja"
                     title="Eliminar Venta"
                     *ngIf="venta.id && !venta.baja"
                     class="btn btn-danger ml-1"
@@ -183,7 +186,7 @@
         <div class="col-md-6 p-2 table-responsive my-4"   [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.pagosPremio.length > 20)? 'scroll': 'hidden'}">
           <h4>
             Pago de Premios
-            <button
+            <button [disabled]="hojaCaja.baja"
               title="Agregar Pago de Premio"
               class="btn btn-sm btn-warning ml-1"
               (click)="addPagoPremio()"
@@ -238,7 +241,7 @@
                 </td>
                 <td><i class="fas fa-user" title="{{ pago.usuApellido }}, {{ pago.usuNombre }}"></i></td>
                 <td>
-                  <button
+                  <button [disabled]="hojaCaja.baja"
                     *ngIf="pago.id && !pago.baja"
                     title="Eliminar Pago de Premio"
                     class="btn btn-danger ml-1"
@@ -257,7 +260,7 @@
         <div class="col-md-6 p-2 table-responsive my-4"  [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.gastos.length > 20)? 'scroll': 'hidden'}">
           <h4>
             Gastos
-            <button
+            <button [disabled]="hojaCaja.baja"
               title="Agregar Gasto"
               class="btn btn-sm btn-secondary ml-1"
               (click)="addGasto()"
@@ -298,7 +301,7 @@
                 <td>{{ gasto.observaciones }}</td>
                 <td><i class="fas fa-user" title="{{ gasto.usuApellido }}, {{ gasto.usuNombre }}"></i></td>
                 <td>
-                  <button
+                  <button [disabled]="hojaCaja.baja"
                     *ngIf="gasto.id && !gasto.baja"
                     title="Eliminar Gasto"
                     class="btn btn-danger ml-1"
@@ -320,11 +323,10 @@
   </ng-template>
 </div>
 <div *ngIf="!error && hojaCaja != null" class="d-flex justify-content-end">
-  <button type="button" class="btn btn-success" (click)="exportToExcel()">
+  <button [disabled]="hojaCaja.baja" type="button" class="btn btn-primary" (click)="exportToExcel()">
     Exportar tablas a Excel
   </button>
 </div>
-
 <app-arqueo-caja
   *ngIf="!error && hojaCaja != null"
   [hojaCaja]="hojaCaja"

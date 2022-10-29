@@ -1,4 +1,5 @@
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule }from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HojaCajaListComponent } from './hoja-caja-list.component';
@@ -9,7 +10,7 @@ describe('HojaCajaListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientTestingModule],
       providers:[HttpClient, HttpHandler],
       declarations: [ HojaCajaListComponent ]
     })

@@ -1,4 +1,5 @@
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule }from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { ClientesService } from './clientes.service';
@@ -8,7 +9,7 @@ describe('ClientesService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule],
+      imports: [HttpClientTestingModule],
     providers:[HttpClient, HttpHandler]});
     service = TestBed.inject(ClientesService);
   });

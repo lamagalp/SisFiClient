@@ -1,4 +1,5 @@
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule }from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,7 +20,7 @@ describe('PagoPremioFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ PagoPremioFormComponent ],
-      imports:[RouterTestingModule, FormsModule, NgSelectModule, HttpClientModule],
+      imports:[RouterTestingModule, FormsModule, NgSelectModule, HttpClientTestingModule],
       providers:[ClientesService, TiposCartonService, AutenticacionService, UsuariosService, PagosPremioService, HttpClient, HttpHandler]
 
     })

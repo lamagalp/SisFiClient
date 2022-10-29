@@ -44,12 +44,12 @@
                     </table>     
                 </div>        
                 <div class="card py-2 col-md-4 text-secondary">
-                    <div class="row">
+                    <div *ngIf="mostrarDetalle" class="row">
                         <div class="col-md-6 text-secondary table-responsive">
                             <table class="table-sm">                               
                                 <tr *ngFor="let billete of billetes">
                                     <td class="float-right"><strong>{{billete.nombre}}</strong></td>
-                                    <td><input type="text" name="billete.cantidad" [(ngModel)]="billete.cantidad" required #{{billete.cantidad}}="ngModel" class="form-control form-control-sm my-1" (change)="updateTotalBilletes()" value="0"></td>
+                                    <td><input [disabled]="hojaCaja.baja"type="text" name="billete.cantidad" [(ngModel)]="billete.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalBilletes()"></td>
                                 </tr>
                             </table>                            
                         </div>    
@@ -57,7 +57,7 @@
                             <table class="table-sm">                               
                                 <tr *ngFor="let moneda of monedas">
                                     <td class="float-right"><strong>{{moneda.nombre}}</strong></td>
-                                    <td><input type="text" name="moneda.cantidad" [(ngModel)]="moneda.cantidad" required #{{moneda.cantidad}}="ngModel" class="form-control form-control-sm my-1" (change)="updateTotalMonedas()" value="0"></td>
+                                    <td><input [disabled]="hojaCaja.baja" type="text" name="moneda.cantidad" [(ngModel)]="moneda.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalMonedas()"></td>
                                 </tr>
                             </table>    
                         </div>                        
@@ -95,11 +95,11 @@
                     <div class="row">  
                         <div class="form-group col-md-2">                      
                             <label for="billetera"><strong>Billetera</strong></label>         
-                            <input  class="form-control form-control-sm py-2" type="number" name="billetera" [(ngModel)]="caja.billetera" required  value="0">
+                            <input  [disabled]="hojaCaja.baja" class="form-control form-control-sm py-2" type="number" name="billetera" [(ngModel)]="caja.billetera" required  value="0">
                         </div>
                         <div class="form-group col-md-2">
                             <label for="fondoReserva"><strong>A Fondo de Reserva</strong></label>            
-                            <input  class="form-control form-control-sm py-2" type="number" name="fondoReserva" [(ngModel)]="caja.fondoReserva" required  value="0">
+                            <input  [disabled]="hojaCaja.baja" class="form-control form-control-sm py-2" type="number" name="fondoReserva" [(ngModel)]="caja.fondoReserva" required  value="0">
                         </div>    
                         <div class="form-group col-md-2">                           
                             <label for="balance"><strong>Balance</strong></label>   
@@ -110,20 +110,21 @@
                             <label class="form-control form-control-sm bg-info  bg-opacity-50 fw-bolder py-2">{{this.caja.proximoFF | currency}}</label>
                         </div>                                        
                     </div>  
-                    <div class="row"> 
-                    <div class="form-group col-md-2">         
-                        <button type="button" title="Calcular Caja" class="btn btn-primary form-control form-control-sm py-2" (click)="calcularCaja()"><span class="badge badge-dark">2</span> Calcular Caja</button>                          
-                    </div>
-                    <div class="form-group col-md-2">                                 
-                        <button type="submit" title="Guardar Arqueo de Caja" class="btn btn-primary form-control form-control-sm py-2" [disabled]="!hizoCalculo" (click)="guardarArqueo()"><span class="badge badge-dark">3</span> Guardar Arqueo</button>                             
-                    </div>
-                    <div class="form-group col-md-6">         
+                    <div class="row">                     
+                    <div class="form-group col-md-12">         
                         <span *ngIf="resultadoUpdate != ''" class="row text-success m-1"> {{resultadoUpdate}} </span>
                     </div>
                     </div>                   
                 </div>            
             </div>
-                
+            <div *ngIf="!error && hojaCaja != null" class="d-flex justify-content-end">
+                <div class="form-group mx-2">         
+                    <button [disabled]="hojaCaja.baja" type="button" title="Calcular Caja" class="btn btn-primary form-control form-control-sm" (click)="calcularCaja()"> Calcular Caja</button>                          
+                </div>
+                <div class="form-group">                                 
+                    <button [disabled]="hojaCaja.baja" type="submit" title="Guardar Arqueo de Caja" class="btn btn-primary form-control form-control-sm" [disabled]="!hizoCalculo" (click)="guardarArqueo()"> Guardar Arqueo</button>                             
+                </div>
+            </div>
     </div>
 </form>
 </div>

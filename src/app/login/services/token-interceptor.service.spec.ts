@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule }from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { TokenInterceptorService } from './token-interceptor.service';
@@ -7,7 +7,7 @@ describe('TokenInterceptorService', () => {
   let service: TokenInterceptorService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({imports: [HttpClientModule]});
+    TestBed.configureTestingModule({imports: [HttpClientTestingModule]});
     service = TestBed.inject(TokenInterceptorService);
   });
 

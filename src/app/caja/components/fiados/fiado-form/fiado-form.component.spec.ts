@@ -1,4 +1,5 @@
-import { HttpClient, HttpClientModule, HttpHandler } from '@angular/common/http';
+import { HttpClient, HttpHandler } from '@angular/common/http';
+import { HttpClientTestingModule }from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -16,7 +17,7 @@ describe('FiadoFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ FiadoFormComponent ],
-      imports:[FormsModule, NgSelectModule, HttpClientModule],      
+      imports:[FormsModule, NgSelectModule, HttpClientTestingModule],      
       providers:[ClientesService, AutenticacionService, UsuariosService ,HttpClient, FiadosService, HttpClient, HttpHandler],      
     })
     .compileComponents();

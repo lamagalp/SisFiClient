@@ -20,7 +20,7 @@ export class ArqueosCajasService {
     return this.http.post(`${this.API_URI}/arqueos`, arqueo);
   }
 
-  updateArqueoCaja(id: string|number, arqueo: any): Observable<any>{
+  updateArqueoCaja(id: number | undefined, arqueo: any): Observable<any>{
     //console.log(arqueo);
     return this.http.put(`${this.API_URI}/arqueos/${id}`, arqueo);
   }

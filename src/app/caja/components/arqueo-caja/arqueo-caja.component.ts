@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AutenticacionService } from 'src/app/login/services/autenticacion.service';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
+import { ArqueoCaja } from '../../models/arqueoCaja';
 import { Fiado } from '../../models/fiado';
 import { Gasto } from '../../models/gasto';
 import { PagoPremio } from '../../models/pagoPremio';
@@ -18,7 +19,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
   @Input() hojaCaja: any;
    
 
-  caja = {
+  caja : ArqueoCaja = {
     id: 0,
     idHojaCaja: 0,
     totalFiados: 0,
@@ -34,30 +35,19 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
     proximoFF: 0,
     fondoFijo: 0,
     balance: 0,
-    idUsuario : 0
+    idUsuario : 0,
+    detalle: ''
   }
   
   hizoCalculo = false;
   resultadoUpdate: string = '';
 
-  billetes = [
-    { nombre: 'Billetes $1000', valor: 1000 ,cantidad: 0 },
-    { nombre: 'Billetes $500', valor: 500 ,cantidad: 0 },
-    { nombre: 'Billetes $200', valor: 200 ,cantidad: 0 },
-    { nombre: 'Billetes $100', valor: 100 ,cantidad: 0 },
-    { nombre: 'Billetes $50', valor: 50 ,cantidad: 0 },
-    { nombre: 'Billetes $20', valor: 20, cantidad: 0 },
-    { nombre: 'Billetes $10', valor: 10 ,cantidad: 0 }];
-  monedas = [
-      { nombre: 'Moneda $20', valor: 20 ,cantidad: 0 },
-      { nombre: 'Moneda $10', valor: 10 ,cantidad: 0 },
-      { nombre: 'Moneda $5', valor: 5 ,cantidad: 0 },
-      { nombre: 'Moneda $2',valor: 2 ,cantidad: 0 },
-      { nombre: 'Moneda $1', valor: 1 ,cantidad: 0 },
-      { nombre: 'Moneda $0,50', valor: 0.5 ,cantidad: 0 }];
+  billetes : Array<any>;
+  monedas : Array<any>;
+  mostrarDetalle :boolean = false;
   
-      error:any;
-      usuarioLogueado:any ;
+  error:any;
+  usuarioLogueado:any ;
 
   constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _arqueosService: ArqueosCajasService) { 
 
@@ -67,7 +57,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         this._usuariosService.getUsuario(idUser).subscribe({
           next: (res : any) => {
             //console.log(res);
-            this.usuarioLogueado = res.id;
+            this.usuarioLogueado = res;
           },
           error: (err) => {
             //console.error(err);
@@ -81,13 +71,40 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
 
   ngOnInit(): void {    
 
-    this._arqueosService.getArqueoCaja(this.hojaCaja.id).subscribe({
-      next: (resp : any) => {
-        //console.log(resp);
+    this.billetes = new Array();
+    this.monedas = new Array();
+    this._arqueosService.getArqueoCaja(this.hojaCaja?.id).subscribe({
+      next: (resp : any) => {       
         this.caja = resp;
+        //console.log(this.caja.detalle);
+        if(resp.detalle != null){
+          const detalle = JSON.parse(resp.detalle);
+            detalle.billetes.forEach((b : any) => {
+            this.billetes.push({nombre: 'Billete $' + b.valor , valor: b.valor , cantidad: b.cantidad});
+          });
+          detalle.monedas.forEach((m : any) => {
+            this.monedas.push({nombre: 'Moneda $' + m.valor , valor: m.valor , cantidad: m.cantidad});
+          });        
+        } 
+        this.mostrarDetalle = true;
       },
-      error : (err) => {
-        //console.log(err);
+      error : (err) => {    
+        //no se encontró arqueo de caja
+        this.billetes.push({ nombre: 'Billete $1000', valor: 1000 ,cantidad: 0 }),
+          this.billetes.push({ nombre: 'Billete $500', valor: 500 ,cantidad: 0 }),
+          this.billetes.push({ nombre: 'Billete $200', valor: 200 ,cantidad: 0 }),
+          this.billetes.push({ nombre: 'Billete $100', valor: 100 ,cantidad: 0 }),
+          this.billetes.push({ nombre: 'Billete $50', valor: 50 ,cantidad: 0 }),
+          this.billetes.push({ nombre: 'Billete $20', valor: 20, cantidad: 0 }),
+          this.billetes.push({ nombre: 'Billete $10', valor: 10 ,cantidad: 0 });
+      
+          this.monedas.push({ nombre: 'Moneda $20', valor: 20 ,cantidad: 0 }),
+          this.monedas.push({ nombre: 'Moneda $10', valor: 10 ,cantidad: 0 }),
+          this.monedas.push({ nombre: 'Moneda $5', valor: 5 ,cantidad: 0 }),
+          this.monedas.push({ nombre: 'Moneda $2',valor: 2 ,cantidad: 0 }),
+          this.monedas.push({ nombre: 'Moneda $1', valor: 1 ,cantidad: 0 }),
+          this.monedas.push({ nombre: 'Moneda $0.50', valor: 0.5 ,cantidad: 0 });
+          this.mostrarDetalle = true;
       }
     });
 
@@ -104,7 +121,8 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           this.caja.totalPagosPremioEfectivo = this.getTotalPagosPremioEfectivo();
           this.caja.totalPagosPremioCartones = this.getTotalPagosPremioCartones();
           this.caja.totalGastos = this.getTotalGastos();
-          this.caja.totalVentasCartones = this.getTotalVentasCartones();
+          this.caja.totalVentasCartones = this.getTotalVentasCartones();  
+          
         }
       }
     }
@@ -165,6 +183,25 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
     this.caja.totalMonedas = sumaM;
   }
 
+  getJSONDetalle(): string {
+
+    let json:string = '{"billetes":[';
+    this.billetes.forEach((b : any) =>{
+       json += `{"valor":${b.valor},"cantidad":${b.cantidad}},`;
+    });
+    if(this.billetes.length > 0)
+      json = json.substring(0, json.length-1); // quito la última coma
+       
+    json += '],"monedas":['
+    this.monedas.forEach((m : any) =>{
+      json += `{"valor":${m.valor},"cantidad":${m.cantidad}},`;
+    });
+    if(this.monedas.length > 0)
+      json = json.substring(0, json.length-1); // quito la última coma
+    json += ']}'
+    return json;
+  }
+
   getTotalPagosPremioCartones(){
     let sumaC: number = 0;
     if(this.hojaCaja.pagosPremio != null){
@@ -211,13 +248,15 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
     return (suma);
   }
 
+  //ALTER TABLE `arqueoscaja` ADD `detalle` JSON NOT NULL AFTER `idUsuario`;
   guardarArqueo(){
     this.resultadoUpdate = '';
     this.caja.idUsuario = this.usuarioLogueado.id;
     this.caja.idHojaCaja = this.hojaCaja.id;
     this.caja.fondoFijo = this.hojaCaja.fondoFijo;
+    this.caja.detalle = this.getJSONDetalle();
 
-    if(this.caja.id != 0) { //alta
+    if(this.caja.id != 0) { //update
       this._arqueosService.updateArqueoCaja(this.caja.id, this.caja)
       .subscribe({
         next: (resp : any) => {       
@@ -228,7 +267,8 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           this.error = err;
         }
       });
-    } else {
+    } else {  
+      delete this.caja.id;
       this._arqueosService.addArqueoCaja(this.caja)
       .subscribe({
         next: (resp : any) => {       
