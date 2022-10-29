@@ -3,7 +3,29 @@
     <form>    
     <div class="card shadow p-2 m-2 bg-white rounded">                             
             <div class="row p-2">
+                <div class="card py-2 col-md-4 text-secondary">
+                    <span class="mb-3">Ingrese la cantidad de cada billete/moneda:</span>
+                    <div *ngIf="mostrarDetalle" class="row">
+                        <div class="col-md-6 text-secondary table-responsive">
+                            <table class="table-sm">                               
+                                <tr *ngFor="let billete of billetes">
+                                    <td class="float-right"><strong>{{billete.nombre}}</strong></td>
+                                    <td><input [disabled]="hojaCaja.baja"type="text" name="billete.cantidad" [(ngModel)]="billete.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalBilletes()"></td>
+                                </tr>
+                            </table>                            
+                        </div>    
+                        <div class="col-md-6 text-secondary table-responsive">
+                            <table class="table-sm">                               
+                                <tr *ngFor="let moneda of monedas">
+                                    <td class="float-right"><strong>{{moneda.nombre}}</strong></td>
+                                    <td><input [disabled]="hojaCaja.baja" type="text" name="moneda.cantidad" [(ngModel)]="moneda.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalMonedas()"></td>
+                                </tr>
+                            </table>    
+                        </div>                        
+                    </div>                                                                             
+                </div>  
                 <div class="card py-2 col-md-4 table-responsive">
+                    <span class="mb-4"></span>
                     <table class="table-sm text-success">             
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Ventas Online:</strong></td>
@@ -20,6 +42,7 @@
                     </table>                 
                 </div>               
                 <div class="card py-2 col-md-4 table-responsive">
+                    <span class="mb-4"></span>
                     <table class="table-sm text-danger">             
                         <tr class="h6 d-flex justify-content-between">
                             <td><strong>Pagos Online:</strong></td>
@@ -43,26 +66,6 @@
                         </tr>
                     </table>     
                 </div>        
-                <div class="card py-2 col-md-4 text-secondary">
-                    <div *ngIf="mostrarDetalle" class="row">
-                        <div class="col-md-6 text-secondary table-responsive">
-                            <table class="table-sm">                               
-                                <tr *ngFor="let billete of billetes">
-                                    <td class="float-right"><strong>{{billete.nombre}}</strong></td>
-                                    <td><input [disabled]="hojaCaja.baja"type="text" name="billete.cantidad" [(ngModel)]="billete.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalBilletes()"></td>
-                                </tr>
-                            </table>                            
-                        </div>    
-                        <div class="col-md-6 text-secondary table-responsive">
-                            <table class="table-sm">                               
-                                <tr *ngFor="let moneda of monedas">
-                                    <td class="float-right"><strong>{{moneda.nombre}}</strong></td>
-                                    <td><input [disabled]="hojaCaja.baja" type="text" name="moneda.cantidad" [(ngModel)]="moneda.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalMonedas()"></td>
-                                </tr>
-                            </table>    
-                        </div>                        
-                    </div>                                                                             
-                </div>                
             </div>             
             <div class="row p2">
                 <div class="py-2 col-md-4 text-success">

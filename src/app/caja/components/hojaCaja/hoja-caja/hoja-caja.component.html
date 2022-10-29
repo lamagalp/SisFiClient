@@ -7,46 +7,7 @@
     <span class="float-right text-danger">Eliminada el {{ hojaCaja?.baja | date }}</span>
   </div>
 </div>
-<div *ngIf="!error && hojaCaja != null" class="row mt-4">
-  <div class="card col-md-12 mx-auto shadow p-2 mb-2 bg-white rounded">
-    <form class="form form-inline">
-      <div class="form-group">
-        <label class="control-label m-2">Ventas Online</label>
-        <input [disabled]="hojaCaja.baja"
-          type="number"
-          name="ventasOnline"
-          [(ngModel)]="hojaCaja.ventasOnline"
-          placeholder="0.00"
-          class="form-control m-2"
-        />
-      </div>
-      <div class="form-group">
-        <label class="control-label m-2">Pagos Online</label>
-        <input [disabled]="hojaCaja.baja"
-          type="number"
-          name="pagosOnline"
-          [(ngModel)]="hojaCaja.pagosOnline"
-          placeholder="0.00"
-          class="form-control m-2 text-danger"
-        />        
-      </div>
-      <span *ngIf="resultadoUpdate != ''" class="row text-success m-1">
-        {{ resultadoUpdate }}
-      </span>
-    </form>
-  </div>
-  <div class="col-md-12 d-flex justify-content-end">
-    <button
-      [disabled]="hojaCaja.baja"
-        type="submit"
-        title="Guardar montos online"
-        class="btn btn-primary float-right m-1"
-        (click)="guardarValoresOnline(hojaCaja.id)"
-      >
-      Guardar Montos Online
-      </button>
-    </div>
-</div>
+
 <div class="row mt-4">
   <app-error-message
     *ngIf="error; else datos"
@@ -56,7 +17,7 @@
     <ng-container *ngIf="hojaCaja != null">
     <div class="card col-md-12 mx-auto shadow mb-2 bg-white rounded">
       <div class="row">
-        <div class="col-md-6 p-2 table-responsive my-4" [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.fiados.length > 20)? 'scroll': 'hidden'}">
+        <div class="col-md-6 p-2 table-responsive my-4" [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.fiados.length > 6)? 'scroll': 'hidden'}">
           <h4>
             Fiados / Pagos
             <button [disabled]="hojaCaja.baja"
@@ -120,7 +81,7 @@
             </tbody>
           </table>
         </div>
-        <div class="col-md-6 p-2 table-responsive my-4"  [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.ventas.length > 20)? 'scroll': 'hidden'}">
+        <div class="col-md-6 p-2 table-responsive my-4"  [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.ventas.length > 6)? 'scroll': 'hidden'}">
           <h4>
             Venta de Cartones
             <button [disabled]="hojaCaja.baja"
@@ -183,7 +144,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-md-6 p-2 table-responsive my-4"   [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.pagosPremio.length > 20)? 'scroll': 'hidden'}">
+        <div class="col-md-6 p-2 table-responsive my-4"   [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.pagosPremio.length > 6)? 'scroll': 'hidden'}">
           <h4>
             Pago de Premios
             <button [disabled]="hojaCaja.baja"
@@ -257,7 +218,7 @@
             </tbody>
           </table>
         </div>
-        <div class="col-md-6 p-2 table-responsive my-4"  [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.gastos.length > 20)? 'scroll': 'hidden'}">
+        <div class="col-md-6 p-2 table-responsive my-4"  [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.gastos.length > 6)? 'scroll': 'hidden'}">
           <h4>
             Gastos
             <button [disabled]="hojaCaja.baja"
@@ -326,6 +287,47 @@
   <button [disabled]="hojaCaja.baja" type="button" class="btn btn-primary" (click)="exportToExcel()">
     Exportar tablas a Excel
   </button>
+</div>
+
+<div *ngIf="!error && hojaCaja != null" class="row mt-4">
+  <div class="card col-md-12 mx-auto shadow p-2 mb-2 bg-white rounded">
+    <form class="form form-inline">
+      <div class="form-group">
+        <label class="control-label m-2">Ventas Online</label>
+        <input [disabled]="hojaCaja.baja"
+          type="number"
+          name="ventasOnline"
+          [(ngModel)]="hojaCaja.ventasOnline"
+          placeholder="0.00"
+          class="form-control m-2"
+        />
+      </div>
+      <div class="form-group">
+        <label class="control-label m-2">Pagos Online</label>
+        <input [disabled]="hojaCaja.baja"
+          type="number"
+          name="pagosOnline"
+          [(ngModel)]="hojaCaja.pagosOnline"
+          placeholder="0.00"
+          class="form-control m-2 text-danger"
+        />        
+      </div>
+      <span *ngIf="resultadoUpdate != ''" class="row text-success m-1">
+        {{ resultadoUpdate }}
+      </span>
+    </form>
+  </div>
+  <div class="col-md-12 d-flex justify-content-end">
+    <button
+      [disabled]="hojaCaja.baja"
+        type="submit"
+        title="Guardar montos online"
+        class="btn btn-primary float-right m-1"
+        (click)="guardarValoresOnline(hojaCaja.id)"
+      >
+      Guardar Montos Online
+      </button>
+    </div>
 </div>
 <app-arqueo-caja
   *ngIf="!error && hojaCaja != null"
