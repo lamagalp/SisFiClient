@@ -16,7 +16,6 @@ export class TokenInterceptorService implements HttpInterceptor{
         ContentType: 'application/json',
         Accept: 'application/json',      
         AccessControlAllowOrigin: '*',
-        AccessControlAllowCredentials: 'true',
         Allow: 'GET, POST, OPTIONS, PUT, DELETE'
       }
     })
