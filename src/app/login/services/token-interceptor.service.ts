@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor } from '@angular/common/http';
+import { HttpHeaders, HttpInterceptor } from '@angular/common/http';
 import { AutenticacionService } from 'src/app/login/services/autenticacion.service';
 
 @Injectable({
@@ -10,12 +10,14 @@ export class TokenInterceptorService implements HttpInterceptor{
   constructor( private _authService: AutenticacionService) { }
 
   intercept(request: any, next: any){
-    const tokenizeRequest = request.clone({
-      setHeaders:{
-        Authorization: `Bearer ${this._authService.getToken()}`,
-        'Access-Control-Allow-Origin' : '*'
-      }
-    })
+    
+    
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this._authService.getToken()}`,    
+      'Access-Control-Allow-Origin' : '*'
+    });
+
+    const tokenizeRequest = request.clone({headers});
     return next.handle(tokenizeRequest);
   }
 
