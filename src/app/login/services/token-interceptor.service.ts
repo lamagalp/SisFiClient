@@ -13,11 +13,10 @@ export class TokenInterceptorService implements HttpInterceptor{
     
     
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this._authService.getToken()}`,    
-      'Access-Control-Allow-Origin' : '*'
+      'Authorization': `Bearer ${this._authService.getToken()}`
     });
-
     const tokenizeRequest = request.clone({headers});
+    
     return next.handle(tokenizeRequest);
   }
 
