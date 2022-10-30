@@ -46,7 +46,7 @@ export class VentaFormComponent implements OnInit {
            this.usuarioLogueado = res.id;
          }, err =>{
            //console.error(err);
-           this.error = err;
+           this.error = err.error;
          }
        )
      }
@@ -67,7 +67,7 @@ export class VentaFormComponent implements OnInit {
     },
     err => {
       //console.log(err);
-      this.error = err
+      this.error = err.error;
     });
   }
 
@@ -80,7 +80,7 @@ obtenerTiposCarton(){
     },
     error => {
       //console.log(error);
-      this.error = error
+      this.error = error.error;
     });
 }
 
@@ -102,7 +102,7 @@ obtenerTiposCarton(){
         this.cerrarModal();
       }, err => {
        // console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     )
   }

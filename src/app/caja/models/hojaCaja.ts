@@ -1,4 +1,5 @@
 import { Usuario } from "../../usuarios/models/usuario";
+import { ArqueoCaja } from "./arqueoCaja";
 
 export interface HojaCaja {
   id?: number;
@@ -6,8 +7,8 @@ export interface HojaCaja {
   alta?: Date;
   usuario: Usuario;
   baja?:Date;
-  ventasOnline?: number;
-  pagosOnline?: number;
+  ventasOnline: number;
+  pagosOnline: number;
   billetera?:number;
   billetes?:number;
   monedas?:number
@@ -15,4 +16,5 @@ export interface HojaCaja {
   ventas?: any;
   fiados?: any;
   gastos?: any;
+  arqueo?: ArqueoCaja;
 }

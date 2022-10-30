@@ -36,7 +36,7 @@ export class UsuarioFormComponent implements OnInit {
           this.usuario = resp;
         }, err => {
          // console.error(err);
-          this.error = err;
+          this.error = err.error;
         }
       )
     }
@@ -53,7 +53,7 @@ export class UsuarioFormComponent implements OnInit {
 
       }, err =>{
      //   console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     )
   }
@@ -68,7 +68,7 @@ export class UsuarioFormComponent implements OnInit {
 
       }, err =>{
      //   console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     )
   }

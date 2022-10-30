@@ -4,14 +4,14 @@
     Fondo Fijo: {{ hojaCaja?.fondoFijo | currency }}
   </div>  
   <div *ngIf="hojaCaja?.baja" class="h3 col-md-3 float-right">
-    <span class="float-right text-danger">Eliminada el {{ hojaCaja?.baja | date }}</span>
+    <span class="float-right text-secondary">Eliminada el {{ hojaCaja?.baja | date }}</span>
   </div>
 </div>
 
 <div class="row mt-4">
   <app-error-message
     *ngIf="error; else datos"
-    [mensaje]="error"
+    [mensaje]="error.text"
   ></app-error-message>
   <ng-template #datos>
     <ng-container *ngIf="hojaCaja != null">
@@ -49,7 +49,7 @@
             <tbody>
               <tr
                 *ngFor="let fiado of hojaCaja.fiados; trackBy: trackByFn"
-                [ngClass]="{ 'text-danger': fiado.baja != null }"
+                [ngClass]="{ 'text-secondary': fiado.baja != null }"
               >
                 <td scope="row">{{ fiado.alta | date: "shortDate" }}</td>
                 <td hidden>{{ fiado.tipoMovimiento }}</td>
@@ -114,7 +114,7 @@
             <tbody>
               <tr
                 *ngFor="let venta of hojaCaja.ventas; trackBy: trackByFn"
-                [ngClass]="{ 'text-danger': venta.baja != null }"
+                [ngClass]="{ 'text-secondary': venta.baja != null }"
               >
                 <td scope="row">{{ venta.alta | date: "shortDate" }}</td>
                 <td>{{ venta.cantidad }}</td>
@@ -180,7 +180,7 @@
             <tbody>
               <tr
                 *ngFor="let pago of hojaCaja.pagosPremio; trackBy: trackByFn"
-                [ngClass]="{ 'text-danger': pago.baja != null }"
+                [ngClass]="{ 'text-secondary': pago.baja != null }"
               >
                 <td scope="row">{{ pago.alta | date: "shortDate" }}</td>
                 <td>
@@ -250,7 +250,7 @@
             <tbody>
               <tr
                 *ngFor="let gasto of hojaCaja.gastos; trackBy: trackByFn"
-                [ngClass]="{ 'text-danger': gasto.baja != null }"
+                [ngClass]="{ 'text-secondary': gasto.baja != null }"
               >
                 <td scope="row">{{ gasto.alta | date: "shortDate" }}</td>
                 <td>
@@ -319,7 +319,7 @@
   </div>
   <div class="col-md-12 d-flex justify-content-end">
     <button
-      [disabled]="hojaCaja.baja"
+      [disabled]="error || hojaCaja.baja"
         type="submit"
         title="Guardar montos online"
         class="btn btn-primary float-right m-1"

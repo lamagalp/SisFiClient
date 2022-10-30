@@ -8,4 +8,6 @@ export interface Cliente {
   telefono?: string;
   direccion?: string;
   modificado?: Date;
+  baja?: Date;
+  idUsuario?: number;
 }

@@ -28,8 +28,10 @@
                 </div>
             </form>
         </div>
+        <app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
     </div>
 </div>
 <div class="modal-footer">
-    <button [disabled]="idTipoCarton.invalid && cantidad.invalid" class="btn btn-primary float-right m-1" (click)="agregarVenta()">Agregar</button>
+    <button *ngIf="error" class="btn btn-primary float-right m-1" (click)="cerrarModal()">Cerrar</button>
+    <button [disabled]="error || (idTipoCarton.invalid && cantidad.invalid)" class="btn btn-primary float-right m-1" (click)="agregarVenta()">Agregar</button>
 </div>

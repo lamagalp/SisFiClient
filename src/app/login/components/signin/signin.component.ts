@@ -36,7 +36,7 @@ export class SignInComponent implements OnInit {
 
       }, err =>{
         //console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     )
   }

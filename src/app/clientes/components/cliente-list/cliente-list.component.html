@@ -1,4 +1,4 @@
-<app-error-message *ngIf="error" [mensaje]="error"></app-error-message>
+<app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
 <div *ngIf="!error" class="col-12 table-responsive">
     <h4>Clientes</h4>
     <div *ngIf="clientes.length == 0" class="alert alert-info">
@@ -28,7 +28,8 @@
                 <td><img [src]="cliente.imagen == ''? '/assets/noImage.png' : cliente.imagen" class="img-fluid" alt="imagen cliente"></td>
                 <td>
                     <a *ngIf="cliente.id" [routerLink]="['/clientes/update', cliente.id]" class="btn btn-info mr-1"><i class="fas fa-user-edit"></i></a>
-                    <button title="Eliminar Cliente" *ngIf="cliente.id" class="btn btn-danger ml-1" (click)="eliminarCliente(cliente.id)"><i class="fas fa-user-minus"></i></button>
+                    <button title="Eliminar Cliente" *ngIf="cliente.id && !cliente.baja" class="btn btn-danger ml-1" (click)="eliminarCliente(cliente.id)"><i class="fas fa-user-minus"></i></button>
+                    <span title="Fecha de eliminación" *ngIf="cliente.id != null && cliente.baja"> {{cliente.baja | date:'shortDate'}}</span>
                 </td>
             </tr>
         </tbody>

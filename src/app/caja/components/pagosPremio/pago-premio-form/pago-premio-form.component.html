@@ -36,9 +36,11 @@
                 </div>
             </form>
         </div>
+        <app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
     </div>
 </div>
 
 <div class="modal-footer">
-    <button [disabled]="formInvalido(monto.value, cantidadCartones.value, idTipoCarton.value)" class="btn btn-primary float-right m-1" (click)="agregarPagoPremio()">Agregar</button>
+    <button *ngIf="error" class="btn btn-primary float-right m-1" (click)="cerrarModal()">Cerrar</button>
+    <button [disabled]="error || formInvalido(monto.value, cantidadCartones.value, idTipoCarton.value)" class="btn btn-primary float-right m-1" (click)="agregarPagoPremio()">Agregar</button>
 </div>

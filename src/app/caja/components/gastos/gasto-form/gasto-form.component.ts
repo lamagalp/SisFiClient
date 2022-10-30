@@ -40,8 +40,8 @@ export class GastoFormComponent implements OnInit {
             this.usuarioLogueado = res.id;
           },
           error: (err) => {
-            console.error(err);
-            this.error = err;
+            console.error(err.error);
+            this.error = err.error;
           }
         });
       }
@@ -73,7 +73,7 @@ export class GastoFormComponent implements OnInit {
       },
       error : (err) => {
         console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     });    
   }

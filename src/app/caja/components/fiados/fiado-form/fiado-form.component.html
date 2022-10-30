@@ -16,17 +16,17 @@
                         <ng-option [value]="c.id" *ngFor="let c of clientes"> {{c.apellido}}, {{c.nombre}} (saldo: $ {{c.saldo}})</ng-option>
                     </ng-select>
                 </div>
+                <div class="form-group" [ngClass]="{'has-error': tipoMovimiento.invalid}">
+                    <label class="form-check-inline">
+                        <input class="form-check-input m-1" type="radio" #tipoMovimiento="ngModel"  required name="tipoMovimiento" [value]="'F'" [(ngModel)]="fiado.tipoMovimiento"> Saca fiado
+                    </label>
+                    <label class="form-check-inline">
+                        <input class="form-check-input m-1" type="radio" #tipoMovimiento="ngModel"  required name="tipoMovimiento" [value]="'P'" [(ngModel)]="fiado.tipoMovimiento"> Paga deuda
+                    </label>
+                </div>
                 <div class="form-group" [ngClass]="{'has-error': monto.invalid}">
                     <label class="control-label">Monto</label>
                     <input type="number" name="monto" [(ngModel)]="fiado.monto" required #monto="ngModel" placeholder="Ingrese el monto" class="form-control m-1" value="0">
-                </div>
-                <div class="form-group">
-                    <label class="form-check-inline">
-                        <input class="form-check-input m-1" type="radio" name="tipoMovimiento" [value]="'F'" [(ngModel)]="fiado.tipoMovimiento"> Saca fiado
-                    </label>
-                    <label class="form-check-inline">
-                        <input class="form-check-input m-1" type="radio" name="tipoMovimiento" [value]="'P'" [(ngModel)]="fiado.tipoMovimiento"> Paga deuda
-                    </label>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Observaciones</label>
@@ -34,8 +34,13 @@
                 </div>
             </form>
         </div>
+        <app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
     </div>
 </div>
 <div class="modal-footer">
-    <button [disabled]="monto.invalid" class="btn btn-primary float-right m-1" (click)="agregarFiado()">Agregar</button>
+    <button *ngIf="error" class="btn btn-primary float-right m-1" (click)="cerrarModal()">Cerrar</button>
+    <button [disabled]="error || monto.invalid || tipoMovimiento.invalid" class="btn btn-primary float-right m-1" (click)="agregarFiado()">Agregar</button>
 </div>
+
+
+

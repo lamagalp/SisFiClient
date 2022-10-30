@@ -26,8 +26,10 @@
                 </div>
             </form>
         </div>
+        <app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
     </div>
 </div>
 <div class="modal-footer">
-    <button [disabled]="monto.invalid" class="btn btn-primary float-right m-1" (click)="agregarGasto()">Agregar</button>
+    <button *ngIf="error" class="btn btn-primary float-right m-1" (click)="cerrarModal()">Cerrar</button>
+    <button [disabled]="error || monto.invalid" class="btn btn-primary float-right m-1" (click)="agregarGasto()">Agregar</button>
 </div>

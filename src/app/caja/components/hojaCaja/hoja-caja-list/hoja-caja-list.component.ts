@@ -20,11 +20,9 @@ export class HojaCajaListComponent implements OnInit {
       if(idUser != null){
         this._usuariosService.getUsuario(idUser).subscribe(
           res =>{
-            //console.log(res);
             this.usuarioLogueado = res;
-          }, err =>{
-            console.error(err);
-            this.error = err;
+          }, err =>{       
+            this.error = err.error;
           }
         )
       }
@@ -36,26 +34,32 @@ export class HojaCajaListComponent implements OnInit {
   }
 
   eliminarHoja(id: number){
-
+    
     this._hojasService.getHojaCaja(id).subscribe(
       resp => {
-        //console.log(resp);
-        resp.baja = new Date();
-        resp.idUsuario = this.usuarioLogueado.id;
 
-        this._hojasService.updateHojaCaja(id, resp)
-        .subscribe(
-          respuesta => {
-            //console.log(respuesta);
-            this.obtenerHojas();
-          }, er => {
-            console.error(er);
-            this.error = er;
+        if(resp.fiados.length > 0 || resp.ventas.length > 0 || resp.pagosPremio.length > 0 || resp.gastos.length > 0){
+          this.error = {text: 'No se puede dar de baja la Hoja porque contiene movimientos.'};
+         
+        } else {
+
+          resp.baja = new Date();
+          resp.idUsuario = this.usuarioLogueado.id;
+  
+          this._hojasService.updateHojaCaja(id, resp)
+          .subscribe({
+            next : (respuesta : any) => {
+              //console.log(respuesta);
+              this.obtenerHojas();
+            }, 
+            error : (er) => {             
+              this.error = er.error;
+            }
           });
+        }        
       },
-      err => {
-        console.error(err);
-        this.error = err;
+      err => {     
+        this.error = err.error;
       }
     );
   }
@@ -67,9 +71,8 @@ export class HojaCajaListComponent implements OnInit {
       res => {
         this.hojas = res;
       },
-      err => {
-        //console.log(err);
-        this.error = err
+      err => {        
+        this.error = err.error;
       });
   }
 

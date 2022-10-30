@@ -38,7 +38,7 @@ export class ClienteFormComponent implements OnInit {
           this.cliente = resp;
         }, err => {
           console.error(err);
-          this.error = err;
+          this.error = err.error;
         }
       )
     }
@@ -60,7 +60,7 @@ export class ClienteFormComponent implements OnInit {
 
       }, err => {
        // console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     )
 
@@ -76,7 +76,7 @@ export class ClienteFormComponent implements OnInit {
         this._route.navigate(['/clientes']);
       }, err => {
        // console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     )
   }

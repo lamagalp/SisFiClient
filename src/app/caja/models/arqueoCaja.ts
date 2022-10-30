@@ -1,6 +1,6 @@
 export interface ArqueoCaja {
   id?: number;
-  idHojaCaja: number;
+  idHojaCaja?: number;
   totalFiados: number;
   totalPagosFiados: number;
   totalPagosPremioEfectivo: number;

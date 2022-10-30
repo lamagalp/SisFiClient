@@ -27,7 +27,7 @@ export class UsuarioListComponent implements OnInit {
         this.obtenerUsuarios();
       }, err => {
        // console.error(err);
-        this.error = err;
+        this.error = err.error;
       });
   }
 
@@ -40,7 +40,7 @@ export class UsuarioListComponent implements OnInit {
       },
       err => {
        // console.log(err);
-        this.error = err
+        this.error = err.error;
       });
   }
 

@@ -1,4 +1,4 @@
-<app-error-message *ngIf="error" [mensaje]="error"></app-error-message>
+<app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
 <ng-container *ngIf="!error">
     <div class="row">
         <div class="col-md-6 offset-md-2 mt-2">
@@ -16,8 +16,8 @@
                     </form>
                 </div>
                 <div class="card-footer">
-                    <button [disabled]="fondoFijo.invalid" *ngIf="editar == false" class="btn btn-primary float-right m-1" (click)="agregarHojaCaja()">Agregar</button>
-                    <button [disabled]="fondoFijo.invalid" *ngIf="editar == true && hojaCaja.id" class="btn btn-primary float-right m-1" (click)="guardarHojaCaja(hojaCaja.id)">Guardar</button>
+                    <button [disabled]="error || fondoFijo.invalid" *ngIf="editar == false" class="btn btn-primary float-right m-1" (click)="agregarHojaCaja()">Agregar</button>
+                    <button [disabled]="error || fondoFijo.invalid" *ngIf="editar == true && hojaCaja.id" class="btn btn-primary float-right m-1" (click)="guardarHojaCaja(hojaCaja.id)">Guardar</button>
                 </div>
             </div>
         </div>

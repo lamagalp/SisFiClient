@@ -1,5 +1,5 @@
-<app-error-message *ngIf="error" [mensaje]="error"></app-error-message>
-<div *ngIf="!error" class="col-12 table-responsive">
+<app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
+<div class="col-12 table-responsive">
     <h4>Hojas de Caja</h4>
     <div *ngIf="hojas.length == 0" class="alert alert-info">
         <h5>No se encontraron Hojas de Caja cargadas en la Base de Datos</h5> 
@@ -16,11 +16,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let hoja of hojas; trackBy: trackByFn" [ngClass]="{'text-danger': hoja.baja != null}">
+            <tr *ngFor="let hoja of hojas; trackBy: trackByFn" [ngClass]="{'text-secondary': hoja.baja != null}">
                 <th scope="row">{{hoja.alta | date}} </th>
                 <td>$ {{hoja.fondoFijo}}</td>
                 <td>$ {{hoja.ventasOnline}}</td>
-                <td class="text-danger">$ {{hoja.pagosOnline}}</td>
+                <td [ngClass]="{'text-secondary': hoja.baja != null, 'text-danger': hoja.baja == null }">$ {{hoja.pagosOnline}}</td>
                 <td>{{hoja.apellido}}, {{hoja.nombre}}</td>
                 <td>
                     <button title="Ver Hoja" *ngIf="hoja.id != null" class="btn btn-warning m-1" [routerLink]="['/hojasCaja', hoja.id]"><i class="fas fa-eye"></i></button>

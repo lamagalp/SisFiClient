@@ -26,7 +26,10 @@ export class HojaCajaFormComponent implements OnInit {
       nombre: '',
       apellido: '',
       clave: ''
-    }   
+    },
+    ventasOnline: 0,
+    pagosOnline: 0
+
   };
 
   constructor(private _hojasCajaService: HojasCajaService, private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _activatedRoute: ActivatedRoute, private _route:Router) {
@@ -40,7 +43,7 @@ export class HojaCajaFormComponent implements OnInit {
             this.usuarioLogueado = res;
           }, err =>{
             console.error(err);
-            this.error = err;
+            this.error = err.error;
           }
         )
       }
@@ -57,7 +60,7 @@ export class HojaCajaFormComponent implements OnInit {
           this.hojaCaja = resp;
         }, err => {
           //console.error(err);
-          this.error = err;
+          this.error = err.error;
         }
       )
     }
@@ -85,7 +88,7 @@ export class HojaCajaFormComponent implements OnInit {
         },
         error: (err) => {
           //console.error(err);
-          this.error = err;
+          this.error = err.error;
         }
       });
     }
@@ -109,7 +112,7 @@ export class HojaCajaFormComponent implements OnInit {
         this._route.navigate(['/hojasCaja']);
       }, err => {
         //console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     )
   }
@@ -120,7 +123,7 @@ export class HojaCajaFormComponent implements OnInit {
         //console.log(res);
         return res.apellido + ', ' + res.nombre;
       }, err =>{
-        this.error = err;
+        this.error = err.error;
         return null;
       }
     )

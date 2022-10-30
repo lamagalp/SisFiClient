@@ -29,7 +29,7 @@ export class FiadoFormComponent implements OnInit {
     idUsuario: 0,
     alta: new Date(),
     observaciones: '',
-    tipoMovimiento: 'F'
+    tipoMovimiento: ''
   };
 
   id?: number;
@@ -53,7 +53,7 @@ export class FiadoFormComponent implements OnInit {
           },
           error: (err) => {
             //console.error(err);
-            this.error = err;
+            this.error = err.error;
           }
         });
       }
@@ -73,7 +73,7 @@ export class FiadoFormComponent implements OnInit {
       }, 
       error: (err) => {
         //console.log(err);
-        this.error = err
+        this.error = err.error;
       },
       complete: () => {}
     });
@@ -90,9 +90,8 @@ export class FiadoFormComponent implements OnInit {
     if(this.fiado.tipoMovimiento == 'F' && this.fiado.monto != null){
       this.fiado.monto = - (this.fiado.monto);
     }
-    //console.log(this.fiado);
-
-     /* this._service.metodo().subscribe({ 
+    
+    /* this._service.metodo().subscribe({ 
       next: (rta : any) => {}, 
       error: (error) => {}, 
       complete: () => {}
@@ -105,8 +104,8 @@ export class FiadoFormComponent implements OnInit {
         this.cerrarModal();
       },
       error: (err) => {
-        //console.error(err);
-        this.error = err;
+        console.error(err);
+        this.error = err.error;
       }
     })
   }

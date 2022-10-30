@@ -45,7 +45,7 @@ export class HojaCajaComponent implements OnInit {
           },
           error: (err) => {
             //console.error(err);
-            this.error = err;
+            this.error = err.error;
           }
         });         
       }
@@ -73,7 +73,7 @@ export class HojaCajaComponent implements OnInit {
       },
       error : (err) => {
         //console.error(err);
-        this.error = err.error.text;
+        this.error = err.error;
       }
     });
   }
@@ -84,7 +84,7 @@ export class HojaCajaComponent implements OnInit {
       },
       error : (err) => {
         //console.error(err);
-        this.error = err.error.text;
+        this.error = err.error;
       }
     });
   }
@@ -96,7 +96,7 @@ export class HojaCajaComponent implements OnInit {
           return res.apellido + ', ' + res.nombre;
         },
         error : (err) => {
-          this.error = err;
+          this.error = err.error;
           return null;
         }
       });
@@ -117,13 +117,13 @@ export class HojaCajaComponent implements OnInit {
           },
           error : (e) => {
             //console.error(er);
-            this.error = e;
+            this.error = e.error;
           }
         });
       },
       error: (err) => {
         console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     });
   }
@@ -143,7 +143,7 @@ export class HojaCajaComponent implements OnInit {
       //console.log(result);
       this.getHojaCaja(this.hojaCaja.id);
     }, (reason) => {
-      this.error = reason;
+      this.error = reason.error;
     });
   }
 
@@ -163,13 +163,13 @@ export class HojaCajaComponent implements OnInit {
           },
           error: (e) => {
             //console.error(e);
-            this.error = e;
+            this.error = e.error;
           }          
         });          
       },
       error: (err) => {
         //console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
 
     });      
@@ -188,7 +188,7 @@ export class HojaCajaComponent implements OnInit {
       //console.log(result);
       this.getHojaCaja(this.hojaCaja.id);
     }, (reason) => {
-      this.error = reason;
+      this.error = reason.error;
     });
   }
 
@@ -207,13 +207,13 @@ export class HojaCajaComponent implements OnInit {
           },
           error: (e) => {
             //console.error(e);
-            this.error = e;
+            this.error = e.error;
           }          
         });   
       },
       error : (err) => {
         //console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     });
   }
@@ -231,7 +231,7 @@ export class HojaCajaComponent implements OnInit {
       //console.log(result);
       this.getHojaCaja(this.hojaCaja.id);
     }, (reason) => {
-      this.error = reason;
+      this.error = reason.error;
     });
   }
 
@@ -244,7 +244,7 @@ export class HojaCajaComponent implements OnInit {
         this.getHojaCaja(id);
       },
       error : (err) => {
-        this.error = err;
+        this.error = err.error;
       }
     });
   }
@@ -264,13 +264,13 @@ export class HojaCajaComponent implements OnInit {
           },
           error: (e) => {
             //console.error(e);
-            this.error = e;
+            this.error = e.error;
           }          
         });   
       }, 
       error: (err) => {
         //console.error(err);
-        this.error = err;
+        this.error = err.error;
       }
     });
   }
@@ -290,7 +290,7 @@ export class HojaCajaComponent implements OnInit {
       //console.log(result);
       this.getHojaCaja(this.hojaCaja.id);
     }, (reason) => {
-      this.error = reason;
+      this.error = reason.error;
     });
   }
 

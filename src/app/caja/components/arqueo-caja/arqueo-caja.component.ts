@@ -4,6 +4,7 @@ import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 import { ArqueoCaja } from '../../models/arqueoCaja';
 import { Fiado } from '../../models/fiado';
 import { Gasto } from '../../models/gasto';
+import { HojaCaja } from '../../models/hojaCaja';
 import { PagoPremio } from '../../models/pagoPremio';
 import { Venta } from '../../models/venta';
 import { ArqueosCajasService } from '../../services/arqueos-cajas.service';
@@ -16,7 +17,7 @@ import { ArqueosCajasService } from '../../services/arqueos-cajas.service';
 export class ArqueoCajaComponent implements OnInit, OnChanges{
 
 
-  @Input() hojaCaja: any;
+  @Input() hojaCaja: HojaCaja;
    
 
   caja : ArqueoCaja = {
@@ -61,7 +62,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           },
           error: (err) => {
             //console.error(err);
-            this.error = err;
+            this.error = err.error;
           }
         });
       }
@@ -71,42 +72,48 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
 
   ngOnInit(): void {    
 
-    this.billetes = new Array();
-    this.monedas = new Array();
-    this._arqueosService.getArqueoCaja(this.hojaCaja?.id).subscribe({
-      next: (resp : any) => {       
-        this.caja = resp;
-        //console.log(this.caja.detalle);
-        if(resp.detalle != null){
-          const detalle = JSON.parse(resp.detalle);
-            detalle.billetes.forEach((b : any) => {
-            this.billetes.push({nombre: 'Billete $' + b.valor , valor: b.valor , cantidad: b.cantidad});
-          });
-          detalle.monedas.forEach((m : any) => {
-            this.monedas.push({nombre: 'Moneda $' + m.valor , valor: m.valor , cantidad: m.cantidad});
-          });        
-        } 
-        this.mostrarDetalle = true;
-      },
-      error : (err) => {    
-        //no se encontró arqueo de caja
+      this.billetes = new Array();
+      this.monedas = new Array();
+
+      if(this.hojaCaja.arqueo != null && this.hojaCaja.arqueo.detalle != null){
+
+        let lista = JSON.parse(this.hojaCaja.arqueo.detalle);
+        
+        lista.billetes.forEach((b : any) => {
+          this.billetes.push({nombre: 'Billete $' + b.valor , valor: b.valor , cantidad: b.cantidad});          
+        });
+        lista.monedas.forEach((m : any) => {
+          this.monedas.push({nombre: 'Moneda $' + m.valor , valor: m.valor , cantidad: m.cantidad});
+        });        
+
+      } else {
         this.billetes.push({ nombre: 'Billete $1000', valor: 1000 ,cantidad: 0 }),
-          this.billetes.push({ nombre: 'Billete $500', valor: 500 ,cantidad: 0 }),
-          this.billetes.push({ nombre: 'Billete $200', valor: 200 ,cantidad: 0 }),
-          this.billetes.push({ nombre: 'Billete $100', valor: 100 ,cantidad: 0 }),
-          this.billetes.push({ nombre: 'Billete $50', valor: 50 ,cantidad: 0 }),
-          this.billetes.push({ nombre: 'Billete $20', valor: 20, cantidad: 0 }),
-          this.billetes.push({ nombre: 'Billete $10', valor: 10 ,cantidad: 0 });
-      
-          this.monedas.push({ nombre: 'Moneda $20', valor: 20 ,cantidad: 0 }),
-          this.monedas.push({ nombre: 'Moneda $10', valor: 10 ,cantidad: 0 }),
-          this.monedas.push({ nombre: 'Moneda $5', valor: 5 ,cantidad: 0 }),
-          this.monedas.push({ nombre: 'Moneda $2',valor: 2 ,cantidad: 0 }),
-          this.monedas.push({ nombre: 'Moneda $1', valor: 1 ,cantidad: 0 }),
-          this.monedas.push({ nombre: 'Moneda $0.50', valor: 0.5 ,cantidad: 0 });
-          this.mostrarDetalle = true;
+        this.billetes.push({ nombre: 'Billete $500', valor: 500 ,cantidad: 0 }),
+        this.billetes.push({ nombre: 'Billete $200', valor: 200 ,cantidad: 0 }),
+        this.billetes.push({ nombre: 'Billete $100', valor: 100 ,cantidad: 0 }),
+        this.billetes.push({ nombre: 'Billete $50', valor: 50 ,cantidad: 0 }),
+        this.billetes.push({ nombre: 'Billete $20', valor: 20, cantidad: 0 }),
+        this.billetes.push({ nombre: 'Billete $10', valor: 10 ,cantidad: 0 });
+    
+        this.monedas.push({ nombre: 'Moneda $20', valor: 20 ,cantidad: 0 }),
+        this.monedas.push({ nombre: 'Moneda $10', valor: 10 ,cantidad: 0 }),
+        this.monedas.push({ nombre: 'Moneda $5', valor: 5 ,cantidad: 0 }),
+        this.monedas.push({ nombre: 'Moneda $2',valor: 2 ,cantidad: 0 }),
+        this.monedas.push({ nombre: 'Moneda $1', valor: 1 ,cantidad: 0 }),
+        this.monedas.push({ nombre: 'Moneda $0.50', valor: 0.5 ,cantidad: 0 });
+   
       }
-    });
+      this.mostrarDetalle = true;
+     
+
+// /*     this._arqueosService.getArqueoCaja(this.hojaCaja?.id).subscribe({
+//       next: (resp : any) => {        */
+//         this.caja = resp;               
+//       /* },
+//       error : (err) => {     */
+//         //no se encontró arqueo de caja         
+//      /*  }
+//     }); */
 
   }
 
@@ -137,7 +144,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           sumaF -= fiado.monto;
       });
     }
-    console.error('- TotalFiados ' + sumaF);
+    //console.error('- TotalFiados ' + sumaF);
     return sumaF;
   }
 
@@ -150,7 +157,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           sumaP += fiado.monto;
       });
     }   
-    console.info('+ TotalPagosFiados ' + sumaP);
+    //console.info('+ TotalPagosFiados ' + sumaP);
     return sumaP;
   }
 
@@ -163,7 +170,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           sumaE -= pago.monto;
       });
     }    
-    console.error('- TotalPagosPremioEfectivo ' + sumaE);
+    //console.error('- TotalPagosPremioEfectivo ' + sumaE);
     return sumaE;
   }
 
@@ -210,7 +217,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           sumaC -= ( pago.cantidadCartones * pago.montoCarton);
       });
     }    
-    console.info('* TotalPagosPremioCartones ' + sumaC);
+    //console.info('* TotalPagosPremioCartones ' + sumaC);
     return sumaC;
   }
 
@@ -222,7 +229,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           sumaG -= gasto.monto;
       });
     }
-    console.error('- TotalGastos ' + sumaG);
+    //console.error('- TotalGastos ' + sumaG);
     return sumaG;
   }
 
@@ -264,7 +271,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         },
         error: (err) => {
           console.error(err);
-          this.error = err;
+          this.error = err.error;
         }
       });
     } else {  
@@ -276,7 +283,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         },
         error: (err) => {
           console.error(err);
-          this.error = err;
+          this.error = err.error;
         }
       });
     }  
@@ -287,11 +294,11 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
     
     let efectivo = this.caja.totalBilletes + this.caja.totalMonedas + this.caja.billetera + this.caja.fondoReserva;
     let movimientos = ingresos - egresos;
-    console.info('| fondo fijo: ' + this.hojaCaja.fondoFijo);
-    console.info('| ingresos + fondo fijo : ' + ingresos);
-    console.info('| egresos: ' + egresos);
-    console.info( '| billetes + monedas + billetera: ' + efectivo);
-    console.info('| ingresos - egresos: ' + movimientos);
+    // console.info('| fondo fijo: ' + this.hojaCaja.fondoFijo);
+    // console.info('| ingresos + fondo fijo : ' + ingresos);
+    // console.info('| egresos: ' + egresos);
+    // console.info( '| billetes + monedas + billetera: ' + efectivo);
+    // console.info('| ingresos - egresos: ' + movimientos);
     this.caja.proximoFF = this.caja.totalBilletes + this.caja.totalMonedas + this.caja.billetera;
 
     this.caja.balance = efectivo - movimientos;
