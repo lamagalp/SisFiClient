@@ -77,6 +77,8 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
 
       if(this.hojaCaja.arqueo != null && this.hojaCaja.arqueo.detalle != null){
 
+        this.caja = this.hojaCaja.arqueo;
+
         let lista = JSON.parse(this.hojaCaja.arqueo.detalle);
         
         lista.billetes.forEach((b : any) => {
@@ -104,6 +106,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
    
       }
       this.mostrarDetalle = true;
+      
      
 
 // /*     this._arqueosService.getArqueoCaja(this.hojaCaja?.id).subscribe({
