@@ -35,8 +35,8 @@ export class SignInComponent implements OnInit {
         this._router.navigate(['/hojasCaja/get/hoy']);
 
       }, err =>{
-        //console.error(err);
-        this.error = err.error;
+        console.error(err);
+        this.error = err;
       }
     )
   }

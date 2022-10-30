@@ -24,7 +24,7 @@ export class UsuarioLogueadoComponent implements OnInit {
             this.usuario = res;
           }, err =>{
             //console.error(err);
-            this.error = err.error;
+            this.error = err;
           }
         )
       }

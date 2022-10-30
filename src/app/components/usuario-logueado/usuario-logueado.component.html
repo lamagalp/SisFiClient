@@ -1,4 +1,4 @@
-<app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
+<app-error-message *ngIf="error" [mensaje]="error.message"></app-error-message>
 <ng-container *ngIf="!error && usuario!=null">
     Usuario: {{usuario.apellido}}, {{usuario.nombre}}
 </ng-container>

@@ -70,6 +70,7 @@ export class HojaCajaListComponent implements OnInit {
     this._hojasService.getHojasCaja().subscribe(
       res => {
         this.hojas = res;
+        console.log(res);
       },
       err => {        
         this.error = err.error;
