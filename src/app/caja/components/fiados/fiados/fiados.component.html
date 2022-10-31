@@ -1,0 +1,64 @@
+<div *ngIf="hojaCaja != null" class="table-responsive" [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.fiados.length > 6)? 'scroll': 'hidden'}">
+    <h4>
+      Fiados / Pagos
+      <button [disabled]="hojaCaja.baja"
+        title="Agregar Fiado"
+        class="btn btn-sm btn-info ml-1"
+        (click)="addFiado()"
+      >
+        <i class="far fa-plus"></i>
+      </button>
+    </h4>
+    <div *ngIf="hojaCaja?.fiados.length == 0" class="alert alert-info">
+      <h5>No se encontraron Fiados para esta Hoja de Caja.</h5>
+    </div>
+    <table
+      *ngIf="hojaCaja?.fiados.length > 0"
+      class="table table-hover table-sm"            
+      #tablaFiados
+    >
+      <thead>
+        <tr class="info">
+          <th scope="col" style="width: 15%">Alta</th>
+          <th hidden scope="col" style="width: 10%">Tipo Movimiento</th>
+          <th scope="col" style="width: 30%">Monto</th>
+          <th scope="col" style="width: 30%">Cliente</th>
+          <th scope="col" style="width: 5%"></th>
+          <th scope="col" style="width: 10%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let fiado of hojaCaja.fiados; trackBy: trackByFn"
+          [ngClass]="{ 'text-secondary': fiado.baja != null }"
+        >
+          <td scope="row">{{ fiado.alta | date:'d/MM H:mm' }}</td>
+          <td hidden>{{ fiado.tipoMovimiento }}</td>
+          <td>
+            <span *ngIf="fiado.tipoMovimiento == 'P'" class="mr-1"
+              ><i class="fas fa-arrow-circle-right text-success"></i
+            ></span>
+            <span *ngIf="fiado.tipoMovimiento == 'F'" class="mr-1"
+              ><i class="fas fa-arrow-circle-left text-danger"></i
+            ></span>
+            {{ fiado.monto | currency }}
+          </td>
+          <td>{{ fiado.cliApellido }}, {{ fiado.cliNombre }}</td>
+          <td><i class="fas fa-user" title="{{ fiado.usuApellido }}, {{ fiado.usuNombre }}"></i></td>
+          <td>
+            <button [disabled]="hojaCaja.baja"
+              title="Eliminar Fiado"
+              *ngIf="fiado.id && !fiado.baja"
+              class="btn btn-danger btn-sm ml-1"
+              (click)="eliminarFiado(fiado.id)"
+            >
+              <i class="far fa-trash-alt"></i>
+            </button>
+            <span *ngIf="fiado.id && fiado.baja">{{
+              fiado.baja |  date:'d/MM H:mm' 
+            }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>

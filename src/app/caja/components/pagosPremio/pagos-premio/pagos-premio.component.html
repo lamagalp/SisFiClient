@@ -1,0 +1,74 @@
+<div *ngIf="hojaCaja != null" class="table-responsive"   [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.pagosPremio.length > 6)? 'scroll': 'hidden'}">
+    <h4>
+      Pago de Premios
+      <button [disabled]="hojaCaja.baja"
+        title="Agregar Pago de Premio"
+        class="btn btn-sm btn-warning ml-1"
+        (click)="addPagoPremio()"
+      >
+        <i class="far fa-plus"></i>
+      </button>
+    </h4>
+    <div
+      *ngIf="hojaCaja?.pagosPremio.length == 0"
+      class="alert alert-info"
+    >
+      <h5>No se encontraron Pagos de Premios para esta Hoja de Caja.</h5>
+    </div>
+    <table
+      *ngIf="hojaCaja?.pagosPremio.length > 0"
+      class="table table-hover table-sm"
+      #tablaPremios
+    >
+      <thead>
+        <tr class="warning">
+          <th scope="col" style="width: 15%">Alta</th>
+          <th scope="col" style="width: 15%">Monto</th>
+          <th scope="col" style="width: 5%">Cantidad</th>
+          <th scope="col" style="width: 20%">Tipo Cartón</th>
+          <th scope="col" style="width: 30%">Cliente</th>
+          <th scope="col" style="width: 5%"></th>
+          <th scope="col" style="width: 10%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let pago of hojaCaja.pagosPremio; trackBy: trackByFn"
+          [ngClass]="{ 'text-secondary': pago.baja != null }"
+        >
+          <td scope="row">{{ pago.alta |  date:'d/MM H:mm' }}</td>
+          <td>
+            <span *ngIf="pago.monto > 0" class="text-danger"
+              >-{{ pago.monto | currency }}</span
+            >
+          </td>
+          <td>
+            <span *ngIf="pago.cantidadCartones > 0">{{
+              pago.cantidadCartones
+            }}</span>
+          </td>
+          <td>{{ pago.tipoCarton }}</td>
+          <td>
+            <ng-container
+              *ngIf="pago.cliApellido != null || pago.cliNombre != null"
+              >{{ pago.cliApellido }}, {{ pago.cliNombre }}</ng-container
+            >
+          </td>
+          <td><i class="fas fa-user" title="{{ pago.usuApellido }}, {{ pago.usuNombre }}"></i></td>
+          <td>
+            <button [disabled]="hojaCaja.baja"
+              *ngIf="pago.id && !pago.baja"
+              title="Eliminar Pago de Premio"
+              class="btn btn-danger ml-1"
+              (click)="eliminarPagoPremio(pago.id)"
+            >
+              <i class="far fa-trash-alt"></i>
+            </button>
+            <span *ngIf="pago.id && pago.baja">{{
+              pago.baja |  date:'d/MM H:mm' 
+            }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

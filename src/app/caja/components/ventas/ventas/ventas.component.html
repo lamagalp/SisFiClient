@@ -1,0 +1,61 @@
+<div *ngIf="hojaCaja != null" class="table-responsive"  [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.ventas.length > 6)? 'scroll': 'hidden'}">
+    <h4>
+      Venta de Cartones
+      <button [disabled]="hojaCaja.baja"
+        title="Agregar Venta"
+        btnVenta
+        class="btn btn-sm btn-success ml-1"
+        (click)="addVenta()"
+      >
+        <i class="far fa-plus"></i>
+      </button>
+    </h4>
+    <div *ngIf="hojaCaja?.ventas.length == 0" class="alert alert-info">
+      <h5>No se encontraron Ventas para esta Hoja de Caja.</h5>
+    </div>
+    <table
+      *ngIf="hojaCaja?.ventas.length > 0"
+      class="table table-hover table-sm"
+      #tablaVentas
+    >
+      <thead>
+        <tr class="success">
+          <th scope="col" style="width: 15%">Alta</th>
+          <th scope="col" style="width: 10%">Cantidad</th>
+          <th scope="col" style="width: 30%">Tipo Cartón</th>
+          <th scope="col" style="width: 30%">Cliente</th>
+          <th scope="col" style="width: 5%"></th>
+          <th scope="col" style="width: 10%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let venta of hojaCaja.ventas; trackBy: trackByFn"
+          [ngClass]="{ 'text-secondary': venta.baja != null }"
+        >
+          <td scope="row">{{ venta.alta |  date:'d/MM H:mm'  }}</td>
+          <td>{{ venta.cantidad }}</td>
+          <td>{{ venta.tipoCarton }}</td>
+          <td>
+            <span *ngIf="venta.cliApellido || venta.nombre"
+              >{{ venta.cliApellido }}, {{ venta.cliNombre }}</span
+            >
+          </td>
+          <td><i class="fas fa-user" title="{{ venta.usuApellido }}, {{ venta.usuNombre }}"></i></td>
+          <td>
+            <button [disabled]="hojaCaja.baja"
+              title="Eliminar Venta"
+              *ngIf="venta.id && !venta.baja"
+              class="btn btn-danger ml-1"
+              (click)="eliminarVenta(venta.id)"
+            >
+              <i class="far fa-trash-alt"></i>
+            </button>
+            <span *ngIf="venta.id && venta.baja">{{
+              venta.baja | date:'d/MM H:mm' 
+            }}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

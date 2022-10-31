@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AutenticacionService } from 'src/app/login/services/autenticacion.service';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 import { ArqueoCaja } from '../../models/arqueoCaja';
@@ -18,7 +18,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
 
 
   @Input() hojaCaja: HojaCaja;
-   
+  @Output() updateHojaCaja: EventEmitter<HojaCaja> = new EventEmitter();
 
   caja : ArqueoCaja = {
     id: 0,
@@ -270,7 +270,8 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
       this._arqueosService.updateArqueoCaja(this.caja.id, this.caja)
       .subscribe({
         next: (resp : any) => {       
-          this.resultadoUpdate = resp.message;        
+          this.resultadoUpdate = resp.message;      
+          this.guardarValoresOnline();  
         },
         error: (err) => {
           console.error(err);
@@ -282,7 +283,8 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
       this._arqueosService.addArqueoCaja(this.caja)
       .subscribe({
         next: (resp : any) => {       
-          this.resultadoUpdate = resp.message;        
+          this.resultadoUpdate = resp.message;   
+          this.guardarValoresOnline();       
         },
         error: (err) => {
           console.error(err);
@@ -308,5 +310,8 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
     this.hizoCalculo = true;
   }
 
-  
+  guardarValoresOnline(){
+    this.hojaCaja.pagosOnline = - (this.hojaCaja.pagosOnline);
+    this.updateHojaCaja.emit(this.hojaCaja);
+  }
 }

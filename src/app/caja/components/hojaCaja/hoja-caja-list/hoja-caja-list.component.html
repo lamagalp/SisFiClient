@@ -18,14 +18,14 @@
         <tbody>
             <tr *ngFor="let hoja of hojas; trackBy: trackByFn" [ngClass]="{'text-secondary': hoja.baja != null}">
                 <th scope="row">{{hoja.alta | date}} </th>
-                <td><span *ngIf="hoja.fondoFijo">{{hoja.fondoFijo | currency}}</span></td>
-                <td><span *ngIf="hoja.ventasOnline">{{hoja.ventasOnline | currency}}</span></td>
-                <td><span *ngIf="hoja.pagosOnline" [ngClass]="{'text-secondary': hoja.baja != null, 'text-danger': hoja.baja == null }" >{{hoja.pagosOnline | currency}}</span></td>
-                <td><span *ngIf="hoja.balance" [ngClass]="{'text-danger': hoja.baja == null && hoja.balance < 0 }" >{{hoja.balance | currency}}</span></td>
+                <td><span *ngIf="hoja.fondoFijo != null">{{hoja.fondoFijo | currency}}</span></td>
+                <td><span *ngIf="hoja.ventasOnline != null">{{hoja.ventasOnline | currency}}</span></td>
+                <td><span *ngIf="hoja.pagosOnline != null" [ngClass]="{'text-secondary': hoja.baja != null, 'text-danger': hoja.baja == null }" >{{hoja.pagosOnline | currency}}</span></td>
+                <td><span *ngIf="hoja.balance != null" [ngClass]="{'text-danger': hoja.baja == null && hoja.balance < 0 }" >{{hoja.balance | currency}}</span></td>
                 <td>
                     <button title="Ver Hoja" *ngIf="hoja.id != null" class="btn btn-warning m-1" [routerLink]="['/hojasCaja', hoja.id]"><i class="fas fa-eye"></i></button>
                     <button title="Eliminar Hoja" *ngIf="hoja.id != null && !hoja.baja" class="btn btn-danger m-1" (click)="eliminarHoja(hoja.id)"><i class="far fa-trash-alt"></i></button>
-                    <span title="Fecha de eliminación" *ngIf="hoja.id != null && hoja.baja"> {{hoja.baja | date:'shortDate'}}</span>
+                    <span title="Fecha de eliminación" *ngIf="hoja.id != null && hoja.baja"> {{hoja.baja | date:'d/MM/yyyy H:mm'}}</span>
                 </td>
             </tr>
         </tbody>

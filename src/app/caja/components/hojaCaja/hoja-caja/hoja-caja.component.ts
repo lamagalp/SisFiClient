@@ -1,18 +1,11 @@
 import { HojaCaja } from './../../../models/hojaCaja';
-import { PagoPremioFormComponent } from './../../pagosPremio/pago-premio-form/pago-premio-form.component';
-import { VentaFormComponent } from './../../ventas/venta-form/venta-form.component';
-import { FiadoFormComponent } from './../../fiados/fiado-form/fiado-form.component';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { AutenticacionService } from 'src/app/login/services/autenticacion.service';
 import { HojasCajaService } from '../../../services/hojas-caja.service';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FiadosService } from 'src/app/caja/services/fiados.service';
-import { PagosPremioService } from 'src/app/caja/services/pagos-premio.service';
-import { VentasService } from 'src/app/caja/services/ventas.service';
-import { GastoFormComponent } from '../../gastos/gasto-form/gasto-form.component';
-import { GastosService } from 'src/app/caja/services/gastos-service.service';
+import { ITabla } from 'src/app/caja/models/tabla';
+
 
 @Component({
   selector: 'app-hoja-caja',
@@ -24,16 +17,11 @@ export class HojaCajaComponent implements OnInit {
   error:any;
   usuarioLogueado:any;
   hojaCaja:any;
-  resultadoUpdate = '';
-  //tablas para armar el excel
-  @ViewChild('tablaFiados') tablaFiados: ElementRef<HTMLTableElement>;
-  @ViewChild('tablaVentas') tablaVentas: ElementRef<HTMLTableElement>;
-  @ViewChild('tablaPremios') tablaPremios: ElementRef<HTMLTableElement>;
-  @ViewChild('tablaGastos') tablaGastos: ElementRef<HTMLTableElement>;
+  tablas: Map<string,ElementRef<HTMLTableElement>> = new Map();
+
 
   constructor(private _hojasCajaService: HojasCajaService, private _autenticacionService: AutenticacionService,
-    private _usuariosService: UsuariosService, private _activatedRoute: ActivatedRoute, private _route:Router, private modalService: NgbModal,
-    private _fiadoService: FiadosService, private _ventasService: VentasService, private _pagosPremioService: PagosPremioService, private _gastosService: GastosService) {
+    private _usuariosService: UsuariosService, private _activatedRoute: ActivatedRoute) {
 
     if(this._autenticacionService.loggedIn()){
       let idUser = this._autenticacionService.getIdUser();
@@ -63,6 +51,11 @@ export class HojaCajaComponent implements OnInit {
     }
   }
 
+  updateTablas(tabla: ITabla){
+    this.tablas.set(tabla.nombre, tabla.tabla);
+    console.log(this.tablas);
+  }
+
   getHojaCaja(id: number){
     this._hojasCajaService.getHojaCaja(id).subscribe({
       next : (resp: any) => {
@@ -81,6 +74,7 @@ export class HojaCajaComponent implements OnInit {
     this._hojasCajaService.getHojaCajaHoy().subscribe({
       next: (resp : any) => {
         this.hojaCaja = resp;  
+        console.log(resp);
       },
       error : (err) => {
         //console.error(err);
@@ -100,203 +94,7 @@ export class HojaCajaComponent implements OnInit {
           return null;
         }
       });
-  }
-
-  eliminarFiado(idHoja: number, idFiado: number){
-
-    this._fiadoService.getFiado(idFiado).subscribe({
-      next : (resp : any) => {
-        //console.log(resp);
-        resp.baja = new Date();
-        resp.idUsuario = this.usuarioLogueado.id;
-        this._fiadoService.updateFiado(idFiado, resp)
-        .subscribe({
-          next: (r : any) =>{
-            //console.log(respuesta);
-            this.getHojaCaja(idHoja);
-          },
-          error : (e) => {
-            //console.error(er);
-            this.error = e.error;
-          }
-        });
-      },
-      error: (err) => {
-        console.error(err);
-        this.error = err.error;
-      }
-    });
-  }
-
-
-  addFiado() {
-
-		let m = this.modalService.open(FiadoFormComponent, {
-			windowClass: 'modal',
-      animation: false,
-			size: 'lg',
-			centered: true
-		});
-		m.componentInstance.idHojaCaja = this.hojaCaja.id;
-		m.componentInstance.refModal = m;
-    m.result.then((result) => {
-      //console.log(result);
-      this.getHojaCaja(this.hojaCaja.id);
-    }, (reason) => {
-      this.error = reason.error;
-    });
-  }
-
-  eliminarVenta(idHoja: number, idVenta: number){
-    this._ventasService.getVenta(idVenta).subscribe({
-
-      next: (resp :any) => {
-        //console.log(resp);
-        resp.baja = new Date();
-        resp.idUsuario = this.usuarioLogueado.id;
-
-        this._ventasService.updateVenta(idVenta, resp)
-        .subscribe({
-          next:(respuesta : any) => {
-            //console.log(respuesta);
-            this.getHojaCaja(idHoja);
-          },
-          error: (e) => {
-            //console.error(e);
-            this.error = e.error;
-          }          
-        });          
-      },
-      error: (err) => {
-        //console.error(err);
-        this.error = err.error;
-      }
-
-    });      
-  }
-
-  addVenta(){
-    let m = this.modalService.open(VentaFormComponent, {
-			windowClass: 'modal',
-      animation: false,
-			size: 'lg',
-			centered: true
-		});
-		m.componentInstance.idHojaCaja = this.hojaCaja.id;
-		m.componentInstance.refModal = m;
-    m.result.then((result) => {
-      //console.log(result);
-      this.getHojaCaja(this.hojaCaja.id);
-    }, (reason) => {
-      this.error = reason.error;
-    });
-  }
-
-  eliminarPagoPremio(idHoja: number, idPago: number){
-    this._pagosPremioService.getPagoPremio(idPago).subscribe({
-      next : (resp : any) => {
-        //console.log(resp);
-        resp.baja = new Date();
-        resp.idUsuario = this.usuarioLogueado.id;
-
-        this._pagosPremioService.updatePagoPremio(idPago, resp)
-        .subscribe({
-          next:(respuesta : any) => {
-            //console.log(respuesta);
-            this.getHojaCaja(idHoja);
-          },
-          error: (e) => {
-            //console.error(e);
-            this.error = e.error;
-          }          
-        });   
-      },
-      error : (err) => {
-        //console.error(err);
-        this.error = err.error;
-      }
-    });
-  }
-
-  addPagoPremio(){
-    let m = this.modalService.open(PagoPremioFormComponent, {
-			windowClass: 'modal',
-      animation: false,
-			size: 'lg',
-			centered: true
-		});
-		m.componentInstance.idHojaCaja = this.hojaCaja.id;
-		m.componentInstance.refModal = m;
-    m.result.then((result) => {
-      //console.log(result);
-      this.getHojaCaja(this.hojaCaja.id);
-    }, (reason) => {
-      this.error = reason.error;
-    });
-  }
-
-  guardarValoresOnline(id: number){
-    this.resultadoUpdate = '';
-    this.hojaCaja.pagosOnline = - (this.hojaCaja.pagosOnline);
-    this._hojasCajaService.updateHojaCaja(id, this.hojaCaja).subscribe({
-      next : (resp : any) => {
-        this.resultadoUpdate = resp.text;
-        this.getHojaCaja(id);
-      },
-      error : (err) => {
-        this.error = err.error;
-      }
-    });
-  }
-
-  eliminarGasto(idHoja: number, idGasto: number){
-
-    this._gastosService.getGasto(idGasto).subscribe({
-      next : (resp : any) => {
-        //console.log(resp);
-        resp.baja = new Date();
-        resp.idUsuario = this.usuarioLogueado.id;
-        this._gastosService.updateGasto(idGasto, resp)
-        .subscribe({
-          next:(respuesta : any) => {
-            //console.log(respuesta);
-            this.getHojaCaja(idHoja);
-          },
-          error: (e) => {
-            //console.error(e);
-            this.error = e.error;
-          }          
-        });   
-      }, 
-      error: (err) => {
-        //console.error(err);
-        this.error = err.error;
-      }
-    });
-  }
-
-
-  addGasto() {
-
-		let m = this.modalService.open(GastoFormComponent, {
-			windowClass: 'modal',
-      animation: false,
-			size: 'lg',
-			centered: true
-		});
-		m.componentInstance.idHojaCaja = this.hojaCaja.id;
-		m.componentInstance.refModal = m;
-    m.result.then((result) => {
-      //console.log(result);
-      this.getHojaCaja(this.hojaCaja.id);
-    }, (reason) => {
-      this.error = reason.error;
-    });
-  }
-
-  trackByFn(index: number, item: any) {
-    return item.id; // unique id corresponding to the item
-  }
+  }  
 
   base64(s: any) { 
     return window.btoa(unescape(encodeURIComponent(s))) 
@@ -316,27 +114,52 @@ export class HojaCajaComponent implements OnInit {
     
     let fecha = new Date();    
     let tFiados = '';
-    if(this.tablaFiados) 
-      tFiados = this.tablaFiados.nativeElement.innerHTML.replace(/\$/g, '');
-    
+
+    //TODO recorrer el objeto tablas y levantarlas dinamicamente: nombre + tabla
+    let aux = this.tablas.get('tablaFiados');
+    if( aux != null) 
+      tFiados = aux.nativeElement.innerHTML.replace(/\$/g, '');    
+   
+      
     let tVentas = '';
-    if (this.tablaVentas)
-      tVentas = this.tablaVentas.nativeElement.innerHTML.replace(/\$/g, '');
+    aux = this.tablas.get('tablaVentas');
+    if (aux != null)
+      tVentas = aux.nativeElement.innerHTML.replace(/\$/g, '');
     
+          
     let tPremios = '';
-    if (this.tablaPremios)
-      tPremios = this.tablaPremios.nativeElement.innerHTML.replace(/\$/g, '');
+    aux = this.tablas.get('tablaPremios');
+    if (aux != null)
+      tPremios = aux.nativeElement.innerHTML.replace(/\$/g, '');
 
     let tGastos = '';
-    if (this.tablaGastos)
-      tGastos = this.tablaGastos.nativeElement.innerHTML.replace(/\$/g, '');
+    aux = this.tablas.get('tablaGastos');
+    if ( aux != null)
+      tGastos = aux.nativeElement.innerHTML.replace(/\$/g, '');
+
     let strFecha = new Date(this.hojaCaja.alta).toDateString().replace(/ /g, '_');
     //console.log(strFecha);
     let ctx = {worksheet: 'Hoja de Caja ' + this.hojaCaja.id , tablaFiados: tFiados, tablaVentas: tVentas, tablaPremios: tPremios ,tablaGastos: tGastos , fecha: fecha.toLocaleString()};
-    
+     
     var link = document.createElement("a");
     link.download = 'HojaCaja_' + strFecha+ '.xls';
     link.href = uri + this.base64(this.format(template, ctx));
     link.click();
+  }
+
+  updateHojaCaja(hoja: HojaCaja){
+
+    if(hoja.id != null){
+      const idHoja = hoja.id;
+      this._hojasCajaService.updateHojaCaja(idHoja, hoja).subscribe({
+        next : (resp : any) => {          
+          this.getHojaCaja(idHoja);
+        },
+        error : (err) => {
+          this.error = err.error;
+        }
+      });
+    }
+    
   }
 }

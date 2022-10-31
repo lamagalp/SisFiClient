@@ -80,4 +80,6 @@ export class HojaCajaListComponent implements OnInit {
   trackByFn(index: number, item: any) {
     return item.id; // unique id corresponding to the item
   }
+
+  
 }

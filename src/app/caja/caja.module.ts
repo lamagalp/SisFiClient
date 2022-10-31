@@ -18,6 +18,10 @@ import { PagoPremioFormComponent } from './components/pagosPremio/pago-premio-fo
 import { GastoFormComponent } from './components/gastos/gasto-form/gasto-form.component';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ArqueoCajaComponent } from './components/arqueo-caja/arqueo-caja.component';
+import { GastosComponent } from './components/gastos/gastos/gastos.component';
+import { VentasComponent } from './components/ventas/ventas/ventas.component';
+import { PagosPremioComponent } from './components/pagosPremio/pagos-premio/pagos-premio.component';
+import { FiadosComponent } from './components/fiados/fiados/fiados.component';
 
 
 @NgModule({
@@ -29,7 +33,11 @@ import { ArqueoCajaComponent } from './components/arqueo-caja/arqueo-caja.compon
     VentaFormComponent,
     PagoPremioFormComponent,
     GastoFormComponent,
-    ArqueoCajaComponent
+    ArqueoCajaComponent,
+    GastosComponent,
+    VentasComponent,
+    PagosPremioComponent,
+    FiadosComponent
   ],
   imports: [
     HttpClientModule,
