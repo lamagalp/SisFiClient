@@ -1,100 +1,92 @@
 <div *ngIf="hojaCaja != null" class="row mt-4">    
     <h3>Arqueo de Caja</h3>  
     <form>    
-    <div class="card shadow col-12 p-3 m-2 bg-white rounded">                             
-            <div class="row m-2">
-                <div class="card py-2 col-md-4 text-secondary">
-                    <span class="mb-3">Ingrese la cantidad de cada billete/moneda:</span>
-                    <div *ngIf="mostrarDetalle" class="row">
-                        <div class="col-md-6 text-secondary table-responsive">
-                            <table class="table-sm">                               
-                                <tr *ngFor="let billete of billetes; let i = index;">
-                                    <td class="float-right"><strong>{{billete.nombre}}</strong></td>
-                                    <td><input id="b{{i}}" [disabled]="hojaCaja.baja != null" type="number" name="billete{{i}}.cantidad" [(ngModel)]="billete.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalBilletes()"></td>
+    <div class="card col-12 bg-white rounded shadow mb-2">                             
+            <div class="row m-4">
+                <div class="card col-md-6 text-secondary">
+                    <div class="cad-header mt-4 mb-2">
+                        <h6>Ingrese la cantidad de cada billete/moneda:</h6>
+                    </div>
+                    <div class="card-body">                        
+                        <div *ngIf="mostrarDetalle" class="row">
+                            <div class="col-md-6 text-secondary table-responsive">
+                                <table class="table-sm">                               
+                                    <tr *ngFor="let billete of billetes; let i = index;">
+                                        <td class="float-right w-50"><strong>{{billete.nombre}}</strong></td>
+                                        <td><input id="b{{i}}" [disabled]="hojaCaja.baja != null" type="number" name="billete{{i}}.cantidad" [(ngModel)]="billete.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalBilletes()"></td>
+                                    </tr>
+                                </table>                            
+                            </div>    
+                            <div class="col-md-6 text-secondary table-responsive">
+                                <table class="table-sm">                               
+                                    <tr *ngFor="let moneda of monedas; let i = index;">
+                                        <td class="float-right w-50"><strong>{{moneda.nombre}}</strong></td>
+                                        <td><input id="m{{i}}" [disabled]="hojaCaja.baja != null" type="number" name="moneda{{i}}.cantidad" [(ngModel)]="moneda.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalMonedas()"></td>
+                                    </tr>
+                                </table>    
+                            </div>                        
+                        </div>  
+                    </div>                   
+                    <div class="card-footer">
+                        <div class="col-md-6 my-2"><strong>Billetes: {{caja.totalBilletes | currency}}</strong></div>
+                        <div class="col-md-6 my-2"><strong>Monedas: {{caja.totalMonedas  | currency}}</strong></div>
+                    </div>                   
+                </div>  
+                <div class="card col-md-6">
+                    <div class="cad-header mt-4 mb-2"></div>
+                    <div class="card-body table-responsive"> 
+                        <div class="col-sm-12 col-md-6 col-lg-6 my-4">
+                            <table class="table-sm w-100 text-success">             
+                                <tr class="h6 d-flex justify-content-between">
+                                    <td class="w-75"><strong>Ventas Online:</strong></td>
+                                    <td><strong>{{hojaCaja.ventasOnline | currency}} </strong></td>
                                 </tr>
-                            </table>                            
-                        </div>    
-                        <div class="col-md-6 text-secondary table-responsive">
-                            <table class="table-sm">                               
-                                <tr *ngFor="let moneda of monedas; let i = index;">
-                                    <td class="float-right"><strong>{{moneda.nombre}}</strong></td>
-                                    <td><input id="m{{i}}" [disabled]="hojaCaja.baja != null" type="number" name="moneda{{i}}.cantidad" [(ngModel)]="moneda.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalMonedas()"></td>
+                                <tr class="h6 d-flex justify-content-between">
+                                    <td class="w-75"><strong>Total Pago de Fiados:</strong></td>
+                                    <td><strong>{{caja.totalPagosFiados| currency}} </strong></td>
+                                </tr>
+                                <tr class="h6 d-flex justify-content-between">
+                                    <td class="w-75"><strong>Total Venta de Cartones:</strong></td>
+                                    <td><strong>{{caja.totalVentasCartones| currency}} </strong></td>
+                                </tr>
+                            </table>  
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6 my-4">
+                            <table class="table-sm w-100 text-danger">             
+                                <tr class="h6 d-flex justify-content-between">
+                                    <td class="w-75"><strong>Pagos Online:</strong></td>
+                                    <td><strong>{{hojaCaja.pagosOnline | currency}}</strong></td>
+                                </tr>
+                                <tr class="h6 d-flex justify-content-between">
+                                    <td class="w-75"><strong>Total Fiados:</strong></td>
+                                    <td><strong>{{caja.totalFiados| currency}}</strong></td>
+                                </tr>
+                                <tr class="h6 d-flex justify-content-between">
+                                    <td class="w-75"><strong>Total Pago de Premios/Cartones:</strong></td>
+                                    <td><strong>{{caja.totalPagosPremioCartones| currency}}</strong></td>
+                                </tr>
+                                <tr class="h6 d-flex justify-content-between">
+                                    <td class="w-75"><strong>Total Pago de Premios/Efectivo:</strong></td>
+                                    <td><strong>{{caja.totalPagosPremioEfectivo| currency}}</strong></td>
+                                </tr>
+                                <tr class="h6 d-flex justify-content-between">
+                                    <td class="w-75"><strong>Total Gastos:</strong></td>
+                                    <td><strong>{{caja.totalGastos| currency}}</strong></td>
                                 </tr>
                             </table>    
-                        </div>                        
-                    </div>                                                                             
-                </div>  
-                <div class="card py-2 col-md-4 table-responsive">
-                    <span class="mb-4"></span>
-                    <table class="table-sm text-success">             
-                        <tr class="h6 d-flex justify-content-between">
-                            <td><strong>Ventas Online:</strong></td>
-                            <td><strong>{{hojaCaja.ventasOnline | currency}} </strong></td>
-                        </tr>
-                        <tr class="h6 d-flex justify-content-between">
-                            <td><strong>Total Pago de Fiados:</strong></td>
-                            <td><strong>{{caja.totalPagosFiados| currency}} </strong></td>
-                        </tr>
-                        <tr class="h6 d-flex justify-content-between">
-                            <td><strong>Total Venta de Cartones:</strong></td>
-                            <td><strong>{{caja.totalVentasCartones| currency}} </strong></td>
-                        </tr>
-                    </table>                 
-                </div>               
-
-                <div class="card py-2 col-md-4 table-responsive">
-                    <span class="mb-4"></span>
-                    <table class="table-sm text-danger">             
-                        <tr class="h6 d-flex justify-content-between">
-                            <td><strong>Pagos Online:</strong></td>
-                            <td><strong>{{hojaCaja.pagosOnline | currency}}</strong></td>
-                        </tr>
-                        <tr class="h6 d-flex justify-content-between">
-                            <td><strong>Total Fiados:</strong></td>
-                            <td><strong>{{caja.totalFiados| currency}}</strong></td>
-                        </tr>
-                        <tr class="h6 d-flex justify-content-between">
-                            <td><strong>Total Pago de Premios/Cartones:</strong></td>
-                            <td><strong>{{caja.totalPagosPremioCartones| currency}}</strong></td>
-                        </tr>
-                        <tr class="h6 d-flex justify-content-between">
-                            <td><strong>Total Pago de Premios/Efectivo:</strong></td>
-                            <td><strong>{{caja.totalPagosPremioEfectivo| currency}}</strong></td>
-                        </tr>
-                        <tr class="h6 d-flex justify-content-between">
-                            <td><strong>Total Gastos:</strong></td>
-                            <td><strong>{{caja.totalGastos| currency}}</strong></td>
-                        </tr>
-                    </table>     
-                </div>        
-            </div>             
-            <div class="row p2">
-                <div class="py-2 col-md-4 text-secondary">                    
-                    <div class="col-md-6">
-                        <h4 class="h6">
-                            <span><strong>Billetes: {{caja.totalBilletes | currency}}</strong></span>
-                        </h4>
+                        </div>    
                     </div>
-                    <div class="col-md-6">
-                        <h4 class="h6 mx-2">
-                            <span><strong>Monedas: {{caja.totalMonedas  | currency}}</strong></span>
-                        </h4>
-                    </div>                                         
-                </div>          
-                <div class="py-2 col-md-4 text-success">
-                    <h4 class="h6 d-flex justify-content-between">
-                        <span><strong>Total Ingresos: </strong></span>
-                        <span><strong>{{getTotalIngresos() | currency}} </strong></span>
-                    </h4>
-                </div>
-                <div class="py-2 col-md-4 text-danger">            
-                    <h4 class="h6 d-flex justify-content-between">
-                        <span><strong>Total Egresos: </strong></span>
-                        <span><strong>{{getTotalEgresos() | currency}} </strong></span>
-                    </h4>
-                </div>                                   
-            </div>  
-            <div class="card mt-2 mb-2 bg-white rounded">     
+                    <div class="card-footer">
+                        <div class="col-sm-12 col-md-6 col-lg-6 my-2 text-success">
+                           <strong>Total Ingresos: {{getTotalIngresos() | currency}} </strong>
+                        </div>   
+                        <div class="col-sm-12 col-md-6 col-lg-6 my-2 text-danger">
+                            <strong>Total Egresos: {{getTotalEgresos() | currency}} </strong>
+                        </div>      
+                    </div>              
+                </div>        
+            </div>                          
+            <div class="card card-body m-3 bg-white rounded">     
                 <div class="form inline p-2">
                     <div class="row">  
                         <div class="form-group col-md-2">                      
@@ -116,9 +108,7 @@
                                 placeholder="0.00"
                                 class="form-control m-2 text-danger"
                               />   
-                        </div>
-                    </div>                  
-                    <div class="row">  
+                        </div>           
                         <div class="form-group col-md-2">                      
                             <label for="billetera"><strong>Billetera</strong></label>         
                             <input  [disabled]="hojaCaja.baja != null" class="form-control form-control-sm py-2" type="number" name="billetera" [(ngModel)]="caja.billetera" required  value="0">
@@ -143,7 +133,7 @@
                     </div>                   
                 </div>            
             </div>
-            <div *ngIf="!error && hojaCaja != null" class="d-flex justify-content-end">
+            <div *ngIf="!error && hojaCaja != null" class="m-3 d-flex justify-content-end">
                 <div class="form-group mx-2">         
                     <button [disabled]="hojaCaja.baja" type="button" title="Calcular Caja" class="btn btn-primary form-control form-control-sm" (click)="calcularCaja()"> Calcular Caja</button>                          
                 </div>

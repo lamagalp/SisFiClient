@@ -3,8 +3,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HojaCaja } from 'src/app/caja/models/hojaCaja';
 import { ITabla } from 'src/app/caja/models/tabla';
 import { VentasService } from 'src/app/caja/services/ventas.service';
-import { AutenticacionService } from 'src/app/login/services/autenticacion.service';
-import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 import { VentaFormComponent } from '../venta-form/venta-form.component';
 
 
@@ -17,31 +15,16 @@ export class VentasComponent implements AfterViewInit {
 
   @ViewChild('tablaVentas') tablaVentas: ElementRef<HTMLTableElement>;
   @Input() hojaCaja: HojaCaja;
+  @Input() usuarioLogueado: any;
   @Output() getHojaCaja: EventEmitter<number> = new EventEmitter();
   @Output() updateTablas: EventEmitter<ITabla> = new EventEmitter();
   
   tabla: ITabla;
   error:any;
-  usuarioLogueado:any;
 
-  constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private modalService: NgbModal,
+  constructor(private modalService: NgbModal,
     private _ventasService: VentasService) {
 
-    if(this._autenticacionService.loggedIn()){
-      let idUser = this._autenticacionService.getIdUser();
-      if(idUser != null){
-        this._usuariosService.getUsuario(idUser).subscribe({
-          next: (res: any) => {
-            //console.log(res);
-            this.usuarioLogueado = res;
-          },
-          error: (err) => {
-            //console.error(err);
-            this.error = err.error;
-          }
-        });         
-      }
-    }
   }
 
    ngAfterViewInit(): void {
@@ -49,7 +32,7 @@ export class VentasComponent implements AfterViewInit {
     this.updateTablas.emit(this.tabla);
   }
 
-  getUsuario(idUsuario:number): any{
+/*   getUsuario(idUsuario:number): any{
     this._usuariosService.getUsuario(idUsuario).subscribe({
         next: (res : any) => {
           //console.log(res);
@@ -61,7 +44,7 @@ export class VentasComponent implements AfterViewInit {
         }
       });
   }
-
+ */
   eliminarVenta(idVenta: number){
     this._ventasService.getVenta(idVenta).subscribe({
 

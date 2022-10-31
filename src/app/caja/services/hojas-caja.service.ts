@@ -18,7 +18,7 @@ export class HojasCajaService {
   }
 
   getHojaCajaHoy(): Observable<any>{
-    return this.http.get(`${this.API_URI}/hojas/get/hoy`);
+    return this.http.get(`${this.API_URI}/hojas/hoy`);
   }
 
   getHojaCaja(id: string|number): Observable<any>{
@@ -37,4 +37,9 @@ export class HojasCajaService {
     //console.log(hoja);
     return this.http.put(`${this.API_URI}/hojas/${id}`, hoja);
   }
+
+  getUltimaHojaCaja(): Observable<any>{
+    return this.http.get(`${this.API_URI}/hojas/ultima`);
+  }
+
 }

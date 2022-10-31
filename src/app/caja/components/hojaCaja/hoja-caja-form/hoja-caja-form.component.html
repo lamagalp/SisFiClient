@@ -1,34 +1,40 @@
 <app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
 <ng-container *ngIf="!error">
     <div class="row">
-        <div class="col-md-6 offset-md-2 mt-2">
-            <div class="card">
+        <div class="col-md-4 mx-auto mt-2">
+            <div *ngIf="ultimaHojaCaja != null" class="card shadow mb-2">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>ULTIMA HOJA</span>
+                </div>
+                <div class="card-body">
+                    <h4 *ngIf="ultimaHojaCaja.alta">Fecha: {{ultimaHojaCaja.alta | date:'d/MM H:mm' }}</h4>                    
+                    <h4>Fondo Fijo: {{ultimaHojaCaja.arqueo?.proximoFF | currency}}</h4>                   
+                </div>            
+            </div>
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mx-auto mt-2">
+            <div class="card shadow mb-2">
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
                     <span *ngIf="editar == false">NUEVA HOJA</span>
                     <span *ngIf="editar == true">MODIFICAR HOJA</span>
                 </div>
                 <div class="card-body">
-                    <form class="form">
+                    <h3 *ngIf="hojaCaja.alta">Fecha: {{hojaCaja.alta | date}}</h3>                    
+                    <h4 *ngIf="usuarioLogueado">Usuario: {{usuarioLogueado.usuario}}</h4>
+                    <form class="form mt-4">
                         <label class="form-label">Fondo Fijo</label>
                         <div class="form-group" [ngClass]="{'has-error': fondoFijo.invalid}">
                             <input type="number" name="fondoFijo" [(ngModel)]="hojaCaja.fondoFijo" #fondoFijo="ngModel" placeholder="Fondo Fijo" class="form-control m-1" autofocus>
                         </div>
                     </form>
-                </div>
+                    </div>
                 <div class="card-footer">
                     <button [disabled]="error || fondoFijo.invalid" *ngIf="editar == false" class="btn btn-primary float-right m-1" (click)="agregarHojaCaja()">Agregar</button>
                     <button [disabled]="error || fondoFijo.invalid" *ngIf="editar == true && hojaCaja.id" class="btn btn-primary float-right m-1" (click)="guardarHojaCaja(hojaCaja.id)">Guardar</button>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6 offset-md-2 mt-2">
-            <div class="card card-body text.center">
-                <h3 *ngIf="hojaCaja.alta">{{hojaCaja.alta | date}}</h3>
-                <h4 *ngIf="hojaCaja.fondoFijo">{{hojaCaja.fondoFijo | currency}}</h4>
-                <h4 *ngIf="usuarioLogueado">{{usuarioLogueado.usuario}}</h4>
-            </div>
-        </div>
-    </div>
+        </div>  
+    </div>    
 </ng-container>

@@ -3,8 +3,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HojaCaja } from 'src/app/caja/models/hojaCaja';
 import { ITabla } from 'src/app/caja/models/tabla';
 import { FiadosService } from 'src/app/caja/services/fiados.service';
-import { AutenticacionService } from 'src/app/login/services/autenticacion.service';
-import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 import { FiadoFormComponent } from '../fiado-form/fiado-form.component';
 
 @Component({
@@ -17,30 +15,15 @@ export class FiadosComponent implements AfterViewInit {
 
   @ViewChild('tablaFiados') tablaFiados: ElementRef<HTMLTableElement>;
   @Input() hojaCaja: HojaCaja;
+  @Input() usuarioLogueado: any;
   @Output() getHojaCaja: EventEmitter<number> = new EventEmitter();
   @Output() updateTablas: EventEmitter<ITabla> = new EventEmitter();
   
   error:any;
-  usuarioLogueado:any;  
   tabla : ITabla;
 
-  constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private modalService: NgbModal, private _fiadoService: FiadosService) {
-
-    if(this._autenticacionService.loggedIn()){
-      let idUser = this._autenticacionService.getIdUser();
-      if(idUser != null){
-        this._usuariosService.getUsuario(idUser).subscribe({
-          next: (res: any) => {
-            //console.log(res);
-            this.usuarioLogueado = res;
-          },
-          error: (err) => {
-            //console.error(err);
-            this.error = err.error;
-          }
-        });         
-      }
-    }
+  constructor(private modalService: NgbModal, private _fiadoService: FiadosService) {
+   
   }
 
   ngAfterViewInit(): void {
@@ -49,7 +32,7 @@ export class FiadosComponent implements AfterViewInit {
     this.updateTablas.emit(this.tabla);
   }
 
-  getUsuario(idUsuario:number): any{
+/*   getUsuario(idUsuario:number): any{
     this._usuariosService.getUsuario(idUsuario).subscribe({
         next: (res : any) => {
           //console.log(res);
@@ -61,7 +44,7 @@ export class FiadosComponent implements AfterViewInit {
         }
       });
   }
-
+ */
   eliminarFiado(idFiado: number){
 
     this._fiadoService.getFiado(idFiado).subscribe({

@@ -17,12 +17,12 @@
     <ng-container *ngIf="hojaCaja != null">
     <div class="card col-md-12 mx-auto shadow mb-2 bg-white rounded">
       <div class="row">
-        <app-fiados class="col-md-6 p-2 my-4" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-fiados>
-        <app-pagos-premio class="col-md-6 p-2 my-4" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-pagos-premio>
+        <app-fiados class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-fiados>
+        <app-pagos-premio class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-pagos-premio>
       </div>
       <div class="row">
-        <app-ventas class="col-md-6 p-2 my-4" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-ventas>
-        <app-gastos class="col-md-6 p-2 my-4" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-gastos>       
+        <app-ventas class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado"[hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-ventas>
+        <app-gastos class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-gastos>       
       </div>
     </div>
     </ng-container>

@@ -83,7 +83,7 @@ export class HojaCajaComponent implements OnInit {
     });
   }
 
-  getUsuario(idUsuario:number): any{
+/*   getUsuario(idUsuario:number): any{
     this._usuariosService.getUsuario(idUsuario).subscribe({
         next: (res : any) => {
           //console.log(res);
@@ -94,7 +94,7 @@ export class HojaCajaComponent implements OnInit {
           return null;
         }
       });
-  }  
+  }  */ 
 
   base64(s: any) { 
     return window.btoa(unescape(encodeURIComponent(s))) 
