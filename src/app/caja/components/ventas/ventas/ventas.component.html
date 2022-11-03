@@ -1,7 +1,7 @@
 <div *ngIf="hojaCaja != null" class="table-responsive"  [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.ventas.length > 6)? 'scroll': 'hidden'}">
     <h4>
       Venta de Cartones
-      <button [disabled]="hojaCaja.baja"
+      <button [disabled]="!hojaCaja.modificable"
         title="Agregar Venta"
         btnVenta
         class="btn btn-sm btn-info ml-1"
@@ -43,7 +43,7 @@
           </td>
           <td><i class="fas fa-user" title="{{ venta.usuApellido }}, {{ venta.usuNombre }}"></i></td>
           <td>
-            <button [disabled]="hojaCaja.baja"
+            <button [disabled]="!hojaCaja.modificable"
               title="Eliminar Venta"
               *ngIf="venta.id && !venta.baja"
               class="btn btn-danger ml-1"

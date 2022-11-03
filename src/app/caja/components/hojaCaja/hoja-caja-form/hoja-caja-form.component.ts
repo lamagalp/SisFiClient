@@ -26,10 +26,12 @@ export class HojaCajaFormComponent implements OnInit {
       usuario: '',
       nombre: '',
       apellido: '',
-      clave: ''
+      clave: '',
+      idRol: 0
     },
     ventasOnline: 0,
-    pagosOnline: 0
+    pagosOnline: 0,
+    modificable: true
 
   };
 
@@ -117,7 +119,8 @@ export class HojaCajaFormComponent implements OnInit {
       usuario: '',
       nombre: '',
       apellido: '',
-      clave: ''
+      clave: '',
+      idRol: 0
     }
     this._hojasCajaService.updateHojaCaja(idHojaCaja , this.hojaCaja)
     .subscribe(

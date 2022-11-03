@@ -13,7 +13,7 @@
                                 <table class="table-sm">                               
                                     <tr *ngFor="let billete of billetes; let i = index;">
                                         <td class="float-right w-50"><strong>{{billete.nombre}}</strong></td>
-                                        <td><input id="b{{i}}" [disabled]="hojaCaja.baja != null" type="number" name="billete{{i}}.cantidad" [(ngModel)]="billete.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalBilletes()"></td>
+                                        <td><input id="b{{i}}"  [disabled]="!hojaCaja.modificable" type="number" name="billete{{i}}.cantidad" [(ngModel)]="billete.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalBilletes()"></td>
                                     </tr>
                                 </table>                            
                             </div>    
@@ -21,7 +21,7 @@
                                 <table class="table-sm">                               
                                     <tr *ngFor="let moneda of monedas; let i = index;">
                                         <td class="float-right w-50"><strong>{{moneda.nombre}}</strong></td>
-                                        <td><input id="m{{i}}" [disabled]="hojaCaja.baja != null" type="number" name="moneda{{i}}.cantidad" [(ngModel)]="moneda.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalMonedas()"></td>
+                                        <td><input id="m{{i}}" [disabled]="!hojaCaja.modificable" type="number" name="moneda{{i}}.cantidad" [(ngModel)]="moneda.cantidad" required class="form-control form-control-sm my-1" (change)="updateTotalMonedas()"></td>
                                     </tr>
                                 </table>    
                             </div>                        
@@ -91,39 +91,39 @@
                     <div class="row">  
                         <div class="form-group col-md-2">                      
                             <label for="ventasOnline"><strong>Ventas Online</strong></label>         
-                            <input [disabled]="hojaCaja.baja != null"
+                            <input [disabled]="!hojaCaja.modificable"
                                 type="number"
                                 name="ventasOnline"
                                 [(ngModel)]="hojaCaja.ventasOnline"
                                 placeholder="0.00"
-                                class="form-control m-2"
+                                class="form-control py-2"
                               />
                         </div>
                         <div class="form-group col-md-2">                      
                             <label for="pagosOnline"><strong>Pagos Online</strong></label>         
-                            <input [disabled]="hojaCaja.baja != null"
+                            <input  [disabled]="!hojaCaja.modificable"
                                 type="number"
                                 name="pagosOnline"
                                 [(ngModel)]="hojaCaja.pagosOnline"
                                 placeholder="0.00"
-                                class="form-control m-2 text-danger"
+                                class="form-control  py-2 text-danger"
                               />   
                         </div>           
                         <div class="form-group col-md-2">                      
                             <label for="billetera"><strong>Billetera</strong></label>         
-                            <input  [disabled]="hojaCaja.baja != null" class="form-control form-control-sm py-2" type="number" name="billetera" [(ngModel)]="caja.billetera" required  value="0">
+                            <input [disabled]="!hojaCaja.modificable" class="form-control form-control-sm py-2" type="number" name="billetera" [(ngModel)]="caja.billetera" required  value="0">
                         </div>
                         <div class="form-group col-md-2">
-                            <label for="fondoReserva"><strong>A Fondo de Reserva</strong></label>            
-                            <input  [disabled]="hojaCaja.baja != null" class="form-control form-control-sm py-2" type="number" name="fondoReserva" [(ngModel)]="caja.fondoReserva" required  value="0">
+                            <label for="fondoReserva"><strong>A F. Reserva</strong></label>            
+                            <input [disabled]="!hojaCaja.modificable"class="form-control form-control-sm py-2" type="number" name="fondoReserva" [(ngModel)]="caja.fondoReserva" required  value="0">
                         </div>    
                         <div class="form-group col-md-2">                           
                             <label for="balance"><strong>Balance</strong></label>   
-                            <label class="form-control form-control-sm  bg-opacity-50 fw-bolder py-2" [ngClass]="caja.balance < 0 ? 'bg-danger': 'bg-info'" >{{this.caja.balance | currency}}</label>                              
+                            <label class="form-control form-control-sm bg-opacity-50 py-2" [ngClass]="caja.balance < 0 ? 'bg-danger': 'bg-info'" >{{this.caja.balance | currency}}</label>                              
                           </div>
                         <div class="form-group col-md-2">
-                            <label><strong>Próximo Fondo Fijo</strong></label>        
-                            <label class="form-control form-control-sm bg-info  bg-opacity-50 fw-bolder py-2">{{this.caja.proximoFF | currency}}</label>
+                            <label><strong>Próximo F. Fijo</strong></label>        
+                            <label class="form-control form-control-sm bg-info bg-opacity-50 py-2">{{this.caja.proximoFF | currency}}</label>
                         </div>                                        
                     </div>  
                     <div class="row">                     
@@ -135,10 +135,10 @@
             </div>
             <div *ngIf="!error && hojaCaja != null" class="m-3 d-flex justify-content-end">
                 <div class="form-group mx-2">         
-                    <button [disabled]="hojaCaja.baja" type="button" title="Calcular Caja" class="btn btn-primary form-control form-control-sm" (click)="calcularCaja()"> Calcular Caja</button>                          
+                    <button [disabled]="!hojaCaja.modificable" type="button" title="Calcular Caja" class="btn btn-primary form-control form-control-sm" (click)="calcularCaja()"> Calcular Caja</button>                          
                 </div>
                 <div class="form-group">                                 
-                    <button [disabled]="error || hojaCaja.baja" type="submit" title="Cerrar Caja" class="btn btn-primary form-control form-control-sm" [disabled]="!hizoCalculo" (click)="guardarArqueo()"> Cerrar Caja</button>                             
+                    <button [disabled]="!hojaCaja.modificable || !hizoCalculo" type="submit" title="Cerrar Caja" class="btn btn-primary form-control form-control-sm" (click)="guardarArqueo()"> Cerrar Caja</button>                             
                 </div>
             </div>
     </div>

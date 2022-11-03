@@ -17,4 +17,5 @@ export interface HojaCaja {
   fiados?: any;
   gastos?: any;
   arqueo?: ArqueoCaja;
+  modificable: boolean;
 }

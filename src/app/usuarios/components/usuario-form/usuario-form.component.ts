@@ -21,7 +21,8 @@ export class UsuarioFormComponent implements OnInit {
     telefono: '',
     legajo: '',
     usuario: '',
-    clave: ''
+    clave: '',
+    idRol: 2
   };
 
   constructor(private _usuarioService: UsuariosService, private _autenticacionService: AutenticacionService, private _activatedRoute: ActivatedRoute, private _router: Router) { }

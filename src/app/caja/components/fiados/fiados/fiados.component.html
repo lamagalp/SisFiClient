@@ -1,7 +1,7 @@
 <div *ngIf="hojaCaja != null" class="table-responsive" [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.fiados.length > 6)? 'scroll': 'hidden'}">
     <h4>
       Fiados / Pagos
-      <button [disabled]="hojaCaja.baja"
+      <button [disabled]="!hojaCaja.modificable"
         title="Agregar Fiado"
         class="btn btn-sm btn-success ml-1"
         (click)="addFiado()"
@@ -46,7 +46,7 @@
           <td>{{ fiado.cliApellido }}, {{ fiado.cliNombre }}</td>
           <td><i class="fas fa-user" title="{{ fiado.usuApellido }}, {{ fiado.usuNombre }}"></i></td>
           <td>
-            <button [disabled]="hojaCaja.baja"
+            <button [disabled]="!hojaCaja.modificable"
               title="Eliminar Fiado"
               *ngIf="fiado.id && !fiado.baja"
               class="btn btn-danger btn-sm ml-1"

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AutenticacionService } from 'src/app/login/services/autenticacion.service';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 
@@ -9,6 +9,7 @@ import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 })
 export class UsuarioLogueadoComponent implements OnInit {
 
+  @Output() setEsAdmin: EventEmitter<boolean>= new EventEmitter<boolean>();
   usuario:any = null
   error:any;
 
@@ -22,6 +23,7 @@ export class UsuarioLogueadoComponent implements OnInit {
           res =>{
             //console.log(res);
             this.usuario = res;
+            this.setEsAdmin.emit(this.usuario.idRol == 1);
           }, err =>{
             //console.error(err);
             this.error = err;

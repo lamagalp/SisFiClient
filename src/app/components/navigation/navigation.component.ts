@@ -9,6 +9,7 @@ import { AutenticacionService } from 'src/app/login/services/autenticacion.servi
 export class NavigationComponent implements OnInit {
 
 
+  esAdmin:boolean = false;
   constructor(private _authService: AutenticacionService) { }
 
   ngOnInit(): void {
@@ -17,5 +18,9 @@ export class NavigationComponent implements OnInit {
 
   loggedIn():boolean{
     return this._authService.loggedIn();
+  }
+
+  setEsAdmin(esAdmin:boolean){
+    this.esAdmin = esAdmin;
   }
 }

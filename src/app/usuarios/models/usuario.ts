@@ -6,4 +6,5 @@ export interface Usuario {
   legajo?: string;
   usuario: string;
   clave: string;
+  idRol: number;
 }

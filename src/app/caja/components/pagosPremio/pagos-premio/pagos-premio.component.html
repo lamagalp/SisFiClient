@@ -1,7 +1,7 @@
 <div *ngIf="hojaCaja != null" class="table-responsive"   [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.pagosPremio.length > 6)? 'scroll': 'hidden'}">
     <h4>
       Pago de Premios
-      <button [disabled]="hojaCaja.baja"
+      <button [disabled]="!hojaCaja.modificable"
         title="Agregar Pago de Premio"
         class="btn btn-sm btn-warning ml-1"
         (click)="addPagoPremio()"
@@ -56,7 +56,7 @@
           </td>
           <td><i class="fas fa-user" title="{{ pago.usuApellido }}, {{ pago.usuNombre }}"></i></td>
           <td>
-            <button [disabled]="hojaCaja.baja"
+            <button [disabled]="!hojaCaja.modificable"
               *ngIf="pago.id && !pago.baja"
               title="Eliminar Pago de Premio"
               class="btn btn-danger ml-1"

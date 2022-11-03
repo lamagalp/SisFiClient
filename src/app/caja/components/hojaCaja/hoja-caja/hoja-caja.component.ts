@@ -16,8 +16,9 @@ export class HojaCajaComponent implements OnInit {
 
   error:any;
   usuarioLogueado:any;
-  hojaCaja:any;
+  hojaCaja:HojaCaja;
   tablas: Map<string,ElementRef<HTMLTableElement>> = new Map();
+  loading = false;
 
 
   constructor(private _hojasCajaService: HojasCajaService, private _autenticacionService: AutenticacionService,
@@ -57,28 +58,37 @@ export class HojaCajaComponent implements OnInit {
   }
 
   getHojaCaja(id: number){
+    this.loading = true;
     this._hojasCajaService.getHojaCaja(id).subscribe({
       next : (resp: any) => {
         this.hojaCaja = resp;
-        console.log(resp);
+        this.hojaCaja.modificable = (this.hojaCaja.baja == null && this.hojaCaja.arqueo == null) || this.usuarioLogueado.idRol == 1;
         //console.log(this.hojaCaja.ventasOnline);
         //console.log(this.hojaCaja.pagosOnline);
       },
       error : (err) => {
         //console.error(err);
         this.error = err.error;
+      },
+      complete:()=>{
+        this.loading = false;
       }
     });
   }
   getHojaCajaHoy(){ 
+    this.loading = true;
     this._hojasCajaService.getHojaCajaHoy().subscribe({
       next: (resp : any) => {
         this.hojaCaja = resp;  
+        this.hojaCaja.modificable = (this.hojaCaja.baja == null && this.hojaCaja.arqueo == null) || this.usuarioLogueado.idRol == 1;
         console.log(resp);
       },
       error : (err) => {
         //console.error(err);
         this.error = err.error;
+      },
+      complete:()=>{
+        this.loading = false;
       }
     });
   }
@@ -137,7 +147,7 @@ export class HojaCajaComponent implements OnInit {
     if ( aux != null)
       tGastos = aux.nativeElement.innerHTML.replace(/\$/g, '');
     console.log(this.tablas);
-    let strFecha = new Date(this.hojaCaja.alta).toDateString().replace(/ /g, '_');
+    let strFecha = this.hojaCaja.alta?.toDateString().replace(/ /g, '_');
     //console.log(strFecha);
     let ctx = {worksheet: 'Hoja de Caja ' + this.hojaCaja.id , tablaFiados: tFiados, tablaVentas: tVentas, tablaPremios: tPremios ,tablaGastos: tGastos , fecha: fecha.toLocaleString()};
      
@@ -153,7 +163,7 @@ export class HojaCajaComponent implements OnInit {
       const idHoja = hoja.id;
       this._hojasCajaService.updateHojaCaja(idHoja, hoja).subscribe({
         next : (resp : any) => {          
-          this.getHojaCaja(idHoja);
+          hoja.modificable = (hoja.baja == null && hoja.arqueo == null) || this.usuarioLogueado.idRol == 1;
         },
         error : (err) => {
           this.error = err.error;

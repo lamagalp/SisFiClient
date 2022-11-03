@@ -1,39 +1,39 @@
-<div *ngIf="!error && hojaCaja != null" class="row">
-  <div class="h3 col-md-3">Hoja de Caja  | {{ hojaCaja?.alta | date }} </div>
-  <div class="h3 col-md-offset-2 col-md-4 float-right">
-    Fondo Fijo: {{ hojaCaja?.fondoFijo | currency }}
-  </div>  
-  <div *ngIf="hojaCaja?.baja" class="h3 col-md-3 float-right">
-    <span class="float-right text-secondary">Eliminada el {{ hojaCaja?.baja | date }}</span>
-  </div>
-</div>
-
-<div class="row mt-4">
-  <app-error-message
-    *ngIf="error; else datos"
-    [mensaje]="error.text"
-  ></app-error-message>
-  <ng-template #datos>
-    <ng-container *ngIf="hojaCaja != null">
-    <div class="card col-md-12 mx-auto shadow mb-2 bg-white rounded">
-      <div class="row">
-        <app-fiados class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-fiados>
-        <app-pagos-premio class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-pagos-premio>
-      </div>
-      <div class="row">
-        <app-ventas class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado"[hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-ventas>
-        <app-gastos class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-gastos>       
+<ng-container *ngIf="!error; else mostrarError">
+  <div *ngIf="loading" class="d-flex align-items-center justify-content-center" [ngStyle]="{'min-height.px': 400}">
+    <div class="fa-4x">
+        <i class="my-auto fa-solid fa-spinner fa-spin-pulse text-warning opacity-50"></i>
+    </div>        
+  </div> 
+  <ng-container *ngIf="!loading && hojaCaja != null">
+    <div class="row">
+      <div class="h3 col-md-3">Hoja de Caja  | {{ hojaCaja?.alta | date }} </div>
+      <div class="h3 col-md-offset-2 col-md-4 float-right">
+        Fondo Fijo: {{ hojaCaja?.fondoFijo | currency }}
+      </div>  
+      <div *ngIf="hojaCaja?.baja" class="h3 col-md-3 float-right">
+        <span class="float-right text-secondary">Eliminada el {{ hojaCaja?.baja | date }}</span>
       </div>
     </div>
-    </ng-container>
-  </ng-template>
-</div>
-<div *ngIf="!error && hojaCaja != null" class="d-flex justify-content-end">
-  <button [disabled]="hojaCaja.baja" type="button" class="btn btn-primary" (click)="exportToExcel()">
-    Exportar tablas a Excel
-  </button>
-</div>
-
-<app-arqueo-caja
-  *ngIf="!error && hojaCaja != null"
-  [hojaCaja]="hojaCaja" (updateHojaCaja)="updateHojaCaja($event)"></app-arqueo-caja>
+    <div class="row mt-4">      
+      <div class="card col-md-12 mx-auto shadow mb-2 bg-white rounded">
+        <div class="row">
+          <app-fiados class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-fiados>
+          <app-pagos-premio class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-pagos-premio>
+        </div>
+        <div class="row">
+          <app-ventas class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado"[hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-ventas>
+          <app-gastos class="col-md-6 p-2 my-4" [usuarioLogueado]="usuarioLogueado" [hojaCaja]="hojaCaja" (getHojaCaja)="getHojaCaja($event)" (updateTablas)="updateTablas($event)"></app-gastos>       
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button [disabled]="hojaCaja.baja" type="button" class="btn btn-primary" (click)="exportToExcel()">
+        Exportar tablas a Excel
+      </button>
+    </div>
+    <app-arqueo-caja [hojaCaja]="hojaCaja" (updateHojaCaja)="updateHojaCaja($event)"></app-arqueo-caja>
+  </ng-container>
+</ng-container>
+<ng-template #mostrarError>
+  <app-error-message [mensaje]="error.text"></app-error-message>  
+</ng-template>

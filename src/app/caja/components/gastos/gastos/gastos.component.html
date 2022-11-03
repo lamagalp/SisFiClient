@@ -1,7 +1,7 @@
 <div *ngIf="hojaCaja != null" class="table-responsive"  [ngStyle]="{'height': '400px','overflow-y': (hojaCaja?.gastos.length > 6)? 'scroll': 'hidden'}">
     <h4>
       Gastos
-      <button [disabled]="hojaCaja.baja"
+      <button [disabled]="!hojaCaja.modificable"
         title="Agregar Gasto"
         class="btn btn-sm btn-secondary ml-1"
         (click)="addGasto()"
@@ -42,7 +42,7 @@
           <td>{{ gasto.observaciones }}</td>
           <td><i class="fas fa-user" title="{{ gasto.usuApellido }}, {{ gasto.usuNombre }}"></i></td>
           <td>
-            <button [disabled]="hojaCaja.baja"
+            <button [disabled]="!hojaCaja.modificable"
               *ngIf="gasto.id && !gasto.baja"
               title="Eliminar Gasto"
               class="btn btn-danger ml-1"
