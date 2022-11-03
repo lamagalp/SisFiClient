@@ -1,10 +1,15 @@
-<app-error-message *ngIf="error" [mensaje]="error.message"></app-error-message>
-<div class="col-12 table-responsive">
+<app-error-message *ngIf="!loading && error" [mensaje]="error.message"></app-error-message>
+<div *ngIf="!error" class="col-12 table-responsive">
     <h4>Hojas de Caja</h4>
-    <div *ngIf="hojas.length == 0" class="alert alert-info">
+    <div *ngIf="loading" class="d-flex align-items-center justify-content-center" [ngStyle]="{'min-height.px': 400}">
+        <div class="fa-4x">
+            <i class="my-auto fa-solid fa-spinner fa-spin-pulse text-warning opacity-50"></i>
+        </div>        
+    </div> 
+    <div *ngIf="!loading && hojas.length == 0" class="alert alert-info">
         <h5>No se encontraron Hojas de Caja cargadas en la Base de Datos</h5> 
      </div>
-    <table *ngIf="hojas.length > 0" class="table">
+    <table *ngIf="!loading && hojas.length > 0" class="table">
         <thead>
             <tr>
                 <th scope="col" style="width:10%;">Alta</th>

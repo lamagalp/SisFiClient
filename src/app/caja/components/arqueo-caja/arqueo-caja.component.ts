@@ -20,25 +20,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
   @Input() hojaCaja: HojaCaja;
   @Output() updateHojaCaja: EventEmitter<HojaCaja> = new EventEmitter();
 
-  caja : ArqueoCaja = {
-    id: 0,
-    idHojaCaja: 0,
-    totalFiados: 0,
-    totalPagosFiados: 0,
-    totalPagosPremioEfectivo: 0,
-    totalPagosPremioCartones: 0,
-    totalGastos: 0,
-    totalVentasCartones: 0,
-    totalBilletes: 0,
-    totalMonedas: 0,
-    billetera: 0,
-    fondoReserva: 0,
-    proximoFF: 0,
-    fondoFijo: 0,
-    balance: 0,
-    idUsuario : 0,
-    detalle: ''
-  }
+  caja : ArqueoCaja;
   
   hizoCalculo = false;
   resultadoUpdate: string = '';
@@ -89,6 +71,27 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         });        
 
       } else {
+
+        this.caja = {
+          id: 0,
+          idHojaCaja: 0,
+          totalFiados: 0,
+          totalPagosFiados: 0,
+          totalPagosPremioEfectivo: 0,
+          totalPagosPremioCartones: 0,
+          totalGastos: 0,
+          totalVentasCartones: 0,
+          totalBilletes: 0,
+          totalMonedas: 0,
+          billetera: 0,
+          fondoReserva: 0,
+          proximoFF: 0,
+          fondoFijo: 0,
+          balance: 0,
+          idUsuario : 0,
+          detalle: ''
+        }        
+
         this.billetes.push({ nombre: 'Billete $1000', valor: 1000 ,cantidad: 0 }),
         this.billetes.push({ nombre: 'Billete $500', valor: 500 ,cantidad: 0 }),
         this.billetes.push({ nombre: 'Billete $200', valor: 200 ,cantidad: 0 }),
@@ -106,36 +109,20 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
    
       }
       this.mostrarDetalle = true;
-      
-     
+      this.calcularTotales();     
+  }
 
-// /*     this._arqueosService.getArqueoCaja(this.hojaCaja?.id).subscribe({
-//       next: (resp : any) => {        */
-//         this.caja = resp;               
-//       /* },
-//       error : (err) => {     */
-//         //no se encontró arqueo de caja         
-//      /*  }
-//     }); */
+  calcularTotales(){
 
+    this.caja.totalFiados = this.getTotalFiados();  
+    this.caja.totalPagosFiados = this.getTotalPagosFiados();
+    this.caja.totalPagosPremioEfectivo = this.getTotalPagosPremioEfectivo();
+    this.caja.totalPagosPremioCartones = this.getTotalPagosPremioCartones();
+    this.caja.totalGastos = this.getTotalGastos();
+    this.caja.totalVentasCartones = this.getTotalVentasCartones();  
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    for (const propName in changes) {
-      if (changes.hasOwnProperty(propName)) {
-        if (propName == 'hojaCaja'){
-          this.caja.totalFiados = this.getTotalFiados();
-          this.caja.totalPagosFiados = this.getTotalPagosFiados();
-          this.caja.totalPagosPremioEfectivo = this.getTotalPagosPremioEfectivo();
-          this.caja.totalPagosPremioCartones = this.getTotalPagosPremioCartones();
-          this.caja.totalGastos = this.getTotalGastos();
-          this.caja.totalVentasCartones = this.getTotalVentasCartones();  
-          
-        }
-      }
-    }
   }
 
   getTotalFiados():number{
@@ -144,11 +131,11 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
     if(this.hojaCaja.fiados != null){
       this.hojaCaja.fiados.forEach((fiado : Fiado )=> {
         if(fiado.baja === null && fiado.tipoMovimiento == 'F' && fiado.monto != null)
-          sumaF -= fiado.monto;
+          sumaF += Math.abs(fiado.monto);
       });
     }
     //console.error('- TotalFiados ' + sumaF);
-    return sumaF;
+    return (-1)*(sumaF);
   }
 
   getTotalPagosFiados():number{
@@ -254,8 +241,8 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
   }
 
   getTotalEgresos(): number {
-    let suma = this.caja.totalFiados + this.caja.totalGastos + this.caja.totalPagosPremioCartones + this.caja.totalPagosPremioEfectivo + this.hojaCaja.pagosOnline;  
-    return (suma);
+    let suma = Math.abs(this.caja.totalFiados) + Math.abs(this.caja.totalGastos) + Math.abs(this.caja.totalPagosPremioCartones) + Math.abs(this.caja.totalPagosPremioEfectivo) + Math.abs(this.hojaCaja.pagosOnline);  
+    return ((-1)*(suma));
   }
 
   //ALTER TABLE `arqueoscaja` ADD `detalle` JSON NOT NULL AFTER `idUsuario`;

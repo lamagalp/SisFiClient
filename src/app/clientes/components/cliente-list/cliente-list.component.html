@@ -1,10 +1,15 @@
-<app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
+<app-error-message *ngIf="!loading && error" [mensaje]="error.text"></app-error-message>
 <div *ngIf="!error" class="col-12 table-responsive">
     <h4>Clientes</h4>
-    <div *ngIf="clientes.length == 0" class="alert alert-info">
+    <div *ngIf="loading" class="d-flex align-items-center justify-content-center" [ngStyle]="{'min-height.px': 400}">
+        <div class="fa-4x">
+            <i class="my-auto fa-solid fa-spinner fa-spin-pulse text-warning opacity-50"></i>
+        </div>        
+    </div> 
+    <div *ngIf="!loading && clientes.length == 0" class="alert alert-info">
        <h5>No se encontraron Clientes cargados en la Base de Datos</h5> 
     </div>
-    <table *ngIf="clientes.length > 0" class="table table-striped">
+    <table *ngIf="!loading && clientes.length > 0" class="table table-striped">
         <thead>
             <tr>
                 <th scope="col" style="width:20%;">Apellido y Nombre</th>

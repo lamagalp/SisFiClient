@@ -14,6 +14,7 @@ export class ClienteListComponent implements OnInit {
   clientes: Cliente[] = [];
   error:any;
   usuarioLogueado: any;
+  loading = false;
 
   constructor(private _clienteService: ClientesService, private _usuariosService: UsuariosService, private _autenticacionService: AutenticacionService) {
 
@@ -66,14 +67,11 @@ export class ClienteListComponent implements OnInit {
 
   obtenerClientes(){
     //console.log(this.clientes);
-    this._clienteService.getClientes().subscribe(
-      res => {
-        this.clientes = res;
-        //console.log(this.clientes);
-      },
-      err => {
-       // console.log(err);
-        this.error = err.error;
+    this.loading = true;
+    this._clienteService.getClientes().subscribe({
+      next: (res) => {this.clientes = res;},
+      error: (err)=> { this.error = err.error; },
+      complete: ()=>{ this.loading = false;}      
       });
   }
 

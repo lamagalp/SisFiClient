@@ -11,6 +11,8 @@ export class UsuarioListComponent implements OnInit {
 
   usuarios: Usuario[] = [];
   error:any;
+  loading = false;
+
   constructor(private _usuarioService: UsuariosService) {
   }
 
@@ -32,15 +34,11 @@ export class UsuarioListComponent implements OnInit {
   }
 
   obtenerUsuarios(){
-  //  console.log(this.usuarios);
-    this._usuarioService.getUsuarios().subscribe(
-      res => {
-        this.usuarios = res;
-      //  console.log(this.usuarios);
-      },
-      err => {
-       // console.log(err);
-        this.error = err.error;
+    this.loading = true;
+    this._usuarioService.getUsuarios().subscribe({
+        next: (res) => {this.usuarios = res;},
+        error: (err)=> { this.error = err.error; },
+        complete: ()=>{ this.loading = false;}     
       });
   }
 

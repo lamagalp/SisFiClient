@@ -136,7 +136,7 @@ export class HojaCajaComponent implements OnInit {
     aux = this.tablas.get('tablaGastos');
     if ( aux != null)
       tGastos = aux.nativeElement.innerHTML.replace(/\$/g, '');
-
+    console.log(this.tablas);
     let strFecha = new Date(this.hojaCaja.alta).toDateString().replace(/ /g, '_');
     //console.log(strFecha);
     let ctx = {worksheet: 'Hoja de Caja ' + this.hojaCaja.id , tablaFiados: tFiados, tablaVentas: tVentas, tablaPremios: tPremios ,tablaGastos: tGastos , fecha: fecha.toLocaleString()};

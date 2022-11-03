@@ -13,6 +13,7 @@ export class HojaCajaListComponent implements OnInit {
   usuarioLogueado:any;
   hojas: any[] = [];
   error:any;
+  loading = false;
 
   constructor(private _hojasService: HojasCajaService, private _usuariosService: UsuariosService, private _autenticacionService: AutenticacionService) {
     if(this._autenticacionService.loggedIn()){
@@ -66,20 +67,18 @@ export class HojaCajaListComponent implements OnInit {
 
 
   obtenerHojas(){
+    this.loading = true;
     //console.log(this.hojas);
-    this._hojasService.getHojasCaja().subscribe(
-      res => {
-        this.hojas = res;
-        console.log(res);
-      },
-      err => {        
-        this.error = err.error;
-      });
+    this._hojasService.getHojasCaja().subscribe({
+      next: (res) => { this.hojas = res; },
+      error: (err) => { this.error = err.error;},
+      complete: () => {this.loading = false;}
+    });
   }
 
   trackByFn(index: number, item: any) {
     return item.id; // unique id corresponding to the item
   }
-
   
 }
+
