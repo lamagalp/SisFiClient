@@ -44,7 +44,7 @@ import { FiadosComponent } from './components/fiados/fiados/fiados.component';
     CompartidoModule,
     CajaRoutingModule,
     NgbModalModule,
-    NgSelectModule 
+    NgSelectModule
   ],
   providers: [
     HojasCajaService,

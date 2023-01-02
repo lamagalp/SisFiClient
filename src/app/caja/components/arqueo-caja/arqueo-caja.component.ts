@@ -21,18 +21,18 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
   @Output() updateHojaCaja: EventEmitter<HojaCaja> = new EventEmitter();
 
   caja : ArqueoCaja;
-  
+
   hizoCalculo = false;
   resultadoUpdate: string = '';
 
   billetes : Array<any>;
   monedas : Array<any>;
   mostrarDetalle :boolean = false;
-  
+
   error:any;
   usuarioLogueado:any ;
 
-  constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _arqueosService: ArqueosCajasService) { 
+  constructor(private _autenticacionService: AutenticacionService, private _usuariosService: UsuariosService, private _arqueosService: ArqueosCajasService) {
 
     if(this._autenticacionService.loggedIn()){
       let idUser = this._autenticacionService.getIdUser();
@@ -52,7 +52,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
 
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
 
       this.billetes = new Array();
       this.monedas = new Array();
@@ -62,13 +62,13 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         this.caja = this.hojaCaja.arqueo;
 
         let lista = JSON.parse(this.hojaCaja.arqueo.detalle);
-        
+
         lista.billetes.forEach((b : any) => {
-          this.billetes.push({nombre: 'Billete $' + b.valor , valor: b.valor , cantidad: b.cantidad});          
+          this.billetes.push({nombre: 'Billete $' + b.valor , valor: b.valor , cantidad: b.cantidad});
         });
         lista.monedas.forEach((m : any) => {
           this.monedas.push({nombre: 'Moneda $' + m.valor , valor: m.valor , cantidad: m.cantidad});
-        });        
+        });
 
       } else {
 
@@ -90,7 +90,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
           balance: 0,
           idUsuario : 0,
           detalle: ''
-        }        
+        }
 
         this.billetes.push({ nombre: 'Billete $1000', valor: 1000 ,cantidad: 0 }),
         this.billetes.push({ nombre: 'Billete $500', valor: 500 ,cantidad: 0 }),
@@ -99,27 +99,27 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         this.billetes.push({ nombre: 'Billete $50', valor: 50 ,cantidad: 0 }),
         this.billetes.push({ nombre: 'Billete $20', valor: 20, cantidad: 0 }),
         this.billetes.push({ nombre: 'Billete $10', valor: 10 ,cantidad: 0 });
-    
+
         this.monedas.push({ nombre: 'Moneda $20', valor: 20 ,cantidad: 0 }),
         this.monedas.push({ nombre: 'Moneda $10', valor: 10 ,cantidad: 0 }),
         this.monedas.push({ nombre: 'Moneda $5', valor: 5 ,cantidad: 0 }),
         this.monedas.push({ nombre: 'Moneda $2',valor: 2 ,cantidad: 0 }),
         this.monedas.push({ nombre: 'Moneda $1', valor: 1 ,cantidad: 0 }),
         this.monedas.push({ nombre: 'Moneda $0.50', valor: 0.5 ,cantidad: 0 });
-   
+
       }
       this.mostrarDetalle = true;
-      this.calcularTotales();     
+      this.calcularTotales();
   }
 
   calcularTotales(){
 
-    this.caja.totalFiados = this.getTotalFiados();  
+    this.caja.totalFiados = this.getTotalFiados();
     this.caja.totalPagosFiados = this.getTotalPagosFiados();
     this.caja.totalPagosPremioEfectivo = this.getTotalPagosPremioEfectivo();
     this.caja.totalPagosPremioCartones = this.getTotalPagosPremioCartones();
     this.caja.totalGastos = this.getTotalGastos();
-    this.caja.totalVentasCartones = this.getTotalVentasCartones();  
+    this.caja.totalVentasCartones = this.getTotalVentasCartones();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -146,7 +146,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         if(fiado.baja === null && fiado.tipoMovimiento == 'P' && fiado.monto != null)
           sumaP += fiado.monto;
       });
-    }   
+    }
     //console.info('+ TotalPagosFiados ' + sumaP);
     return sumaP;
   }
@@ -159,7 +159,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         if(pago.baja === null && pago.monto != null && pago.monto > 0)
           sumaE -= pago.monto;
       });
-    }    
+    }
     //console.error('- TotalPagosPremioEfectivo ' + sumaE);
     return sumaE;
   }
@@ -188,7 +188,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
     });
     if(this.billetes.length > 0)
       json = json.substring(0, json.length-1); // quito la última coma
-       
+
     json += '],"monedas":['
     this.monedas.forEach((m : any) =>{
       json += `{"valor":${m.valor},"cantidad":${m.cantidad}},`;
@@ -206,7 +206,7 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         if(pago.baja === null && pago.cantidadCartones != null && pago.cantidadCartones > 0 && pago.montoCarton != null && pago.montoCarton > 0 )
           sumaC -= ( pago.cantidadCartones * pago.montoCarton);
       });
-    }    
+    }
     //console.info('* TotalPagosPremioCartones ' + sumaC);
     return sumaC;
   }
@@ -230,18 +230,20 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
         if(venta.baja === null && venta.cantidad != null && venta.cantidad > 0 && venta.montoCarton != null && venta.montoCarton > 0 )
           sumaV += ( venta.cantidad * venta.montoCarton);
       });
-    }                 
-    //console.log('+ TotalVentasCartones ' + sumaV);        
+    }
+    //console.log('+ TotalVentasCartones ' + sumaV);
     return sumaV;
   }
 
   getTotalIngresos(): number{
-    let suma = this.caja.totalPagosFiados + this.caja.totalVentasCartones + this.hojaCaja.ventasOnline;
+    let suma = Math.abs(this.caja.totalPagosFiados) + Math.abs(this.caja.totalVentasCartones) + Math.abs(this.hojaCaja.ventasOnline);
+    console.log('---total ingresos ');
+    console.log(suma);
     return (suma);
   }
 
   getTotalEgresos(): number {
-    let suma = Math.abs(this.caja.totalFiados) + Math.abs(this.caja.totalGastos) + Math.abs(this.caja.totalPagosPremioCartones) + Math.abs(this.caja.totalPagosPremioEfectivo) + Math.abs(this.hojaCaja.pagosOnline);  
+    let suma = Math.abs(this.caja.totalFiados) + Math.abs(this.caja.totalGastos) + Math.abs(this.caja.totalPagosPremioCartones) + Math.abs(this.caja.totalPagosPremioEfectivo) + Math.abs(this.hojaCaja.pagosOnline);
     return ((-1)*(suma));
   }
 
@@ -256,42 +258,42 @@ export class ArqueoCajaComponent implements OnInit, OnChanges{
     if(this.caja.id != 0) { //update
       this._arqueosService.updateArqueoCaja(this.caja.id, this.caja)
       .subscribe({
-        next: (resp : any) => {       
-          this.resultadoUpdate = resp.message;      
-          this.guardarValoresOnline();  
+        next: (resp : any) => {
+          this.resultadoUpdate = resp.message;
+          this.guardarValoresOnline();
         },
         error: (err) => {
           console.error(err);
           this.error = err.error;
         }
       });
-    } else {  
+    } else {
       delete this.caja.id;
       this._arqueosService.addArqueoCaja(this.caja)
       .subscribe({
-        next: (resp : any) => {       
-          this.resultadoUpdate = resp.message;   
-          this.guardarValoresOnline();       
+        next: (resp : any) => {
+          this.resultadoUpdate = resp.message;
+          this.guardarValoresOnline();
         },
         error: (err) => {
           console.error(err);
           this.error = err.error;
         }
       });
-    }  
+    }
   }
   calcularCaja(){
-    let egresos = Math.abs(this.caja.totalFiados) + Math.abs(this.caja.totalGastos) + Math.abs(this.caja.totalPagosPremioEfectivo) + Math.abs(this.hojaCaja.pagosOnline);    
-    let ingresos = this.hojaCaja.fondoFijo + this.getTotalIngresos();
-    
-    let efectivo = this.caja.totalBilletes + this.caja.totalMonedas + this.caja.billetera + this.caja.fondoReserva;
+    let egresos = Math.abs(this.caja.totalFiados) + Math.abs(this.caja.totalGastos) + Math.abs(this.caja.totalPagosPremioEfectivo) + Math.abs(this.hojaCaja.pagosOnline);
+    let ingresos = Math.abs(this.hojaCaja.fondoFijo) + this.getTotalIngresos();
+
+    let efectivo = Math.abs(this.caja.totalBilletes) + Math.abs(this.caja.totalMonedas) + Math.abs(this.caja.billetera) + Math.abs(this.caja.fondoReserva);
     let movimientos = ingresos - egresos;
-    // console.info('| fondo fijo: ' + this.hojaCaja.fondoFijo);
+    console.info('| fondo fijo: ' + this.hojaCaja.fondoFijo);
     // console.info('| ingresos + fondo fijo : ' + ingresos);
-    // console.info('| egresos: ' + egresos);
-    // console.info( '| billetes + monedas + billetera: ' + efectivo);
-    // console.info('| ingresos - egresos: ' + movimientos);
-    this.caja.proximoFF = this.caja.totalBilletes + this.caja.totalMonedas + this.caja.billetera;
+    console.info('| egresos: ' + egresos);
+    console.info( '| billetes + monedas + billetera: ' + efectivo);
+    console.info('| ingresos - egresos: ' + movimientos);
+    this.caja.proximoFF = Math.abs(this.caja.totalBilletes) + Math.abs(this.caja.totalMonedas) + Math.abs(this.caja.billetera);
 
     this.caja.balance = efectivo - movimientos;
     this.hizoCalculo = true;

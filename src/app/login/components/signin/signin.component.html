@@ -1,6 +1,11 @@
 <div class="row">
-    <app-error-message *ngIf="error" [mensaje]="error.message"></app-error-message>
-    <div class="col-md-4 mx-auto">
+    <app-error-message *ngIf="error" [mensaje]="error.text"></app-error-message>
+    <div *ngIf="loading" class="d-flex align-items-center justify-content-center" [ngStyle]="{'min-height.px': 400}">
+        <div class="fa-4x">
+            <i class="my-auto fa-solid fa-spinner fa-spin-pulse text-warning opacity-50"></i>
+        </div>        
+    </div> 
+    <div *ngIf="!loading" class="col-md-4 mx-auto">
         <div classs="card">
             <div class="card-header">
                 Autenticación

@@ -16,8 +16,8 @@
                 </div>
                 <div class="form-group" [ngClass]="{'has-error': tipogasto.invalid}">
                     <label class="control-label">Tipo Gasto</label>
-                    <ng-select name="idTipoGasto" [searchable]="true" class="form-control m-1" [(ngModel)]="gasto.idTipoGasto" required #tipogasto="ngModel" autofocus>
-                        <ng-option [value]="t.id" *ngFor="let t of tiposGastos"> {{t.abreviatura}}, {{t.nombre}} </ng-option>
+                    <ng-select name="idTipoGasto" [searchable]="true" class="form-select m-1" [(ngModel)]="gasto.idTipoGasto" required #tipogasto="ngModel" autofocus>
+                        <ng-option [value]="t.id" *ngFor="let t of tiposGastos"> {{t.nombre}} </ng-option>
                     </ng-select>
                 </div>               
                 <div class="form-group">

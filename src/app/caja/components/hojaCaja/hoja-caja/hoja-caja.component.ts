@@ -1,6 +1,6 @@
 import { HojaCaja } from './../../../models/hojaCaja';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AutenticacionService } from 'src/app/login/services/autenticacion.service';
 import { HojasCajaService } from '../../../services/hojas-caja.service';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
@@ -22,7 +22,7 @@ export class HojaCajaComponent implements OnInit {
 
 
   constructor(private _hojasCajaService: HojasCajaService, private _autenticacionService: AutenticacionService,
-    private _usuariosService: UsuariosService, private _activatedRoute: ActivatedRoute) {
+    private _usuariosService: UsuariosService, private _activatedRoute: ActivatedRoute, private _router: Router) {
 
     if(this._autenticacionService.loggedIn()){
       let idUser = this._autenticacionService.getIdUser();
@@ -54,7 +54,7 @@ export class HojaCajaComponent implements OnInit {
 
   updateTablas(tabla: ITabla){
     this.tablas.set(tabla.nombre, tabla.tabla);
-    console.log(this.tablas);
+    //console.log(this.tablas);
   }
 
   getHojaCaja(id: number){
@@ -146,8 +146,11 @@ export class HojaCajaComponent implements OnInit {
     aux = this.tablas.get('tablaGastos');
     if ( aux != null)
       tGastos = aux.nativeElement.innerHTML.replace(/\$/g, '');
-    console.log(this.tablas);
-    let strFecha = this.hojaCaja.alta?.toDateString().replace(/ /g, '_');
+    //console.log(this.tablas);
+    let strFecha = '';
+    //console.log(this.hojaCaja);
+    if(this.hojaCaja.alta != null)
+    strFecha = this.hojaCaja.alta.toString().slice(0,10).replace(/ /g, '_');
     //console.log(strFecha);
     let ctx = {worksheet: 'Hoja de Caja ' + this.hojaCaja.id , tablaFiados: tFiados, tablaVentas: tVentas, tablaPremios: tPremios ,tablaGastos: tGastos , fecha: fecha.toLocaleString()};
      
@@ -163,7 +166,8 @@ export class HojaCajaComponent implements OnInit {
       const idHoja = hoja.id;
       this._hojasCajaService.updateHojaCaja(idHoja, hoja).subscribe({
         next : (resp : any) => {          
-          hoja.modificable = (hoja.baja == null && hoja.arqueo == null) || this.usuarioLogueado.idRol == 1;
+          //hoja.modificable = (hoja.baja == null && hoja.arqueo == null) || this.usuarioLogueado.idRol == 1;
+          this._router.navigate(['/hojasCaja']);
         },
         error : (err) => {
           this.error = err.error;

@@ -1,5 +1,5 @@
-<app-error-message *ngIf="!loading && error" [mensaje]="error.message"></app-error-message>
-<div *ngIf="!error" class="col-12 table-responsive">
+<app-error-message class="mb-4" *ngIf="!loading && error" [mensaje]="error"></app-error-message>
+<div class="col-12 table-responsive">
     <h4>Hojas de Caja</h4>
     <div *ngIf="loading" class="d-flex align-items-center justify-content-center" [ngStyle]="{'min-height.px': 400}">
         <div class="fa-4x">

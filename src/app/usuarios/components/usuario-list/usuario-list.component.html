@@ -27,8 +27,8 @@
                 <td>{{usuario.legajo}}</td>
                 <td>{{usuario.usuario}}</td>
                 <td>
-                    <a *ngIf="usuario.id" [routerLink]="['/usuarios/update', usuario.id]" class="btn btn-info mr-1"><i class="fas fa-user-edit"></i></a>
-                    <button title="Eliminar Usuario" *ngIf="usuario.id" class="btn btn-danger ml-1" (click)="eliminarUsuario(usuario.id)">
+                    <span class="m-1"><a *ngIf="usuario.id" [routerLink]="['/usuarios/update', usuario.id]" class="btn btn-info"><i class="fas fa-user-edit"></i></a></span>
+                    <button title="Eliminar Usuario" *ngIf="usuario.id" class="btn btn-danger" (click)="eliminarUsuario(usuario.id)">
                       <i class="fas fa-user-minus"></i>
                     </button>
                 </td>

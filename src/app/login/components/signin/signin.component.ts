@@ -15,6 +15,7 @@ export class SignInComponent implements OnInit {
     clave: ''
   };
   error:any;
+  loading = false;
 
   constructor(private _autenticacionService: AutenticacionService, private _router: Router) { }
 
@@ -25,18 +26,20 @@ export class SignInComponent implements OnInit {
   }
 
   ingresar(){
-    //console.log(this.user);
+    this.loading = true;
     this._autenticacionService.signIn(this.user)
     .subscribe(
       res =>{
-        //console.log(res);
+        console.log(res);
         sessionStorage.setItem('token', res.token);  //guardo el token en el almacenamiento local
         sessionStorage.setItem('idUser', res.idUser);
+        this.loading = false;
         this._router.navigate(['/hojasCaja/get/hoy']);
 
       }, err =>{
-        console.error(err);
-        this.error = err;
+        console.log(err);
+        this.loading = false;
+        this.error = err.error;
       }
     )
   }

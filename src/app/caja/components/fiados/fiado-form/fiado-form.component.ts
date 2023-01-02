@@ -81,7 +81,14 @@ export class FiadoFormComponent implements OnInit {
 
   agregarFiado(){
 
-    // borro estos campos porque los carga automáticamente mySQL
+    this.error = null;
+
+    if(this.fiado.idCliente == null || this.fiado.idCliente == 0){
+      this.error = new Error( "Debe seleccionar un cliente");
+      
+    } else {
+
+       // borro estos campos porque los carga automáticamente mySQL
     delete this.fiado.alta;
     delete this.fiado.id;
     this.fiado.idHojaCaja = this.idHojaCaja;
@@ -108,6 +115,9 @@ export class FiadoFormComponent implements OnInit {
         this.error = err.error;
       }
     })
+    
+    }
+   
   }
 	cerrarModal() {
 		this.refModal.close();

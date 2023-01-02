@@ -6,11 +6,12 @@
     "start": "ng serve",
     "build": "ng build --configuration production",
     "build:deploy": "ng build --configuration production",
+    "build:local": "ng build --configuration development",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
   "engines": {
-    "node": "16.x",
+    "node": "19.x",
     "npm": "8.x"
   },
   "private": true,

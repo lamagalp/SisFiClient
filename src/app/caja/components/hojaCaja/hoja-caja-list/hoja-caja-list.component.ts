@@ -23,7 +23,7 @@ export class HojaCajaListComponent implements OnInit {
           res =>{
             this.usuarioLogueado = res;
           }, err =>{       
-            this.error = err.error;
+            this.error = err.error.text;
           }
         )
       }
@@ -35,13 +35,13 @@ export class HojaCajaListComponent implements OnInit {
   }
 
   eliminarHoja(id: number){
-    
+    this.loading = true;
     this._hojasService.getHojaCaja(id).subscribe(
       resp => {
 
         if(resp.fiados.length > 0 || resp.ventas.length > 0 || resp.pagosPremio.length > 0 || resp.gastos.length > 0){
-          this.error = {text: 'No se puede dar de baja la Hoja porque contiene movimientos.'};
-         
+          this.error = 'No se puede dar de baja la Hoja porque contiene movimientos.';
+          this.loading = false;
         } else {
 
           resp.baja = new Date();
@@ -51,10 +51,13 @@ export class HojaCajaListComponent implements OnInit {
           .subscribe({
             next : (respuesta : any) => {
               //console.log(respuesta);
+              this.loading = false;
               this.obtenerHojas();
             }, 
-            error : (er) => {             
-              this.error = er.error;
+            error : (er) => {     
+              console.log(er);    
+              this.loading = false;    
+              this.error = er.error.message;
             }
           });
         }        

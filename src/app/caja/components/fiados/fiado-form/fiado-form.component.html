@@ -39,7 +39,7 @@
 </div>
 <div class="modal-footer">
     <button *ngIf="error" class="btn btn-primary float-right m-1" (click)="cerrarModal()">Cerrar</button>
-    <button [disabled]="error || monto.invalid || tipoMovimiento.invalid" class="btn btn-primary float-right m-1" (click)="agregarFiado()">Agregar</button>
+    <button [disabled]="error || monto.invalid || tipoMovimiento.invalid || cliente.invalid" class="btn btn-primary float-right m-1" (click)="agregarFiado()">Agregar</button>
 </div>
 
 

@@ -49,11 +49,18 @@ export class GastoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.tiposGastos = this.getTiposGastos();
+    this._gastosService.getTiposGastos().subscribe({
+      next : (resp : any) => {
+        this.tiposGastos = resp;
+      }, 
+      error: (err : any) => {        
+        this.error = err.error;
+      }
+    });
   }
    
   getTiposGastos() {
-    return [{id:1, abreviatura: 'G1', nombre:'Gasto 1'},{id:2, abreviatura: 'G2', nombre:'Gasto 2'}];
+    return this.tiposGastos;
   }
 
   agregarGasto(){

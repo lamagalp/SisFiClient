@@ -15,7 +15,7 @@ export class HojaCajaFormComponent implements OnInit {
   public editar = false;
   error:any;
   usuarioLogueado:any ;
-  ultimaHojaCaja: HojaCaja;
+  ultimaHojaCaja: any = null;
 
   hojaCaja: HojaCaja ={
     id:0,
@@ -70,12 +70,14 @@ export class HojaCajaFormComponent implements OnInit {
 
       this._hojasCajaService.getUltimaHojaCaja().subscribe({
         next: (resp : any) => {
-          this.ultimaHojaCaja = resp;  
+          console.log(resp);
+          this.ultimaHojaCaja = resp;
           this.hojaCaja.fondoFijo = this.ultimaHojaCaja.arqueo?.proximoFF || 0;
         },
-        error : ( err: any) => {
-          //console.error(err);
-          this.error = err.error;
+        error : (err: any) => {
+          this.hojaCaja.fondoFijo = 0;
+          console.log(err);
+          this.error = null;
         }
       });
 

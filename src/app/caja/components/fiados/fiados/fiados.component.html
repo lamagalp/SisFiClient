@@ -21,8 +21,9 @@
         <tr class="success">
           <th scope="col" style="width: 15%">Alta</th>
           <th hidden scope="col" style="width: 10%">Tipo Movimiento</th>
-          <th scope="col" style="width: 30%">Monto</th>
-          <th scope="col" style="width: 30%">Cliente</th>
+          <th scope="col" style="width: 20%">Monto</th>
+          <th scope="col" style="width: 20%">Cliente</th>
+          <th scope="col" style="width: 20%">Observaciones</th>
           <th scope="col" style="width: 5%"></th>
           <th scope="col" style="width: 10%"></th>
         </tr>
@@ -44,6 +45,7 @@
             {{ fiado.monto | currency }}
           </td>
           <td>{{ fiado.cliApellido }}, {{ fiado.cliNombre }}</td>
+          <td>{{ fiado.observaciones }}</td>
           <td><i class="fas fa-user" title="{{ fiado.usuApellido }}, {{ fiado.usuNombre }}"></i></td>
           <td>
             <button [disabled]="!hojaCaja.modificable"

@@ -29,4 +29,8 @@ export class GastosService {
     return this.http.put(`${this.API_URI}/gastos/${id}`, gasto);
   }
 
+  getTiposGastos(): Observable<any>{
+    return this.http.get(`${this.API_URI}/gastos/tiposGastos`);
+  }
+
 }

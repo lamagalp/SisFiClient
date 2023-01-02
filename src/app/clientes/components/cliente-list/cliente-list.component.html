@@ -32,8 +32,8 @@
                 <td>{{cliente.modificado | date}}</td>
                 <td><img [src]="cliente.imagen == ''? '/assets/noImage.png' : cliente.imagen" class="img-fluid" alt="imagen cliente"></td>
                 <td>
-                    <a *ngIf="cliente.id" [routerLink]="['/clientes/update', cliente.id]" class="btn btn-info mr-1"><i class="fas fa-user-edit"></i></a>
-                    <button title="Eliminar Cliente" *ngIf="cliente.id && !cliente.baja" class="btn btn-danger ml-1" (click)="eliminarCliente(cliente.id)"><i class="fas fa-user-minus"></i></button>
+                    <span class="m-1"><a *ngIf="cliente.id && !cliente.baja" [routerLink]="['/clientes/update', cliente.id]" class="btn btn-info"><i class="fas fa-user-edit"></i></a></span>
+                    <button title="Eliminar Cliente" *ngIf="cliente.id && !cliente.baja" class="btn btn-danger" (click)="eliminarCliente(cliente.id)"><i class="fas fa-user-minus"></i></button>
                     <span title="Fecha de eliminación" *ngIf="cliente.id != null && cliente.baja"> {{cliente.baja | date:'d/MM/yyyy H:mm'}}</span>
                 </td>
             </tr>
